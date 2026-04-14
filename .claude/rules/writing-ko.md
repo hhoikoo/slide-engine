@@ -5,7 +5,7 @@ paths:
 ---
 # Korean Writing Rules
 
-Rules for Korean slide content. Reference: `samples/2026-univ-gpu-pooling-project-slide/gpu-pooling/rules/writing-ko.md` for the full version with examples.
+Rules for Korean slide content.
 
 ## Sentence Flow
 

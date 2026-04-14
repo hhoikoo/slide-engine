@@ -147,7 +147,7 @@ When a skill or agent exists for a task, delegate to it. Check before performing
 
 ## Writing Rules
 
-Anti-AI writing rules are in `.claude/rules/writing-ko.md` and `.claude/rules/writing-en.md`. Key points:
+Anti-AI writing rules are in `.claude/rules/writing-ko.md`, `.claude/rules/writing-en.md`, and `.claude/rules/writing-cross-language.md`. Key points:
 - No slop words, no meta-commentary, no rigged comparisons
 - No em dash abuse, no summary endings
 - Bold markers: colons inside bold (`**text:**`), space before Korean particles (`**text** 로`)
@@ -159,5 +159,5 @@ Anti-AI writing rules are in `.claude/rules/writing-ko.md` and `.claude/rules/wr
 - [x] Phase 1: Engine extraction and setup (themes, Makefile, marp.config.js, scripts, package.json)
 - [x] Phase 2: Skills update, demo presentation, CLAUDE.md update
 - [ ] Phase 3: Research / knowledge base (plan/02)
-- [ ] Phase 4: Writing rules enhancement (plan/03)
-- [ ] Phase 5: Cleanup (delete samples/, final verification)
+- [x] Phase 4: Writing rules enhancement (plan/03)
+- [x] Phase 5: Cleanup (delete samples/, final verification)
