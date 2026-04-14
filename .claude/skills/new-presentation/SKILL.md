@@ -18,7 +18,7 @@ Create a new presentation as a branch + worktree with starter files.
 2. Generate a slug from the topic: lowercase, hyphens, max 40 chars.
 3. Determine the branch name: `{YYYY-MM}-{slug}` (current date).
 4. Create the branch from main: `git -C "$PRESENTATIONS_DIR" branch {branch-name} main`
-5. Create a worktree as a sibling: `git -C "$PRESENTATIONS_DIR" worktree add "../presentations--{branch-name}" {branch-name}`
+5. Create a worktree: `git -C "$PRESENTATIONS_DIR" worktree add ".worktrees/{branch-name}" {branch-name}`
 6. Inside the worktree, create the presentation directory `{branch-name}/` with subdirectories: `sections/`, `research/`, `images/figures/`, `images/generated/`.
 7. Copy `.gitignore` from main: `git -C {worktree} checkout main -- .gitignore`
 8. Create `sections/00-frontmatter.md` with YAML frontmatter:

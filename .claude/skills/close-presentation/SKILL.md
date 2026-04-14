@@ -20,5 +20,5 @@ Remove a worktree for a presentation branch. The branch and its history remain i
 4. If no worktree exists, report that and exit.
 5. Check for uncommitted changes in the worktree: `git -C {worktree} status --porcelain`
 6. If there are uncommitted changes, warn the user and ask for confirmation before proceeding.
-7. Remove the worktree: `git -C "$PRESENTATIONS_DIR" worktree remove "../presentations--{branch-name}"`
+7. Remove the worktree: `git -C "$PRESENTATIONS_DIR" worktree remove ".worktrees/{branch-name}"`
 8. Report success.

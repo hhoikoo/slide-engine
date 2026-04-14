@@ -18,5 +18,5 @@ Check out an existing presentation branch as a worktree for editing.
 2. List branches and find the best match for `$ARGUMENTS`.
 3. Check if a worktree already exists for that branch: `git -C "$PRESENTATIONS_DIR" worktree list`
 4. If a worktree exists, report its path.
-5. If no worktree, create one: `git -C "$PRESENTATIONS_DIR" worktree add "../presentations--{branch-name}" {branch-name}`
+5. If no worktree, create one: `git -C "$PRESENTATIONS_DIR" worktree add ".worktrees/{branch-name}" {branch-name}`
 6. Report the worktree path and the presentation directory inside it.

@@ -45,15 +45,16 @@ Presentations live in a separate git repo configured via `PRESENTATIONS_DIR` in 
 ```
 ~/Documents/Presentation/
 ├── template-gen/                          # engine repo (this repo, public as "slide-engine")
-├── slides/                                # presentations repo (private)
-├── presentations--2026-04-gpu-pooling/    # worktree for gpu-pooling branch
-├── presentations--2026-05-webassembly/    # worktree for webassembly branch
-└── ...
+└── slides/                                # presentations repo (private)
+    ├── .worktrees/                        # gitignored, holds worktree checkouts
+    │   ├── 2026-04-gpu-pooling/
+    │   └── 2026-05-webassembly/
+    └── ...
 ```
 
 - `main` branch: repo config (.gitignore, README.md)
 - Presentation branches: named `{YYYY-MM}-{slug}`, one per talk
-- Worktrees: `presentations--{branch-name}` as siblings of the base repo
+- Worktrees: `$PRESENTATIONS_DIR/.worktrees/{branch-name}`
 
 `PRESENTATIONS_DIR` points to the base repo checkout (main branch). Skills that manage branches/worktrees use this path. Skills that work on a specific presentation (build, generate-slides) detect the presentation from cwd.
 
