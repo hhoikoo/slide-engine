@@ -1,0 +1,7 @@
+{
+  "private": true,
+  "devDependencies": {
+    "@marp-team/marp-cli": "^4.x",
+    "markdown-it-cjk-friendly": "^1.x"
+  }
+}

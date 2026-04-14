@@ -1,0 +1,1774 @@
+/* @theme bai-flat */
+
+@import "default";
+
+/* ──────────────────────────────────────────────
+   색상 및 기본 변수
+   ────────────────────────────────────────────── */
+:root {
+    /* 전경색 (텍스트) — 3단계 */
+    --color-fg: #111111; /* 기본 본문 */
+    --color-fg-muted: #666666; /* 보조 텍스트 */
+    --color-fg-subtle: #999999; /* 약한 텍스트 */
+
+    /* 배경색 — 3단계 */
+    --color-bg: #ffffff; /* 기본 배경 */
+    --color-bg-muted: #f5f7fa; /* 보조 배경 (카드, 코드블록) */
+    --color-bg-emphasis: #e8eaed; /* 강조 배경 */
+
+    /* 경계선 — 3단계 */
+    --color-border-light: #eaecf0; /* 연한 경계선 */
+    --color-border: #dde3ea; /* 기본 경계선 */
+    --color-border-strong: #b8c2cc; /* 강한 경계선 */
+
+    /* 브랜드 / 기관 */
+    --color-brand: #ff8001;
+    --color-lablup: #39b176;
+
+    /* 커버 일러스트 기반 강조색 */
+    --color-primary: #0d1b2a; /* 다크 네이비 */
+    --color-secondary: #1b3a5c; /* 미드 네이비 블루 */
+    --color-accent: #ff8001; /* = brand */
+    --color-accent-gold: #f5a623; /* 골든 오렌지 */
+    --color-accent-cyan: #00d4ff; /* 시안 블루 */
+    --color-accent-amber: #e8822a; /* 웜 앰버 */
+
+    /* 3대 End Product 강조색 */
+    --color-ep1: #e67e22; /* ① GPU 자원 분할·공유 */
+    --color-ep2: #27ae60; /* ② GPU 간섭 최소화 스케줄링 */
+    --color-ep3: #2980b9; /* ③ GPU 모니터링·프로파일링 */
+
+    /* Gradient Color Maps (9단계, matplotlib 기반) */
+    --cmap-viridis-1: #440154;
+    --cmap-viridis-2: #472c7b;
+    --cmap-viridis-3: #3a528b;
+    --cmap-viridis-4: #2c728e;
+    --cmap-viridis-5: #20908c;
+    --cmap-viridis-6: #28ae7f;
+    --cmap-viridis-7: #5ec961;
+    --cmap-viridis-8: #addc30;
+    --cmap-viridis-9: #fde724;
+
+    --cmap-plasma-1: #0c0786;
+    --cmap-plasma-2: #4c02a1;
+    --cmap-plasma-3: #7e03a7;
+    --cmap-plasma-4: #a92395;
+    --cmap-plasma-5: #cb4777;
+    --cmap-plasma-6: #e56c5b;
+    --cmap-plasma-7: #f89540;
+    --cmap-plasma-8: #fdc427;
+    --cmap-plasma-9: #eff821;
+
+    --cmap-magma-1: #000003;
+    --cmap-magma-2: #1c1046;
+    --cmap-magma-3: #50127b;
+    --cmap-magma-4: #822581;
+    --cmap-magma-5: #b63679;
+    --cmap-magma-6: #e65162;
+    --cmap-magma-7: #fb8861;
+    --cmap-magma-8: #fec488;
+    --cmap-magma-9: #fbfcbf;
+
+    /* highlight-boxes 기본 띠 색상 (슬라이드별 오버라이드 가능) */
+    --hbox-color-1: #5e35b1;
+    --hbox-color-2: #00838f;
+    --hbox-color-3: #2e7d32;
+    --hbox-color-4: var(--color-primary);
+    --hbox-color-5: #c62828;
+
+    /* SWOT 분석 강조색 */
+    --color-swot-strg: hsl(120, 45%, 35%); /* 강점: 녹색 계열 */
+    --color-swot-oppt: hsl(210, 55%, 38%); /* 기회: 푸른색 계열 */
+    --color-swot-wkns: hsl(45, 75%, 38%); /* 약점: 노란색 계열 */
+    --color-swot-thrt: hsl(0, 70%, 35%); /* 위협: 적색 계열 (어두운) */
+
+    --progress-color: #ff8001;
+    --progress-height: 4px;
+    --progress-track-color: rgba(0, 0, 0, 0.08);
+
+    --pad-x: 60px;
+    --pad-top: 20px;
+    --page-num-w: 63px;
+    /* h2 바 높이: padding 14px×2 + font 26px × line-height 1.35 ≈ 63px */
+    --header-h: 63px;
+
+    /* 공통 에셋 경로 (assets/ 디렉토리 기준)
+       테마 CSS 파일 위치(bai-flat/)에서 상대 경로로 참조 */
+    --asset-logo-horizontal: url("assets/logo/lablup-horizontal.svg");
+    --asset-logo-horizontal-white: url("assets/logo/lablup-horizontal-white.svg");
+    --asset-logo-horizontal-black: url("assets/logo/lablup-horizontal-black.svg");
+    --asset-logo-vertical: url("assets/logo/lablup-vertical.svg");
+    --asset-logo-mark: url("assets/logo/lablup-logo.svg");
+    --asset-cover-illust: url("assets/common/cover-illust.jpg");
+
+    font-family:
+        "Inter Display", "Pretendard", "Pretendard JP", "Symbols Nerd Font",
+        sans-serif;
+    word-break: keep-all;
+}
+
+/* ──────────────────────────────────────────────
+   기본 슬라이드
+   padding-top = bar-h → h2 absolute 바 아래에 본문 영역 확보
+   ────────────────────────────────────────────── */
+section {
+    background: var(--color-bg);
+    color: var(--color-fg);
+    padding: calc(var(--header-h) + var(--pad-top)) var(--pad-x) 58px;
+    font-size: 24px;
+    line-height: 1.65;
+    position: relative;
+    box-sizing: border-box;
+    justify-content: flex-start;
+}
+
+/* ── 본문 슬라이드 제목 (주황색 상단 바) ──
+   position: absolute 로 플로우에서 분리하여
+   grid/flex 등 어떤 레이아웃에서도 항상 상단에 고정됩니다.
+   z-index: 2 (페이지 번호 ::after = 10 아래) */
+section h2 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    background: var(--color-brand);
+    color: #ffffff;
+    font-size: 26px;
+    font-weight: 700;
+    line-height: var(--header-h);
+    margin: 0;
+    padding: 0 14px 0 calc(var(--page-num-w) + 24px);
+    border-bottom: none;
+    box-sizing: border-box;
+}
+
+section header {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: auto;
+    z-index: 3;
+    margin: 0 auto;
+    text-align: right;
+    color: var(--color-bg);
+    height: var(--header-h);
+    line-height: var(--header-h);
+    padding: 0 14px 0 14px;
+}
+
+/* ── 헤더 로고: h2 바 오른쪽 끝에 로고 표시 ── */
+section header::after {
+    content: "";
+    display: inline-block;
+    vertical-align: middle;
+    width: 90px;
+    height: 28px;
+    margin-left: 12px;
+    background: var(--asset-logo-horizontal-white) no-repeat center / contain;
+}
+
+section h1 {
+    color: var(--color-primary);
+    font-size: 38px;
+    font-weight: 700;
+    border-bottom: none;
+    margin-top: 0;
+    margin-bottom: 28px;
+    line-height: 1.3;
+}
+
+section h3 {
+    color: var(--color-primary);
+    font-size: 24px;
+    font-weight: 800;
+    margin-top: 18px;
+    margin-bottom: 10px;
+}
+
+section strong {
+    color: var(--color-primary);
+}
+
+section a {
+    color: var(--color-accent);
+}
+
+/* ── 코드 / 모노스페이스 (D2Coding) ── */
+section code {
+    background: var(--color-bg-muted);
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    padding: 2px 6px;
+    font-size: 0.88em;
+    font-family: "D2Coding", "Consolas", "Symbols Nerd Font Mono", monospace;
+}
+
+section pre {
+    background: #f0f4f8;
+    border-left: 4px solid var(--color-accent);
+    border-radius: 0 6px 6px 0;
+    padding: 16px 20px;
+    font-size: 0.82em;
+    overflow: hidden;
+    font-family: "D2Coding", "Consolas", "Symbols Nerd Font Mono", monospace;
+}
+
+section pre code {
+    background: none;
+    border: none;
+    padding: 0;
+}
+
+/* D2Coding 유틸리티 클래스: <span class="mono">텍스트</span> */
+.mono {
+    font-family: "D2Coding", "Consolas", "Symbols Nerd Font Mono", monospace;
+}
+
+section blockquote {
+    border-left: 4px solid var(--color-accent);
+    background: var(--color-bg-muted);
+    margin: 16px 0;
+    padding: 12px 20px;
+    color: var(--color-fg-muted);
+    border-radius: 0 6px 6px 0;
+}
+
+/* 슬라이드 내 주요 구조적 요소에 대한 기본 스타일 */
+
+section p:has(svg),
+section p:has(img) {
+    text-align: center;
+}
+
+section svg,
+section img {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+/* MathJax 인라인 수식: mjx-container 내부 SVG는 인라인으로 유지 */
+section mjx-container {
+    display: inline !important;
+    margin: 0 !important;
+}
+
+section mjx-container svg {
+    display: inline !important;
+    margin: 0 !important;
+}
+
+section .image-stack {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    gap: var(--image-gap, 20px);
+    figure { margin: 0; flex: 0 1 auto; min-height: 0; }
+    svg, img { width: auto; height: auto; }
+}
+
+section .image-roll {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    gap: var(--image-gap, 20px);
+    figure { margin: 0; flex: 0 1 auto; min-width: 0; }
+    svg, img { width: auto; height: auto; }
+}
+
+section figure {
+    text-align: center;
+    margin: 12px 0;
+}
+
+section figure img,
+section figure svg {
+    display: block;
+    margin: 0 auto;
+}
+
+section figcaption {
+    font-size: 0.7em;
+    color: var(--color-fg-muted);
+    margin-top: 6px;
+    line-height: 1.4;
+}
+
+section table {
+    display: table;
+    border-collapse: collapse;
+    font-variant-numeric: normal;
+    width: 100%;
+    font-size: 0.8em;
+    line-height: 1.2;
+    th {
+        background: var(--color-primary);
+        color: var(--color-bg);
+        padding: 10px 14px;
+        text-align: left;
+        border: 1px solid var(--color-primary);
+        border-right: 1px solid var(--color-border);
+        &:last-child {
+            border-right: 0 none;
+        }
+    }
+    td {
+        padding: 8px 14px;
+        border: 1px solid var(--color-border-bg);
+        border-bottom: 1px solid var(--color-fg);
+    }
+    tr:nth-child(even) td {
+        background: var(--color-bg-muted);
+    }
+}
+
+section blockquote.desc {
+    font-size: 0.7em;
+    border-left-color: var(--color-border);
+    h3 {
+        font-size: 1.1em;
+    }
+}
+section div.two-col {
+    display: grid;
+    grid-template-columns: var(--inner-cols, 1fr 1fr);
+    grid-auto-rows: auto;
+    align-content: start;
+    column-gap: var(--inner-col-gap, 10px);
+    margin-bottom: 10px;
+    ul {
+        margin-bottom: 0;
+    }
+    div:first-child {
+        padding-right: 20px;
+        border-right: 1px solid var(--color-border-light);
+        margin-right: 5px;
+    }
+    div:last-child > ul {
+        padding-left: 20px;
+    }
+}
+
+section ul {
+    padding-left: 0;
+    list-style: none;
+}
+section ul > li {
+    line-height: 1.32;
+    padding-left: 1.2em;
+    margin-top: 0.4em;
+    position: relative;
+    &:first-child {
+        margin-top: 0;
+    }
+    &::before {
+        position: absolute;
+        left: 0.3em;
+        content: "•";
+    }
+    &:has(ul),
+    &:has(ol) {
+        margin-bottom: 0 !important;
+    }
+}
+section ul > li > ul {
+    list-style: none;
+    margin-top: 0.4em;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+section ul > li > ul > li {
+    padding-left: 1.2em;
+    &::before {
+        position: absolute;
+        left: 0.3em;
+        content: "–";
+    }
+}
+section ul > li > ul > li > ul > li {
+    padding-left: 1.2em;
+    &::before {
+        position: absolute;
+        left: 0;
+        content: "✓";
+    }
+}
+
+/* 체크 리스트 */
+section ul.check-list > li,
+section div.check-list ul > li {
+    &::before {
+        left: 0;
+        content: "✓";
+        color: var(--accent-color, inherit);
+        font-weight: 500;
+    }
+}
+
+section .left-to-right {
+    display: grid;
+    grid-template-columns: var(--cols, 5fr 1fr 5fr);
+    column-gap: 20px;
+    align-content: center;
+}
+
+section .arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    svg {
+        display: block;
+        width: 100%;
+        height: 100%;
+        align-self: stretch;
+        path {
+            fill: var(--arrow-color, var(--color-fg-muted));
+        }
+    }
+}
+
+/* Decoration Box */
+
+section .decoration-box {
+    background: var(--color-bg-muted);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 20px;
+    line-height: 1.6;
+    border-top: 4px solid var(--accent-color, var(--color-brand));
+}
+
+/* ──────────────────────────────────────────────
+   페이지 번호 — 검정 배경 박스, 슬라이드 좌측상단
+   높이는 h2 바와 동일: padding 14px×2 + line-height(26×1.35≈35px) = 63px
+   ────────────────────────────────────────────── */
+section::after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: auto;
+    bottom: auto;
+    width: var(--page-num-w);
+    padding: 14px 0;
+    line-height: 35px;
+    background: var(--color-fg);
+    color: var(--color-bg);
+    font-size: 18px;
+    font-weight: 700;
+    text-align: center;
+    z-index: 10;
+    box-sizing: border-box;
+    border-radius: 0;
+    margin: 0;
+}
+
+/* ──────────────────────────────────────────────
+   프로그레스 바 (엔진 빌드 시점 주입 방식)
+   ────────────────────────────────────────────── */
+section .progress-track {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: var(--progress-height);
+    background: var(--progress-track-color);
+    z-index: 100;
+}
+
+section .progress-bar {
+    height: 100%;
+    background: var(--progress-color);
+}
+
+/* ──────────────────────────────────────────────
+   레이아웃: 표지 (title)
+   사용법: <!-- _class: title -->
+   흰 배경, h2 주황 바 제거, 페이지 번호 숨김
+   ────────────────────────────────────────────── */
+section.title {
+    background: var(--color-bg) var(--asset-cover-illust) no-repeat right
+        center / auto 100%;
+    color: var(--color-fg);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 70px 40% 70px 50px;
+}
+
+section.title header {
+    padding-left: 50px !important;
+}
+
+section.title h1 {
+    color: var(--color-fg);
+    font-size: 34px;
+    font-weight: 800;
+    margin-bottom: 0;
+    line-height: 1.3;
+    border-bottom: 2px solid var(--color-fg);
+}
+
+section.title h2 {
+    position: static;
+    background: none;
+    color: var(--color-fg-muted);
+    font-size: 26px;
+    font-weight: 600;
+    margin: 0 0 20px 0;
+    padding: 0;
+}
+
+section.title p {
+    color: var(--color-fg-muted);
+    font-size: 18px;
+}
+
+section.title p:first-child {
+    font-size: 20px;
+    margin-top: 24px;
+}
+section.title table {
+    width: 75%;
+    th {
+        display: none;
+    }
+    td {
+        font-size: 18px;
+        border: 0 none;
+        background: #fff !important;
+        padding: 4px 20px;
+    }
+    td:first-child {
+        font-weight: bold;
+        padding-left: 4px;
+    }
+    tr:first-child {
+        border-top: 1px solid var(--color-border-light);
+    }
+    tr:last-child {
+        border-bottom: 1px solid var(--color-border-light);
+    }
+}
+
+section.title header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 3;
+    text-align: left;
+    color: var(--color-fg-muted);
+    font-size: 14px;
+    height: auto;
+    line-height: 1;
+    padding: 16px 20px;
+}
+
+section.title header::after {
+    background-image: var(--asset-logo-horizontal-black);
+}
+
+section.title::after {
+    display: none;
+}
+
+/* ──────────────────────────────────────────────
+   레이아웃: 구분 슬라이드 (divider)
+   사용법: <!-- _class: divider -->
+   흰 배경, h2 주황 바 제거, 페이지 번호 숨김
+   ────────────────────────────────────────────── */
+section.divider {
+    background: var(--color-bg);
+    color: var(--color-fg);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 70px 80px;
+}
+
+section.divider h1 {
+    color: var(--color-fg);
+    font-size: 44px;
+    border: none;
+}
+
+section.divider h2 {
+    position: static;
+    background: none;
+    color: var(--color-fg-muted);
+    font-size: 28px;
+    margin: 12px 0 0;
+    padding: 0;
+}
+
+section.divider header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 3;
+    text-align: center;
+    color: var(--color-fg-muted);
+    font-size: 14px;
+    height: auto;
+    line-height: 1;
+    padding: 16px 20px;
+}
+
+section.divider header::after {
+    background-image: var(--asset-logo-horizontal-black);
+}
+
+section.divider::after {
+    display: none;
+}
+
+/* ──────────────────────────────────────────────
+   레이아웃: 2단 분할 (two-col)
+   사용법: <!-- _class: two-col -->
+   명시적 <div>로 좌우 열을 구분합니다.
+   다른 클래스와 조합 가능 (예: two-col highlight-boxes)
+   ────────────────────────────────────────────── */
+section.two-col {
+    display: grid;
+    grid-template-columns: var(--cols, 1fr 1fr);
+    column-gap: var(--col-gap, 20px);
+    align-content: start;
+
+    /* 컬럼 div */
+    > div:not(.image):not(.progress-track) {
+        min-width: 0;
+        align-self: start;
+    }
+}
+
+/* ──────────────────────────────────────────────
+   레이아웃: SWOT 분석 (swot)
+   사용법: <!-- _class: swot -->
+   ────────────────────────────────────────────── */
+section.swot > table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 4px;
+    table-layout: fixed;
+    border: none;
+    margin: 0;
+}
+
+section.swot table th:first-child {
+    width: 160px;
+}
+section.swot table tr:first-child th {
+    height: 40px;
+    padding: 2px;
+}
+
+section.swot table th,
+section.swot table td {
+    border: none;
+    border-radius: 6px;
+    padding: 14px 16px;
+    font-size: 22px;
+    line-height: 1.55;
+    vertical-align: top;
+}
+
+/* 행/열 레이블 셀 공통 */
+section.swot table .corner,
+section.swot table .strg,
+section.swot table .wkns,
+section.swot table .oppt,
+section.swot table .thrt {
+    font-weight: 700;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 20px;
+    padding: 2px 5px;
+}
+
+section.swot {
+    .strg strong {
+        background: rgb(from var(--color-swot-strg) r g b / 0.2);
+        color: var(--color-swot-strg);
+        padding: 2px 5px;
+        border-radius: 5px;
+    }
+    .wkns strong {
+        background: rgb(from var(--color-swot-wkns) r g b / 0.2);
+        color: var(--color-swot-wkns);
+        padding: 2px 5px;
+        border-radius: 5px;
+    }
+    .oppt strong {
+        background: rgb(from var(--color-swot-oppt) r g b / 0.2);
+        color: var(--color-swot-oppt);
+        padding: 2px 5px;
+        border-radius: 5px;
+    }
+    .thrt strong {
+        background: rgb(from var(--color-swot-thrt) r g b / 0.2);
+        color: var(--color-swot-thrt);
+        padding: 2px 5px;
+        border-radius: 5px;
+    }
+}
+
+section.swot table .corner {
+    background: transparent;
+}
+section.swot table .strg {
+    background: rgb(from var(--color-swot-strg) r g b / 0.2);
+    border: 2px solid var(--color-swot-strg);
+    color: var(--color-swot-strg);
+}
+section.swot table .wkns {
+    background: rgb(from var(--color-swot-wkns) r g b / 0.2);
+    border: 2px solid var(--color-swot-wkns);
+    color: var(--color-swot-wkns);
+}
+section.swot table .oppt {
+    background: rgb(from var(--color-swot-oppt) r g b / 0.2);
+    border: 2px solid var(--color-swot-oppt);
+    color: var(--color-swot-oppt);
+}
+section.swot table .thrt {
+    background: rgb(from var(--color-swot-thrt) r g b / 0.2);
+    border: 2px solid var(--color-swot-thrt);
+    color: var(--color-swot-thrt);
+}
+
+/* 본문 교차 셀: 행(기회/위협) × 열(강점/약점) 색상 블렌드 */
+section.swot table .so,
+section.swot table .wo,
+section.swot table .st,
+section.swot table .wt {
+    color: var(--color-fg);
+    vertical-align: top;
+}
+
+section.swot table .so {
+    background: color-mix(
+        in oklab,
+        var(--color-swot-strg) 7%,
+        color-mix(in oklab, var(--color-swot-oppt) 7%, var(--color-bg))
+    );
+}
+
+section.swot table .wo {
+    background: color-mix(
+        in oklab,
+        var(--color-swot-wkns) 7%,
+        color-mix(in oklab, var(--color-swot-oppt) 7%, var(--color-bg))
+    );
+}
+
+section.swot table .st {
+    background: color-mix(
+        in oklab,
+        var(--color-swot-strg) 7%,
+        color-mix(in oklab, var(--color-swot-thrt) 7%, var(--color-bg))
+    );
+}
+
+section.swot table .wt {
+    background: color-mix(
+        in oklab,
+        var(--color-swot-wkns) 7%,
+        color-mix(in oklab, var(--color-swot-thrt) 7%, var(--color-bg))
+    );
+}
+
+/* 셀 내부 리스트 */
+section.swot table ul {
+    margin: 0;
+    font-size: 0.92em;
+    line-height: 1.5;
+    margin-top: 0.2em;
+}
+
+section.swot table ul li {
+    margin-bottom: 0.2em;
+}
+
+/* ──────────────────────────────────────────────
+   레이아웃: 프로젝트 타임라인 (timeline)
+   사용법: <!-- _class: timeline -->
+   top-level li = 연차 컬럼 (타임라인 노드 + 제목)
+   nested ul    = 연차별 추진 내용 카드
+   ────────────────────────────────────────────── */
+section.timeline > ul {
+    list-style: none;
+    padding: 0;
+    margin: 30px 0 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: flex-start;
+    position: relative;
+}
+
+section.timeline > ul::before {
+    content: "";
+    position: absolute;
+    top: 22px;
+    left: 5%;
+    right: 5%;
+    height: 4px;
+    background: var(--color-brand);
+    z-index: 0;
+}
+
+section.timeline > ul > li {
+    flex: flex-shrink;
+    text-align: center;
+    position: relative;
+    margin-top: 0;
+    padding: 52px 0 0;
+    font-size: 18px;
+    line-height: 1.4;
+}
+
+section.timeline > ul > li::before {
+    content: "";
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #fff;
+    border: 4px solid var(--color-brand);
+    z-index: 1;
+}
+
+section.timeline > ul > li:first-child::before,
+section.timeline > ul > li:last-child::before {
+    background: var(--color-brand);
+}
+
+section.timeline > ul > li > strong {
+    font-size: 20px;
+    color: var(--color-primary);
+    margin-bottom: 2px;
+    font-weight: 700;
+}
+
+/* ── 연차별 추진 내용 카드 (nested list) ── */
+section.timeline > ul > li > ul {
+    list-style: none;
+    padding: 8px 24px;
+    margin: 10px 0 0;
+    text-align: left;
+    background: var(--color-bg-muted);
+    border-radius: 6px;
+    border: 2px solid var(--color-border);
+}
+
+section.timeline > ul > li > ul > li {
+    line-height: 1.35;
+    margin-top: 0;
+    padding: 2px 0 2px 14px;
+    position: relative;
+    color: var(--color-fg);
+}
+
+section.timeline > ul > li > ul > li::before {
+    content: "–";
+    position: absolute;
+    left: 0;
+    top: 2px;
+    color: var(--color-fg-subtle);
+}
+
+/* 단계명 (카드 첫 번째 항목, bold) */
+section.timeline > ul > li > ul > li:first-child {
+    font-weight: 700;
+    color: var(--color-brand);
+    font-size: 15px;
+    text-align: center;
+    padding: 0 0 0;
+    margin: 0 -14px 3px;
+    border-bottom: 1px solid var(--color-border-light);
+    padding-bottom: 5px;
+}
+
+section.timeline > ul > li > ul > li:first-child::before {
+    content: none;
+}
+
+/* ──────────────────────────────────────────────
+   레이아웃: 목차 (toc)
+   사용법: <!-- _class: toc -->
+   ────────────────────────────────────────────── */
+section.toc {
+    display: grid;
+    grid-template-columns: 1fr 2.2fr 1fr 2.2fr;
+    grid-auto-flow: column;
+    column-gap: 25px;
+    align-content: start;
+}
+
+/* h2는 absolute이므로 grid에 참여하지 않음 — 별도 규칙 불필요 */
+
+section.toc > h3 {
+    color: var(--color-primary);
+    text-align: right;
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 40px;
+    padding-left: 12px;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+section.toc > ul {
+    list-style: none;
+    padding: 0 0 0 25px;
+    margin: 0;
+    align-self: start;
+    border-left: 2px solid var(--color-border-strong);
+    min-width: 0;
+}
+
+section.toc > ul > li {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 0;
+    font-size: 21px;
+    line-height: 40px;
+    gap: 0 8px;
+    &::before {
+        content: "";
+    }
+}
+
+section.toc > ul > li > ul {
+    flex-basis: 100%;
+    padding: 0 0 0 20px;
+    margin: 0;
+    list-style: none;
+}
+
+section.toc > ul > li > ul > li {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 0;
+    font-size: 17px;
+    line-height: 30px;
+    color: var(--color-fg-muted);
+    gap: 8px;
+    &::before {
+        content: "";
+    }
+}
+
+section.toc > ul li code {
+    background: none;
+    border: none;
+    color: var(--color-secondary);
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 21px;
+    flex-shrink: 0;
+    padding: 0;
+}
+
+/* dot leaders: 텍스트와 페이지번호(code) 사이 점선 연결 */
+section.toc > ul > li:has(> code)::after {
+    content: " · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · · ";
+    order: 1;
+    flex: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    color: var(--color-border-light);
+    font-size: 16px;
+    font-weight: bold;
+    min-width: 10px;
+}
+
+section.toc > ul > li > code {
+    order: 2;
+}
+
+section.toc > ul > li > ul {
+    order: 3;
+}
+
+/* ──────────────────────────────────────────────
+   레이아웃: 강조 박스 섹션 (highlight-boxes)
+   사용법: <!-- _class: highlight-boxes -->
+   ────────────────────────────────────────────── */
+section.highlight-boxes h3 {
+    color: #fff;
+    padding: 10px 18px;
+    margin: 16px 0 6px;
+    border-radius: 5px;
+    font-size: 21px;
+    font-weight: 700;
+}
+
+section.highlight-boxes h3:nth-of-type(1) {
+    background: var(--hbox-color-1);
+}
+section.highlight-boxes h3:nth-of-type(2) {
+    background: var(--hbox-color-2);
+}
+section.highlight-boxes h3:nth-of-type(3) {
+    background: var(--hbox-color-3);
+}
+section.highlight-boxes h3:nth-of-type(4) {
+    background: var(--hbox-color-4);
+}
+section.highlight-boxes h3:nth-of-type(5) {
+    background: var(--hbox-color-5);
+}
+
+section.highlight-boxes ul,
+section.highlight-boxes ol {
+    margin-top: 4px;
+    margin-bottom: 0;
+    font-size: 21px;
+}
+
+/* ──────────────────────────────────────────────
+   레이아웃: 3단 분할 (three-col)
+   사용법: <!-- _class: three-col -->
+   명시적 <div>로 3열을 구분합니다.
+   다른 클래스와 조합 가능 (예: three-col highlight-boxes)
+   ────────────────────────────────────────────── */
+section.three-col {
+    display: grid;
+    grid-template-columns: var(--cols, 1fr 1fr 1fr);
+    column-gap: var(--col-gap, 20px);
+    align-content: start;
+
+    /* 컬럼 div */
+    > div:not(.image):not(.progress-track) {
+        min-width: 0;
+        align-self: start;
+    }
+}
+
+/* ──────────────────────────────────────────────
+   레이아웃: 핵심 강조 + 체크리스트 (focus)
+   사용법: <!-- _class: focus -->
+   ────────────────────────────────────────────── */
+section.focus {
+    display: flex;
+    flex-direction: column;
+}
+
+section.focus > blockquote {
+    border-left: none;
+    border: 2px solid var(--color-border);
+    border-radius: 8px;
+    background: transparent;
+    padding: 22px 36px;
+    text-align: center;
+    font-size: 26px;
+    font-weight: 500;
+    line-height: 1.7;
+    color: var(--color-fg);
+    margin: 24px 0 28px;
+}
+
+section.focus > blockquote strong {
+    color: color-mix(in oklab, var(--color-brand), black 5%);
+    background-color: rgb(from var(--color-brand) r g b / 0.16);
+    padding: 2px 5px;
+    border-radius: 4px;
+    font-weight: 800;
+}
+
+section.focus > ul {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px 32px;
+}
+
+section.focus > ul li {
+    position: relative;
+    font-size: 21px;
+    background: var(--color-bg-muted);
+    border-radius: 6px;
+    margin: 0;
+    padding: 10px 14px 10px 38px;
+    line-height: 1.5;
+    &::before {
+        content: "✓";
+        color: var(--color-brand);
+        font-weight: 700;
+        font-size: 20px;
+        position: absolute;
+        left: 14px;
+        top: 10px;
+    }
+    strong {
+        font-weight: 600;
+    }
+}
+
+/* ──────────────────────────────────────────────
+   레이아웃: 번호형 단계/목표 (end-product-list)
+   사용법: <!-- _class: end-product-list -->
+   ────────────────────────────────────────────── */
+section.end-product-list > ol {
+    list-style: none;
+    padding: 0;
+    counter-reset: step;
+    margin-top: 8px;
+}
+
+section.end-product-list > ol > li {
+    counter-increment: step;
+    position: relative;
+    padding: 13px 16px 13px 68px;
+    margin-bottom: 9px;
+    border-radius: 6px;
+    font-size: 20px;
+    line-height: 1.55;
+    border-left: 5px solid var(--color-primary);
+    background: var(--color-bg-muted);
+}
+
+section.end-product-list > ol > li::before {
+    content: counter(step);
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    color: #fff;
+    font-weight: 700;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+section.end-product-list > ol > li:nth-child(1) {
+    background: rgb(from var(--color-ep1) r g b / 0.08);
+    border-left-color: var(--color-ep1);
+}
+section.end-product-list > ol > li:nth-child(1)::before {
+    background: var(--color-ep1);
+}
+section.end-product-list > ol > li:nth-child(2) {
+    background: rgb(from var(--color-ep2) r g b / 0.08);
+    border-left-color: var(--color-ep2);
+}
+section.end-product-list > ol > li:nth-child(2)::before {
+    background: var(--color-ep2);
+}
+section.end-product-list > ol > li:nth-child(3) {
+    background: rgb(from var(--color-ep3) r g b / 0.08);
+    border-left-color: var(--color-ep3);
+}
+section.end-product-list > ol > li:nth-child(3)::before {
+    background: var(--color-ep3);
+}
+section.end-product-list > ol > li:nth-child(4) {
+    background: #f5f0ff;
+    border-left-color: #8e44ad;
+}
+section.end-product-list > ol > li:nth-child(4)::before {
+    background: #8e44ad;
+}
+section.end-product-list > ol > li:nth-child(5) {
+    background: #fff0f0;
+    border-left-color: #c0392b;
+}
+section.end-product-list > ol > li:nth-child(5)::before {
+    background: #c0392b;
+}
+
+/* ──────────────────────────────────────────────
+   레이아웃: 인물/기관 프로필 (profile)
+   사용법: <!-- _class: profile -->
+   ────────────────────────────────────────────── */
+section.profile {
+    display: grid;
+    grid-template-columns: 210px 1fr;
+    column-gap: 32px;
+    align-content: start;
+}
+
+section.profile > h1 {
+    grid-column: 1 / -1;
+}
+
+section.profile > p:has(> img) {
+    grid-column: 1;
+    grid-row: 2 / span 20;
+    align-self: start;
+}
+
+section.profile > p:has(> img) img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+section.profile > h3 {
+    grid-column: 2;
+    color: var(--color-primary);
+    font-size: 19px;
+    border-bottom: 1px solid var(--color-border-light);
+    padding-bottom: 4px;
+    margin-top: 10px;
+    margin-bottom: 4px;
+}
+
+section.profile > ul,
+section.profile > ol,
+section.profile > p:not(:has(> img)) {
+    grid-column: 2;
+    align-self: start;
+    margin-top: 0;
+    font-size: 19px;
+}
+
+/* ──────────────────────────────────────────────
+   레이아웃: 조견표 (eval-comparison)
+   사용법: <!-- _class: eval-comparison -->
+   ────────────────────────────────────────────── */
+
+section.eval-comparison {
+    table {
+        th {
+            background: #37474f;
+            &:first-child {
+                text-align: center;
+            }
+        }
+        td {
+            &:first-child {
+                text-align: center;
+                font-weight: bold;
+            }
+        }
+    }
+    table:nth-of-type(1) {
+        th:last-child,
+        td:last-child {
+            text-align: center;
+        }
+    }
+}
+
+/* ──────────────────────────────────────────────
+   레이아웃: 참고자료/부록 (appendix)
+   사용법: <!-- _class: appendix -->
+   ────────────────────────────────────────────── */
+section.appendix > h2:first-child::before {
+    content: "▶  ";
+    color: rgba(255, 255, 255, 0.7);
+}
+
+section.appendix {
+    table {
+        th {
+            background: #37474f;
+            &:first-child {
+                text-align: center;
+            }
+        }
+        td {
+            &:first-child {
+                text-align: center;
+                font-weight: bold;
+            }
+        }
+    }
+}
+
+/* ──────────────────────────────────────────────
+   레이아웃: 간트 차트 / 개발 추진일정 (gantt)
+   사용법: <!-- _class: gantt -->
+   ────────────────────────────────────────────── */
+section.gantt {
+    padding: var(--header-h) var(--pad-x) 50px;
+}
+
+section.gantt table {
+    font-size: 16px;
+}
+
+section.gantt table th {
+    background: var(--color-primary);
+    padding: 6px 4px;
+    text-align: center;
+    font-size: 14px;
+}
+
+section.gantt table td {
+    padding: 6px 4px;
+    text-align: center;
+    font-size: 14px;
+}
+
+section.gantt table td:first-child,
+section.gantt table td:nth-child(2) {
+    text-align: left;
+    padding-left: 8px;
+    font-size: 15px;
+}
+
+section.gantt table tr:last-child td {
+    background: var(--color-bg-muted);
+    font-weight: 700;
+}
+
+/* ──────────────────────────────────────────────
+   레이아웃: 래블업 한쪽 소개 (lablup-onepager)
+   사용법: <!-- _class: lablup-onepager -->
+   2단 컬럼으로 래블업 소개 요약 제시
+   ────────────────────────────────────────────── */
+
+section.lablup-onepager {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 24px;
+    align-items: start;
+}
+
+/* ── .lablup-card (로고 + 개요 테이블) ── */
+section.lablup-onepager .lablup-card {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding: 14px 0 14px;
+
+    p:has(svg),
+    p:has(img) {
+        margin: 0;
+        flex-shrink: 0;
+    }
+    svg {
+        height: 44px;
+        width: auto;
+    }
+    table {
+        font-size: 15px;
+        width: fit-content;
+        min-width: 50%;
+        margin: 0;
+        border: 1px solid var(--color-border);
+        border-collapse: collapse;
+        th {
+            display: none;
+        }
+        td {
+            padding: 3px 10px;
+            border: none;
+            background: transparent !important;
+        }
+        td:first-child {
+            font-weight: 700;
+            white-space: nowrap;
+        }
+        tr {
+            border-top: 1px solid var(--color-border-light);
+            border-bottom: 1px solid var(--color-border-light);
+        }
+    }
+}
+
+/* ── 카드 헤더 (h3) ── */
+section.lablup-onepager h3 {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--color-primary);
+    background-color: var(--color-bg-emphasis);
+    margin: 10px 0 10px;
+    height: 30px;
+    line-height: 30px;
+    padding: 2px 0 2px 10px;
+    border-left: 3px solid var(--color-brand);
+}
+
+/* ── 카드 바디 (ul) ── */
+section.lablup-onepager ul {
+    font-size: 15px;
+}
+
+/* ── logo-cloud (파트너/고객사 등) ── */
+section.lablup-onepager .logo-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 15px 15px;
+    min-height: 40px;
+    margin: 10px 0;
+    padding: 0 20px;
+
+    p {
+        margin: 0;
+        line-height: 9px;
+        font-size: 8px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        br:nth-of-type(1) {
+            display: none;
+        }
+    }
+    img,
+    svg {
+        display: block;
+        width: auto;
+        height: auto;
+        max-width: 70px;
+        max-height: 26px;
+        margin: 2px 0;
+    }
+}
+
+/* ──────────────────────────────────────────────
+   레이아웃: 연구개발팀 소개 (team-intro)
+   사용법: <!-- _class: team-intro -->
+   4단 컬럼으로 기관별 팀 편성, 전문성, 담당 내용을 표시
+   h3 = 기관명 컬러 헤더, ul = 세부 내용
+   ────────────────────────────────────────────── */
+section.team-intro {
+    display: grid;
+    grid-template-rows: auto auto 1fr;
+    grid-auto-flow: column;
+    grid-auto-columns: 1fr;
+    column-gap: 14px;
+    row-gap: 0;
+}
+
+section.team-intro > h3 {
+    color: #fff;
+    padding: 8px 10px;
+    margin: 0;
+    border-radius: 5px 5px 0 0;
+    font-weight: 700;
+    line-height: 1.4;
+    align-self: end;
+}
+
+section.team-intro > h3 code {
+    background: rgba(255, 255, 255, 0.25);
+    border: none;
+    color: #fff;
+    font-family: inherit;
+    font-size: 1em;
+    font-weight: 800;
+    padding: 1px 5px;
+    border-radius: 3px;
+}
+
+/* 기관 유형별 색상: <h3 data-org="주관|공동|위탁|수요|수혜"> */
+section.team-intro > h3 {
+    background: var(--color-secondary); /* 기본 fallback */
+}
+section.team-intro > h3[data-org="주관"] {
+    background: var(--color-lablup);
+}
+section.team-intro > h3[data-org="공동"] {
+    background: #11266b;
+}
+section.team-intro > h3[data-org="위탁"] {
+    background: #5e35b1;
+}
+section.team-intro > h3[data-org="수요"] {
+    background: #63100c;
+}
+section.team-intro > h3[data-org="수혜"] {
+    background: #1565c0;
+}
+
+section.team-intro > .org-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 8px;
+    margin: 0;
+    background: #fff;
+    border-left: 2px solid var(--color-border-strong);
+    border-right: 2px solid var(--color-border-strong);
+    border-bottom: 1px solid var(--color-border-strong);
+    height: 210px;
+    box-sizing: border-box;
+    img,
+    svg {
+        height: 100%;
+        width: auto;
+        max-width: 70%;
+        object-fit: contain;
+        display: block;
+        margin: 0;
+    }
+}
+
+section.team-intro > ul {
+    align-self: stretch;
+    margin-top: 0;
+    padding-left: 0;
+    list-style: none;
+    line-height: 1.4;
+    background: var(--color-bg-muted);
+    border: 2px solid var(--color-border-strong);
+    border-top: none;
+    border-radius: 0 0 5px 5px;
+    padding: 6px 20px 10px;
+}
+
+section.team-intro > ul > li {
+    margin-top: 16px;
+    font-weight: 600;
+    color: var(--color-primary);
+    border-top: 1px solid var(--color-border-light);
+    padding-top: 14px;
+}
+
+section.team-intro > ul > li:first-child {
+    margin-top: 5px;
+    border-top: none;
+    padding-top: 0;
+}
+
+section.team-intro > ul > li > ul {
+    margin: 5px 10px;
+    padding-left: 0;
+    list-style: none;
+    font-weight: 400;
+    font-size: 0.85;
+    color: var(--color-fg);
+}
+
+section.team-intro > ul > li > ul > li {
+    position: relative;
+    padding-left: 0.85em;
+}
+
+section.team-intro > ul > li > ul > li::before {
+    content: "–";
+    position: absolute;
+    left: 0;
+    color: var(--color-fg-muted);
+}
+
+/* ──────────────────────────────────────────────
+   레이아웃: side-by-side (이미지 + 텍스트 2열)
+   사용법: <!-- _class: side-by-side right-image -->
+          <!-- _class: side-by-side left-image -->
+
+   two-col 과 동일 패턴: 텍스트 <div>와 <div class="image">
+   두 개의 div 가 각각 하나의 그리드 셀을 차지합니다.
+   grid-template-rows: 1fr 로 셀 높이 = 슬라이드 내부 영역.
+   ────────────────────────────────────────────── */
+section.side-by-side {
+    display: grid;
+    grid-template-columns: var(--cols, 1fr 1fr);
+    grid-template-rows: 1fr;
+    column-gap: var(--col-gap, 28px);
+
+    /* ── 텍스트 열 ── */
+    > div:not(.image):not(.progress-track) {
+        align-self: stretch;
+        min-width: 0;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: safe center;
+    }
+
+    /* ── 이미지 열 ── */
+    > div.image {
+        align-self: stretch;
+        min-width: 0;
+        min-height: 0;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 8px;
+
+        figure {
+            margin: 0;
+            flex: 1 1 0;
+            min-height: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            &:has(> img[width], > svg[width]) {
+                flex: 0 1 auto;
+            }
+        }
+
+        figcaption {
+            flex-shrink: 0;
+        }
+
+        img,
+        svg {
+            max-width: 100%;
+            max-height: 100%;
+            height: auto;
+            min-height: 0;
+            border-radius: 8px;
+            object-fit: contain;
+        }
+    }
+
+    /* ── 텍스트 열 h3 스타일 (하이라이트 밑줄) ── */
+    h3 {
+        position: relative;
+        isolation: isolate;
+        line-height: 1.4;
+        font-weight: 800;
+        width: fit-content;
+        margin-top: 0.1em;
+        padding: 0 6px;
+        &::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 50%;
+            background-color: var(--color-bg-emphasis);
+            z-index: -1;
+        }
+    }
+    li > strong {
+        font-weight: 600;
+    }
+}
+
+/* ── right-image: 텍스트 왼쪽(col 1), 이미지 오른쪽(col 2) ── */
+section.right-image {
+    > div:not(.image):not(.progress-track) {
+        grid-column: 1;
+    }
+    > div.image {
+        grid-column: 2;
+    }
+}
+
+/* ── left-image: 이미지 왼쪽(col 1), 텍스트 오른쪽(col 2) ── */
+section.left-image {
+    > div:not(.image):not(.progress-track) {
+        grid-column: 2;
+    }
+    > div.image {
+        grid-column: 1;
+    }
+}
+
+/* ──────────────────────────────────────────────
+   레이아웃: 주요 개발 항목 (numbered-dev-items)
+   사용법: <!-- _class: numbered-dev-items side-by-side right-image -->
+   h3 = 컬러 헤더 바 (highlight-boxes 유사), ul = 본문 항목
+   항목별 색상은 슬라이드의 <style scoped>에서 nth-of-type로 지정
+   side-by-side 와 조합하여 텍스트 + 이미지 레이아웃 구성
+   ────────────────────────────────────────────── */
+/* scoped style에서 h3별로 --key-color와 --number를 지정:
+   section h3:nth-of-type(1) { --key-color: var(--color-ep1); --number: "1"; } */
+section.numbered-dev-items h3 {
+    position: relative;
+    color: var(--color-primary);
+    padding: 10px 16px 10px 56px;
+    margin: 12px 0 4px;
+    border-radius: 6px;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.55;
+    border-left: 5px solid var(--key-color, var(--color-primary));
+    background: rgb(from var(--key-color, var(--color-primary)) r g b / 0.15);
+    &:first-of-type {
+        margin-top: 0;
+    }
+    &::before {
+        content: var(--number, "");
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: var(--key-color, var(--color-primary));
+        color: #fff;
+        font-weight: 700;
+        font-size: 17px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+section.numbered-dev-items ul,
+section.numbered-dev-items ol {
+    margin-top: 2px;
+    margin-bottom: 0;
+    font-size: 20px;
+}
+
+/* ──────────────────────────────────────────────
+   End Product 강조색 유틸리티
+   사용법: <span class="ep1-text">텍스트</span>
+          <td class="ep1-bg">셀 내용</td>
+   ────────────────────────────────────────────── */
+
+/* 전경용: 기본 강조색에서 color-mix로 약간 어둡게 유도 (흰 배경 가독성)
+   strong 등 자식 요소가 color를 직접 지정하므로 함께 오버라이드 */
+section .ep1-text,
+section .ep1-text strong {
+    color: color-mix(in oklab, var(--color-ep1) 85%, black);
+}
+section .ep2-text,
+section .ep2-text strong {
+    color: color-mix(in oklab, var(--color-ep2) 85%, black);
+}
+section .ep3-text,
+section .ep3-text strong {
+    color: color-mix(in oklab, var(--color-ep3) 85%, black);
+}
+
+/* 배경용: 기본 강조색에서 alpha 채널로 연한 배경 유도 */
+section .ep1-bg {
+    background-color: rgb(from var(--color-ep1) r g b / 0.1) !important;
+}
+section .ep2-bg {
+    background-color: rgb(from var(--color-ep2) r g b / 0.1) !important;
+}
+section .ep3-bg {
+    background-color: rgb(from var(--color-ep3) r g b / 0.1) !important;
+}
+
+/* 좌측 보더 강조: 표 행이나 카드 요소에 컬러 바 적용 */
+section .ep1-bar {
+    border-left: 4px solid var(--color-ep1) !important;
+}
+section .ep2-bar {
+    border-left: 4px solid var(--color-ep2) !important;
+}
+section .ep3-bar {
+    border-left: 4px solid var(--color-ep3) !important;
+}
