@@ -555,9 +555,9 @@ Plan files are numbered by implementation order for the MVP (01-05), with 91+ re
 | 01 | MVP (this file) | Draft | -- |
 | 02 | Research system | Draft | 01 Phase 1-2 |
 | 03 | Writing rules enhancement | Ready | Independent |
-| 04 | Build variants (vendor/whitelabel) | Deferred | 01 Phase 1-2 |
-| 05 | GitHub Pages deployment | TODO | 01 Phase 1-2 |
-| 06 | Content assets (image fetch, Mermaid) | TODO | 01 Phase 1-2 |
+| 04 | Content assets (image fetch, Mermaid) | TODO | 01 Phase 1-2 |
+| 05 | Build variants (vendor/whitelabel) | Deferred | 01 Phase 1-2 |
+| 06 | GitHub Pages deployment | TODO | 01 Phase 1-2 |
 | 91 | Gemini image generation | Blocked | 01 Phase 1-2 |
 | 92 | Slidev integration | Deferred | 01 |
 
