@@ -157,7 +157,7 @@ Anti-AI writing rules are in `.claude/rules/writing-ko.md` and `.claude/rules/wr
 
 ### TODO
 - [x] Phase 1: Engine extraction and setup (themes, Makefile, marp.config.js, scripts, package.json)
-- [ ] Phase 2: Skills update, demo presentation, CLAUDE.md update
+- [x] Phase 2: Skills update, demo presentation, CLAUDE.md update
 - [ ] Phase 3: Research / knowledge base (plan/02)
 - [ ] Phase 4: Writing rules enhancement (plan/03)
 - [ ] Phase 5: Cleanup (delete samples/, final verification)
