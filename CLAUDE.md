@@ -128,7 +128,6 @@ Rules:
 | `/new-presentation <topic>` | Scaffold new presentation directory |
 | `/generate-slides [synopsis]` | Generate slides from brief |
 | `/build [html\|pdf]` | Compile slides |
-| `/generate-image <prompt>` | Generate image via Gemini CLI |
 | `/inspect [slide-number]` | Visual screenshot + analysis |
 | `/export-notes` | Extract speaker notes |
 | `/commit` | Git commit |
