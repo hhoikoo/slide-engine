@@ -121,7 +121,7 @@ Problems: "차별화 포인트" is AI vocabulary, excessive bold on every line, 
 
 After (human):
 ```
-## 달랐던 시작점
+## 시작부터 달랐던 Backend.AI
 
 ### fGPU (특허 기술)
 
