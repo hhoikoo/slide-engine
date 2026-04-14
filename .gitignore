@@ -2,3 +2,4 @@
 node_modules/
 **/output/
 samples/
+.claude/auto-memory/
