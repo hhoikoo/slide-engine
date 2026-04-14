@@ -32,29 +32,48 @@ template-gen/
 └── research/                 # Repo-level research (tool evaluations)
 ```
 
-### Presentation layout
+### Presentations repository
 
-Presentations live outside this repo, configured via `PRESENTATIONS_DIR` in `.env`. Each presentation is a subfolder:
+Presentations live in a separate git repo configured via `PRESENTATIONS_DIR` in `.env`. Each presentation lives on its own branch, with worktrees enabling concurrent work.
 
 ```
-{PRESENTATIONS_DIR}/
-└── 2026-04-my-talk/
-    ├── synopsis.md               # Content brief for LLM generation
-    ├── sections/                 # Slide content (multi-file authoring)
-    │   ├── 00-frontmatter.md     # YAML frontmatter only
-    │   ├── 01-title.md
-    │   ├── 02-background.md
-    │   ├── 03-problem.md
-    │   └── ...
-    ├── slides.md                 # Assembled from sections/ (build artifact, not hand-edited)
-    ├── theme.css                 # Optional per-presentation style overrides
-    ├── research/                 # Per-presentation knowledge base
-    ├── images/
-    │   ├── figures/              # Hand-made or sourced diagrams
-    │   └── generated/            # AI-generated images
-    └── output/                   # Build output (gitignored)
-        ├── slides.html
-        └── slides.pdf
+~/Documents/Presentation/
+├── template-gen/                          # engine repo (this repo)
+├── presentations/                         # main branch (repo config only)
+├── presentations--2026-04-gpu-pooling/    # worktree for gpu-pooling branch
+├── presentations--2026-05-webassembly/    # worktree for webassembly branch
+└── ...
+```
+
+- `main` branch: repo config (.gitignore, .github/workflows/, README.md)
+- `gh-pages` branch: deployed HTML (managed by GitHub Actions)
+- Presentation branches: named `{YYYY-MM}-{slug}`, one per talk
+- Worktrees: `presentations--{branch-name}` as siblings of the base repo
+
+`PRESENTATIONS_DIR` points to the base repo checkout (main branch). Skills that manage branches/worktrees use this path. Skills that work on a specific presentation (build, generate-slides) detect the presentation from cwd.
+
+### Presentation directory structure
+
+Each presentation branch contains its content in a directory matching the branch name:
+
+```
+{branch-name}/
+├── synopsis.md               # Content brief for LLM generation
+├── sections/                 # Slide content (multi-file authoring)
+│   ├── 00-frontmatter.md     # YAML frontmatter only
+│   ├── 01-title.md
+│   ├── 02-background.md
+│   ├── 03-problem.md
+│   └── ...
+├── slides.md                 # Assembled from sections/ (build artifact, not hand-edited)
+├── theme.css                 # Optional per-presentation style overrides
+├── research/                 # Per-presentation knowledge base
+├── images/
+│   ├── figures/              # Hand-made or sourced diagrams
+│   └── generated/            # AI-generated images
+└── output/                   # Build output (gitignored)
+    ├── slides.html
+    └── slides.pdf
 ```
 
 ## Build
@@ -125,9 +144,13 @@ Rules:
 
 | Skill | Usage |
 |-------|-------|
-| `/new-presentation <topic>` | Scaffold new presentation directory |
+| `/new-presentation <topic>` | Create branch + worktree + scaffold |
+| `/list-presentations` | List all branches and active worktrees |
+| `/open-presentation <name>` | Create worktree for existing branch |
+| `/close-presentation <name>` | Remove worktree (keeps branch) |
 | `/generate-slides [synopsis]` | Generate slides from brief |
 | `/build [html\|pdf]` | Compile slides |
+| `/deploy` | Build + commit + push for Pages |
 | `/inspect [slide-number]` | Visual screenshot + analysis |
 | `/export-notes` | Extract speaker notes |
 | `/commit` | Git commit |
@@ -157,6 +180,10 @@ Anti-AI writing rules are in `.claude/rules/writing-ko.md`, `.claude/rules/writi
 ### TODO
 - [x] Phase 1: Engine extraction and setup (themes, Makefile, marp.config.js, scripts, package.json)
 - [x] Phase 2: Skills update, demo presentation, CLAUDE.md update
-- [ ] Phase 3: Research / knowledge base (plan/02)
+- [x] Phase 3: Research / knowledge base -- superseded by Phase 7
 - [x] Phase 4: Writing rules enhancement (plan/03)
 - [x] Phase 5: Cleanup (delete samples/, final verification)
+- [x] Phase 6: Presentations repo + worktrees + Pages deployment (plan/06)
+- [ ] Phase 7: Research / knowledge base (plan/02)
+- [ ] Phase 8: Content assets (plan/04)
+- [ ] Phase 9: Build variants (plan/05)

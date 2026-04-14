@@ -6,7 +6,7 @@ argument-hint: "<topic>"
 
 # New Presentation
 
-Create a new presentation directory with starter files.
+Create a new presentation as a branch + worktree with starter files.
 
 ## Input
 
@@ -14,11 +14,14 @@ Create a new presentation directory with starter files.
 
 ## Workflow
 
-1. Read `PRESENTATIONS_DIR` from `/Users/hhkoo/Documents/Presentation/template-gen/.env`.
+1. Read `PRESENTATIONS_DIR` from `/Users/hhkoo/Documents/Presentation/template-gen/.env`. This points to the base presentations repo (main branch).
 2. Generate a slug from the topic: lowercase, hyphens, max 40 chars.
-3. Create directory: `$PRESENTATIONS_DIR/{date}-{slug}/` (date = YYYY-MM format).
-4. Create subdirectories: `sections/`, `research/`, `images/figures/`, `images/generated/`, `output/`.
-5. Create `sections/00-frontmatter.md` with YAML frontmatter:
+3. Determine the branch name: `{YYYY-MM}-{slug}` (current date).
+4. Create the branch from main: `git -C "$PRESENTATIONS_DIR" branch {branch-name} main`
+5. Create a worktree as a sibling: `git -C "$PRESENTATIONS_DIR" worktree add "../presentations--{branch-name}" {branch-name}`
+6. Inside the worktree, create the presentation directory `{branch-name}/` with subdirectories: `sections/`, `research/`, `images/figures/`, `images/generated/`.
+7. Copy `.gitignore` from main: `git -C {worktree} checkout main -- .gitignore`
+8. Create `sections/00-frontmatter.md` with YAML frontmatter:
    ```markdown
    ---
    marp: true
@@ -28,9 +31,11 @@ Create a new presentation directory with starter files.
    header: "{topic}"
    ---
    ```
-6. Create `synopsis.md` with the topic as heading and placeholder sections: Audience, Key Messages, Structure.
-7. Report the created path and suggest next steps: edit synopsis.md, then run `/generate-slides`.
+9. Create `synopsis.md` with the topic as heading and placeholder sections: Audience, Key Messages, Structure.
+10. Initial commit: `git -C {worktree} add -A && git commit -m "scaffold {branch-name}"`
+11. Report the worktree path and suggest next steps: edit synopsis.md, then run `/generate-slides`.
 
 ## Note
 
 Do NOT create `slides.md` -- it is a build artifact assembled from `sections/` files.
+The `output/` directory is not created -- it is a build artifact directory created by `make`.
