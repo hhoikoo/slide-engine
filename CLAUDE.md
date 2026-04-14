@@ -17,8 +17,8 @@ template-gen/
 ├── package-lock.json
 ├── public/                   # Deployed presentation HTML (served by Pages)
 ├── README.md
-├── guide.md                  # Layout class reference (read by /generate-slides)
 ├── engine/
+│   ├── guide.md              # Layout class reference (read by /generate-slides)
 │   ├── marp.config.js        # Marp engine config (image paths, SVG inlining, auto-shrink, CJK plugin)
 │   └── scripts/
 │       ├── assemble-sections.sh   # Concatenate sections/*.md into slides.md
@@ -33,8 +33,7 @@ template-gen/
 │       ├── image-style.md    # Default image gen style prompts
 │       └── assets/           # logo/, partner/, customer/, common/
 ├── .claude/                  # Skills, agents, rules
-├── plan/                     # Plan documents
-└── research/                 # Repo-level research (tool evaluations)
+└── plan/                     # Plan documents
 ```
 
 ### Presentations repository

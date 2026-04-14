@@ -19,8 +19,8 @@ If a claim is not trivially obvious, verify it before stating it or acting on it
 
 | Information needed | Check this |
 |-------------------|------------|
-| Layout classes | `guide.md` |
+| Layout classes | `engine/guide.md` |
 | Theme CSS variables | `themes/*/theme.css` |
-| Build commands | `engine/Makefile` |
+| Build commands | `Makefile` |
 | Engine features | `engine/marp.config.js` |
 | Writing rules | `.claude/rules/writing-*.md` |
