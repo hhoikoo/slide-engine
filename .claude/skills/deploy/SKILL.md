@@ -1,17 +1,13 @@
 ---
 name: deploy
-description: Build HTML and deploy to GitHub Pages via the slide-engine repo's gh-pages branch. Usage: /deploy
+description: Build HTML and deploy to GitHub Pages. Usage: /deploy
 ---
 
 # Deploy
 
 Build the current presentation and publish it to GitHub Pages.
 
-Built HTML is deployed to the `gh-pages` branch of the slide-engine repo (this repo), not the slides repo. This keeps the slides repo private while serving presentations publicly.
-
-## Input
-
-`$ARGUMENTS` is unused.
+Built HTML is committed to `public/{presentation-name}/` on the main branch of this repo (slide-engine). A GitHub Actions workflow triggers on changes to `public/` and deploys to Pages.
 
 ## Workflow
 
@@ -19,31 +15,22 @@ Built HTML is deployed to the `gh-pages` branch of the slide-engine repo (this r
 2. Determine the presentation name from the directory name (e.g., `2026-04-build-demo`).
 3. Run `/build html` to compile slides.
 4. Determine the slide-engine repo root. Default: `/Users/hhkoo/Documents/Presentation/template-gen`.
-5. Create a temporary worktree for the gh-pages branch:
+5. Copy the built HTML:
    ```
-   git -C "$ENGINE_DIR" worktree add /tmp/slide-engine-gh-pages gh-pages
+   mkdir -p "$ENGINE_DIR/public/{presentation-name}"
+   cp output/slides.html "$ENGINE_DIR/public/{presentation-name}/index.html"
    ```
-6. Copy the built HTML into the gh-pages worktree:
+6. Regenerate the index page: scan all directories in `public/` matching `20*/`, update `public/index.html` with links to each.
+7. Commit in the slide-engine repo:
    ```
-   mkdir -p /tmp/slide-engine-gh-pages/{presentation-name}
-   cp output/slides.html /tmp/slide-engine-gh-pages/{presentation-name}/index.html
+   git -C "$ENGINE_DIR" add public/
+   git -C "$ENGINE_DIR" commit -m "deploy: {presentation-name}"
    ```
-7. Regenerate the index page: scan all directories in the gh-pages worktree matching `20*/`, generate an `index.html` listing them with links.
-8. Commit and push:
-   ```
-   git -C /tmp/slide-engine-gh-pages add .
-   git -C /tmp/slide-engine-gh-pages commit -m "deploy: {presentation-name}"
-   git -C /tmp/slide-engine-gh-pages push origin gh-pages
-   ```
-9. Clean up the temporary worktree:
-   ```
-   git -C "$ENGINE_DIR" worktree remove /tmp/slide-engine-gh-pages
-   ```
-10. Report the Pages URL.
+8. Push to origin: `git -C "$ENGINE_DIR" push`
+9. Report the Pages URL. GitHub Actions will deploy automatically.
 
 ## Notes
 
-- The slide-engine repo must have a remote named `origin` and a `gh-pages` branch.
-- GitHub Pages must be configured to serve from the `gh-pages` branch.
-- If the remote or gh-pages branch does not exist, report the error and suggest setup steps.
-- The temporary worktree is cleaned up after deploy, whether it succeeds or fails.
+- The slide-engine repo must have a remote named `origin`.
+- GitHub Pages must be configured with source set to "GitHub Actions" in repo settings.
+- If the remote is not configured, report the error and suggest setup steps.

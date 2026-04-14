@@ -10,9 +10,12 @@ template-gen/
 ├── .env.example              # PRESENTATIONS_DIR template
 ├── .env                      # Local config (gitignored)
 ├── .gitignore
+├── .github/workflows/
+│   └── deploy-pages.yml      # GitHub Actions: deploy public/ to Pages
 ├── Makefile                  # Top-level build: make html DIR=... THEME=...
 ├── package.json              # marp-cli + markdown-it-cjk-friendly
 ├── package-lock.json
+├── public/                   # Deployed presentation HTML (served by Pages)
 ├── README.md
 ├── guide.md                  # Layout class reference
 ├── starter.md                # Starter template with all layout examples
@@ -56,9 +59,9 @@ Presentations live in a separate git repo configured via `PRESENTATIONS_DIR` in 
 
 ### Deployment
 
-Built HTML is deployed via the `gh-pages` branch of this repo (slide-engine), not the slides repo. This keeps the slides repo private while serving presentations publicly on GitHub Pages.
+Built HTML is deployed via `public/` on the main branch of this repo (slide-engine). A GitHub Actions workflow (`.github/workflows/deploy-pages.yml`) triggers on pushes to `public/` and deploys to GitHub Pages. The slides repo stays private.
 
-`/deploy` builds HTML, copies it to `gh-pages` via a temporary worktree, updates the index page, commits, and pushes. No CI/GitHub Actions needed.
+`/deploy` builds HTML, copies it to `public/{presentation-name}/index.html`, regenerates the index, commits, and pushes. GitHub Actions handles the rest.
 
 ### Presentation directory structure
 
