@@ -1,5 +1,7 @@
 # Presentation Generation Harness
 
+**Slides:** https://hhoikoo.github.io/slide-engine/
+
 Marp-based slide build system with theme support and Claude Code integration.
 
 ## Setup
