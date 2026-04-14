@@ -52,9 +52,13 @@ How this connects to the presentation topic. Which slides would reference this.
 
 For `type: code`, replace "Key Data Points" with "Key Code" containing the relevant code snippet, and add `path` and `commit` fields to frontmatter.
 
+## Resolve Presentation Directory
+
+The last token in `$ARGUMENTS` may be a presentation name (e.g., `/research https://... 2026-04-build-demo`). If it matches a worktree at `$PRESENTATIONS_DIR/.worktrees/{name}/`, use that. Otherwise use the presentation from earlier in this conversation. If neither, ask the user. Read `PRESENTATIONS_DIR` from `/Users/hhkoo/Documents/Presentation/template-gen/.env`.
+
 ## Workflow
 
-1. Detect the current presentation directory (look for `research/` in cwd or parent).
+1. Resolve the presentation directory (see above).
 2. Scan existing `research/*.md` files to find the next sequential ID.
 3. Determine input mode from `$ARGUMENTS`:
    - Starts with `http://` or `https://` -> URL mode

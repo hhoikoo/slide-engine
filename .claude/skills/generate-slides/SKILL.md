@@ -1,7 +1,7 @@
 ---
 name: generate-slides
-description: Generate complete Marp slides from a synopsis or topic. Reads guide.md for layout reference and follows writing rules. Usage: /generate-slides [topic or path to synopsis.md]
-argument-hint: "[topic or synopsis path]"
+description: Generate complete Marp slides from a synopsis or topic. Reads guide.md for layout reference and follows writing rules. Usage: /generate-slides [topic or presentation-name]
+argument-hint: "[topic or presentation-name]"
 ---
 
 # Generate Slides
@@ -11,14 +11,22 @@ Generate a complete Marp presentation as sectioned markdown files.
 ## Input
 
 `$ARGUMENTS` is either:
-- A topic string (e.g., "WebAssembly for Backend Engineers")
-- A path to a synopsis.md file
-- Empty (reads synopsis.md from current directory)
+- A presentation name matching an existing worktree (e.g., `2026-04-build-demo`)
+- A topic string for a new presentation (e.g., "WebAssembly for Backend Engineers")
+- Empty (use presentation from earlier in this conversation)
+
+## Resolve Presentation Directory
+
+1. If `$ARGUMENTS` matches an existing worktree at `$PRESENTATIONS_DIR/.worktrees/{name}/`, use that.
+2. If not given, use the presentation directory from earlier in this conversation (e.g., from `/new-presentation`).
+3. If `$ARGUMENTS` is a topic string that doesn't match a worktree, look for a synopsis.md in the resolved presentation directory, or use the topic to generate content from scratch.
+4. If no presentation can be resolved, ask the user.
+5. Read `PRESENTATIONS_DIR` from `/Users/hhkoo/Documents/Presentation/template-gen/.env`.
 
 ## Workflow
 
 1. **Read context**: Read `guide.md` (at template-gen repo root) for available layout classes. Read the writing rules from `.claude/rules/writing-*.md`.
-2. **Read synopsis**: If a synopsis.md path is given or exists in cwd, read it. Otherwise use $ARGUMENTS as the topic.
+2. **Read synopsis**: Read `synopsis.md` from the presentation directory. If none exists, use `$ARGUMENTS` as the topic.
 3. **Read research** (if available): If a `research/` directory exists with `.md` files, read all research docs. Note their IDs, key data points, and relevance sections.
 4. **Plan structure**: Outline the slide deck: title, TOC, section dividers, content slides, closing. Choose appropriate layout classes for each slide. Plan which sections go in which file. When research docs exist, plan where to incorporate specific data points.
 5. **Generate section files** in `sections/`:

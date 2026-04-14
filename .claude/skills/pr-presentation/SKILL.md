@@ -1,16 +1,28 @@
 ---
 name: pr-presentation
-description: Create a PR to merge the current presentation branch into main. Usage: /pr-presentation
+description: Create a PR to merge a presentation branch into main. Usage: /pr-presentation [presentation-name]
+argument-hint: "[presentation-name]"
 ---
 
 # PR Presentation
 
-Create a pull request to merge the current presentation branch into main on the slides repo.
+Create a pull request to merge a presentation branch into main on the slides repo.
+
+## Input
+
+`$ARGUMENTS` is an optional presentation name (e.g., `2026-04-build-demo`).
+
+## Resolve Presentation Directory
+
+1. If a presentation name is given in `$ARGUMENTS`, resolve to `$PRESENTATIONS_DIR/.worktrees/{name}/{name}/`.
+2. If not given, use the presentation directory from earlier in this conversation.
+3. If neither, ask the user.
+4. Read `PRESENTATIONS_DIR` from `/Users/hhkoo/Documents/Presentation/template-gen/.env`.
 
 ## Workflow
 
-1. Detect the current presentation directory (look for `sections/` in cwd or parent).
-2. Determine the branch name from the directory or `git branch --show-current`.
+1. Resolve the presentation directory (see above).
+2. Determine the branch name from the worktree directory name.
 3. Verify the branch is not `main`.
 4. Check for uncommitted changes. If any, warn the user and suggest committing first.
 5. Push the branch: `git push -u origin {branch-name}`

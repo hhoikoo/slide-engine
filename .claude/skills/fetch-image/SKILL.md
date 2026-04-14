@@ -14,9 +14,13 @@ Download an image from a URL and save it to the current presentation's `images/f
 - First argument: the image URL (required)
 - Second argument: optional filename (without path). If omitted, derive from the URL or content-type.
 
+## Resolve Presentation Directory
+
+Use the presentation from earlier in this conversation (e.g., from `/new-presentation` or `/open-presentation`). If no presentation has been established, ask the user. Read `PRESENTATIONS_DIR` from `/Users/hhkoo/Documents/Presentation/template-gen/.env` and resolve to `$PRESENTATIONS_DIR/.worktrees/{name}/{name}/`.
+
 ## Workflow
 
-1. Detect the current presentation directory (look for `sections/` in cwd or parent).
+1. Resolve the presentation directory (see above).
 2. Parse URL and optional filename from `$ARGUMENTS`.
 3. Create `images/figures/` if it does not exist.
 4. Download the image using `curl -fsSL -o`:

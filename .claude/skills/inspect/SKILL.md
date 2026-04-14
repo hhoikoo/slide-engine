@@ -1,7 +1,7 @@
 ---
 name: inspect
-description: Visually inspect slides by capturing screenshots and analyzing them for layout/design issues. Usage: /inspect [slide-number]
-argument-hint: "[slide-number]"
+description: Visually inspect slides by capturing screenshots and analyzing them for layout/design issues. Usage: /inspect [slide-number] [presentation-name]
+argument-hint: "[slide-number] [presentation-name]"
 ---
 
 # Inspect Slides
@@ -10,17 +10,26 @@ Capture slide screenshots and visually analyze them for layout and design issues
 
 ## Input
 
-`$ARGUMENTS` is an optional slide number. If omitted, inspect all slides.
+`$ARGUMENTS` may contain:
+- A slide number (integer) to inspect a single slide. If omitted, inspect all slides.
+- A presentation name (e.g., `2026-04-build-demo`).
+
+## Resolve Presentation Directory
+
+1. If a presentation name is given in `$ARGUMENTS`, resolve to `$PRESENTATIONS_DIR/.worktrees/{name}/{name}/`.
+2. If not given, use the presentation directory from earlier in this conversation.
+3. If neither, ask the user.
+4. Read `PRESENTATIONS_DIR` from `/Users/hhkoo/Documents/Presentation/template-gen/.env`.
 
 ## Workflow
 
-1. **Find the presentation directory**: Look for `sections/` in cwd or parent.
+1. Resolve the presentation directory (see above).
 2. **Build first**: Run `/build html` to ensure `slides.md` and `output/.merged-theme.css` exist.
 3. **Capture screenshots**:
    ```bash
    OUTDIR=$(mktemp -d)
    TEMPLATE_DIR="/Users/hhkoo/Documents/Presentation/template-gen"
-   cp slides.md "$OUTDIR/slides.md"
+   cp "$PRESENTATION_DIR/slides.md" "$OUTDIR/slides.md"
    "$TEMPLATE_DIR/node_modules/.bin/marp" --no-config --images png --image-scale 2 "$OUTDIR/slides.md"
    ```
    Note: marp-cli's `--images` flag conflicts with `--theme-set` and `--allow-local-files` (shows help instead of rendering). Use `--no-config` and omit those flags. Screenshots will use default styling instead of the custom theme, which is sufficient for detecting overflow, alignment, and content issues. The actual themed output is verified via `/build html`.
