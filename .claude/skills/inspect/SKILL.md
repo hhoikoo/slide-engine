@@ -20,17 +20,11 @@ Capture slide screenshots and visually analyze them for layout and design issues
    ```bash
    OUTDIR=$(mktemp -d)
    TEMPLATE_DIR="/Users/hhkoo/Documents/Presentation/template-gen"
-   THEME_DIR="$TEMPLATE_DIR/themes/bai-flat"
    cp slides.md "$OUTDIR/slides.md"
-   cp output/.merged-theme.css "$OUTDIR/.merged-theme.css"
-   cd "$OUTDIR"
-   THEME_DIR="$THEME_DIR" npx marp --no-stdin --images png --image-scale 2 \
-     --allow-local-files --html \
-     --config "$TEMPLATE_DIR/engine/marp.config.js" \
-     --theme-set "$OUTDIR/.merged-theme.css" \
-     slides.md
+   "$TEMPLATE_DIR/node_modules/.bin/marp" --no-config --images png --image-scale 2 "$OUTDIR/slides.md"
    ```
-   This produces `slides.001.png`, `slides.002.png`, etc.
+   Note: marp-cli's `--images` flag conflicts with `--theme-set` and `--allow-local-files` (shows help instead of rendering). Use `--no-config` and omit those flags. Screenshots will use default styling instead of the custom theme, which is sufficient for detecting overflow, alignment, and content issues. The actual themed output is verified via `/build html`.
+   This produces `slides.001.png`, `slides.002.png`, etc. in `$OUTDIR/`.
 4. **Read slide images**: Use the Read tool on each PNG file (Claude can read images natively).
    - If a specific slide number was given, only read that one (e.g., `slides.003.png` for slide 3).
    - Otherwise read all of them.
