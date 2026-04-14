@@ -17,8 +17,7 @@ template-gen/
 ├── package-lock.json
 ├── public/                   # Deployed presentation HTML (served by Pages)
 ├── README.md
-├── guide.md                  # Layout class reference
-├── starter.md                # Starter template with all layout examples
+├── guide.md                  # Layout class reference (read by /generate-slides)
 ├── engine/
 │   ├── marp.config.js        # Marp engine config (image paths, SVG inlining, auto-shrink, CJK plugin)
 │   └── scripts/
