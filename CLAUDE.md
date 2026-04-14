@@ -52,8 +52,8 @@ Presentations live in a separate git repo configured via `PRESENTATIONS_DIR` in 
     └── ...
 ```
 
-- `main` branch: repo config (.gitignore, README.md)
-- Presentation branches: named `{YYYY-MM}-{slug}`, one per talk
+- `main` branch: archive of all finalized presentations + repo config
+- Presentation branches: ephemeral workspaces, named `{YYYY-MM}-{slug}`, merged into main via PR when done
 - Worktrees: `$PRESENTATIONS_DIR/.worktrees/{branch-name}`
 
 `PRESENTATIONS_DIR` points to the base repo checkout (main branch). Skills that manage branches/worktrees use this path. Skills that work on a specific presentation (build, generate-slides) detect the presentation from cwd.
@@ -174,6 +174,7 @@ Rules:
 | `/build [html\|pdf\|html-wl\|pdf-wl]` | Compile slides (with optional whitelabel variant) |
 | `/research <url\|topic\|arxiv:ID\|code:path>` | Add research docs to knowledge base |
 | `/fetch-image <url> [filename]` | Download image to images/figures/ |
+| `/pr-presentation` | Create PR to merge presentation into main |
 | `/deploy` | Build + commit + push for Pages |
 | `/inspect [slide-number]` | Visual screenshot + analysis |
 | `/export-notes` | Extract speaker notes |
