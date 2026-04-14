@@ -17,7 +17,7 @@ MERGED_THEME := $(OUTPUT_DIR)/.merged-theme.css
 
 .DEFAULT_GOAL := help
 
-.PHONY: help setup html pdf clean check-dir
+.PHONY: help setup html pdf html-wl pdf-wl clean check-dir
 
 help:
 	@echo ""
@@ -28,6 +28,8 @@ help:
 	@echo "  setup            Install dependencies (npm install)"
 	@echo "  html             Build HTML slides"
 	@echo "  pdf              Build PDF slides"
+	@echo "  html-wl          Build whitelabel HTML slides"
+	@echo "  pdf-wl           Build whitelabel PDF slides"
 	@echo "  clean            Remove output/ and assembled slides.md"
 	@echo ""
 	@echo "Required:"
@@ -80,6 +82,46 @@ pdf: check-dir
 		--output "$(OUTPUT_DIR)/slides.pdf" \
 		"$(SLIDES)"
 	@echo "Built: $(OUTPUT_DIR)/slides.pdf"
+
+html-wl: check-dir
+	@bash "$(SCRIPTS)/assemble-sections.sh" "$(DIR)"
+	@node "$(SCRIPTS)/render-mermaid.js" "$(DIR)" || true
+	@bash "$(SCRIPTS)/build-variant.sh" "$(DIR)" whitelabel
+	@mkdir -p "$(OUTPUT_DIR)"
+	@node "$(SCRIPTS)/merge-theme.js" \
+		--base "$(THEME_DIR)/theme.css" \
+		--local "$(LOCAL_THEME)" \
+		--theme-dir "$(THEME_DIR)" \
+		--slides-dir "$(abspath $(DIR))" \
+		--output "$(MERGED_THEME)"
+	THEME_DIR="$(THEME_DIR)" npx marp --no-stdin \
+		--config "$(CONFIG)" \
+		--theme-set "$(MERGED_THEME)" \
+		--html --allow-local-files \
+		--output "$(OUTPUT_DIR)/slides-wl.html" \
+		"$(SLIDES)"
+	@node "$(SCRIPTS)/marp-postprocess.js" \
+		"$(OUTPUT_DIR)/slides-wl.html" --theme-dir "$(THEME_DIR)"
+	@echo "Built: $(OUTPUT_DIR)/slides-wl.html"
+
+pdf-wl: check-dir
+	@bash "$(SCRIPTS)/assemble-sections.sh" "$(DIR)"
+	@node "$(SCRIPTS)/render-mermaid.js" "$(DIR)" || true
+	@bash "$(SCRIPTS)/build-variant.sh" "$(DIR)" whitelabel
+	@mkdir -p "$(OUTPUT_DIR)"
+	@node "$(SCRIPTS)/merge-theme.js" \
+		--base "$(THEME_DIR)/theme.css" \
+		--local "$(LOCAL_THEME)" \
+		--theme-dir "$(THEME_DIR)" \
+		--slides-dir "$(abspath $(DIR))" \
+		--output "$(MERGED_THEME)"
+	THEME_DIR="$(THEME_DIR)" npx marp --no-stdin \
+		--config "$(CONFIG)" \
+		--theme-set "$(MERGED_THEME)" \
+		--html --pdf --allow-local-files \
+		--output "$(OUTPUT_DIR)/slides-wl.pdf" \
+		"$(SLIDES)"
+	@echo "Built: $(OUTPUT_DIR)/slides-wl.pdf"
 
 clean:
 	@test -n "$(DIR)" || (echo "Error: DIR is required" && exit 1)

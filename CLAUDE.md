@@ -21,6 +21,7 @@ template-gen/
 │   └── scripts/
 │       ├── assemble-sections.sh   # Concatenate sections/*.md into slides.md
 │       ├── generate-citation-map.js  # Assign citation numbers, generate references slide
+│       ├── build-variant.sh        # Vendor/whitelabel preprocessor
 │       ├── merge-theme.js         # Combine base theme + local overrides
 │       ├── marp-postprocess.js    # HTML post-processing (asset inlining)
 │       └── render-mermaid.js      # Render ```mermaid blocks to SVG (requires mmdc)
@@ -82,9 +83,11 @@ Each presentation branch contains its content in a directory matching the branch
 
 ```bash
 make setup                                          # npm install
-make html DIR=/path/to/presentation THEME=bai-flat  # Build HTML
-make pdf  DIR=/path/to/presentation THEME=bai-flat  # Build PDF
-make clean DIR=/path/to/presentation                # Remove output/ and slides.md
+make html    DIR=/path/to/presentation THEME=bai-flat  # Build HTML
+make pdf     DIR=/path/to/presentation THEME=bai-flat  # Build PDF
+make html-wl DIR=/path/to/presentation THEME=bai-flat  # Build whitelabel HTML
+make pdf-wl  DIR=/path/to/presentation THEME=bai-flat  # Build whitelabel PDF
+make clean   DIR=/path/to/presentation                  # Remove output/ and slides.md
 ```
 
 `DIR` must be an absolute path or a path relative to the current working directory (not relative to the Makefile).
@@ -104,6 +107,7 @@ npx marp --html --allow-local-files slides.md -o output/slides.html
 - **Emoji rendering:** Marp uses twemoji, which converts Unicode emoji to `<img>` elements that break inline layout. Avoid Unicode emoji in slides.
 - **CJK bold:** Handled by the `markdown-it-cjk-friendly` plugin (no `<b>` workaround needed).
 - **Mermaid diagrams:** Use standard ```mermaid code blocks in section files. The build pipeline renders them to SVG via `mmdc` (mermaid-cli) before marp. If mmdc is not installed, mermaid blocks are left as-is. Install with `npm install -g @mermaid-js/mermaid-cli`.
+- **Build variants:** Use `<!-- vendor-start -->` / `<!-- vendor-end -->` and `<!-- whitelabel-start -->` / `<!-- whitelabel-end -->` markers in slide content. The `html-wl`/`pdf-wl` targets strip vendor blocks and apply term substitutions from `variants.yaml`. The default `html`/`pdf` targets produce the vendor version with all content.
 
 ## Citation System
 
@@ -158,7 +162,7 @@ Rules:
 | `/open-presentation <name>` | Create worktree for existing branch |
 | `/close-presentation <name>` | Remove worktree (keeps branch) |
 | `/generate-slides [synopsis]` | Generate slides from brief |
-| `/build [html\|pdf]` | Compile slides |
+| `/build [html\|pdf\|html-wl\|pdf-wl]` | Compile slides (with optional whitelabel variant) |
 | `/research <url\|topic\|arxiv:ID\|code:path>` | Add research docs to knowledge base |
 | `/fetch-image <url> [filename]` | Download image to images/figures/ |
 | `/deploy` | Build + commit + push for Pages |
@@ -197,4 +201,4 @@ Anti-AI writing rules are in `.claude/rules/writing-ko.md`, `.claude/rules/writi
 - [x] Phase 6: Presentations repo + worktrees + Pages deployment (plan/06)
 - [x] Phase 7: Research / knowledge base (plan/02)
 - [x] Phase 8: Content assets (plan/04)
-- [ ] Phase 9: Build variants (plan/05)
+- [x] Phase 9: Build variants (plan/05)
