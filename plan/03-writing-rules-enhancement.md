@@ -115,16 +115,6 @@ After (human):
 ### Hook-based validation
 A Claude Code hook that runs after `/generate-slides` to scan for known AI vocabulary clusters and flag them automatically.
 
-### Marp CJK bold fix
-Install `markdown-it-cjk-friendly` plugin in `marp.config.js` to fix `**한국어**` rendering. This is a proper fix rather than the `<b>` tag workaround. The plugin is actively maintained and already adopted by VitePress.
+### Marp CJK bold fix (RESOLVED)
 
-```javascript
-// In marp.config.js engine config:
-engine: ({ marp }) => {
-  const cjkFriendly = require('markdown-it-cjk-friendly')
-  marp.use(cjkFriendly)
-  return marp
-}
-```
-
-Then standard `**bold**` works for CJK text and the `<b>` tag workaround is no longer needed.
+Done in Phase 1. `markdown-it-cjk-friendly` is installed in `package.json` and loaded in `engine/marp.config.js`. Standard `**bold**` works for CJK text.
