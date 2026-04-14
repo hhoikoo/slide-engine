@@ -1,5 +1,14 @@
-.env
+# Dependencies
 node_modules/
+
+# Local config
+.env
+
+# Build output
 **/output/
-samples/
+
+# Claude Code local state
 .claude/auto-memory/
+
+# Reference repos (extracted into engine/ and themes/)
+samples/
