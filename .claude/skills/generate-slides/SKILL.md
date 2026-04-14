@@ -1,6 +1,6 @@
 ---
 name: generate-slides
-description: Generate complete Marp slides from a synopsis or topic. Reads engine/guide.md for layout reference and follows writing rules. Usage: /generate-slides [topic or presentation-name]
+description: Generate complete Marp slides from a synopsis or topic. Reads docs/guide.md for layout reference and follows writing rules. Usage: /generate-slides [topic or presentation-name]
 argument-hint: "[topic or presentation-name]"
 ---
 
@@ -25,7 +25,7 @@ Generate a complete Marp presentation as sectioned markdown files.
 
 ## Workflow
 
-1. **Read context**: Read `engine/guide.md` (at template-gen repo root) for available layout classes. Read the writing rules from `.claude/rules/writing-*.md`.
+1. **Read context**: Read `docs/guide.md` (at template-gen repo root) for available layout classes. Read the writing rules from `.claude/rules/writing-*.md`.
 2. **Read synopsis**: Read `synopsis.md` from the presentation directory. If none exists, use `$ARGUMENTS` as the topic.
 3. **Read research** (if available): If a `research/` directory exists with `.md` files, read all research docs. Note their IDs, key data points, and relevance sections.
 4. **Plan structure**: Outline the slide deck: title, TOC, section dividers, content slides, closing. Choose appropriate layout classes for each slide. Plan which sections go in which file. When research docs exist, plan where to incorporate specific data points.

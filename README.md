@@ -24,7 +24,7 @@ Presentations live outside this repo (configured via `.env`). Each presentation 
 ```
 engine/          Marp config and build scripts
 themes/bai-flat/ Theme CSS and assets
-engine/guide.md         Layout class reference
+docs/guide.md         Layout class reference
 starter.md       Starter template with examples
 ```
 
@@ -38,4 +38,4 @@ sections/
   ...
 ```
 
-See `engine/guide.md` for available slide layout classes.
+See `docs/guide.md` for available slide layout classes.

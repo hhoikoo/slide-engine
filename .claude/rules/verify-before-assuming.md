@@ -19,7 +19,7 @@ If a claim is not trivially obvious, verify it before stating it or acting on it
 
 | Information needed | Check this |
 |-------------------|------------|
-| Layout classes | `engine/guide.md` |
+| Layout classes | `docs/guide.md` |
 | Theme CSS variables | `themes/*/theme.css` |
 | Build commands | `Makefile` |
 | Engine features | `engine/marp.config.js` |
