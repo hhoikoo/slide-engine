@@ -22,7 +22,8 @@ template-gen/
 │       ├── assemble-sections.sh   # Concatenate sections/*.md into slides.md
 │       ├── generate-citation-map.js  # Assign citation numbers, generate references slide
 │       ├── merge-theme.js         # Combine base theme + local overrides
-│       └── marp-postprocess.js    # HTML post-processing (asset inlining)
+│       ├── marp-postprocess.js    # HTML post-processing (asset inlining)
+│       └── render-mermaid.js      # Render ```mermaid blocks to SVG (requires mmdc)
 ├── themes/
 │   └── bai-flat/
 │       ├── theme.css         # Marp CSS theme
@@ -102,6 +103,7 @@ npx marp --html --allow-local-files slides.md -o output/slides.html
 - **Speaker notes:** Use `<!-- ... -->` HTML comments. Must appear after all slide content on the slide.
 - **Emoji rendering:** Marp uses twemoji, which converts Unicode emoji to `<img>` elements that break inline layout. Avoid Unicode emoji in slides.
 - **CJK bold:** Handled by the `markdown-it-cjk-friendly` plugin (no `<b>` workaround needed).
+- **Mermaid diagrams:** Use standard ```mermaid code blocks in section files. The build pipeline renders them to SVG via `mmdc` (mermaid-cli) before marp. If mmdc is not installed, mermaid blocks are left as-is. Install with `npm install -g @mermaid-js/mermaid-cli`.
 
 ## Citation System
 
@@ -158,6 +160,7 @@ Rules:
 | `/generate-slides [synopsis]` | Generate slides from brief |
 | `/build [html\|pdf]` | Compile slides |
 | `/research <url\|topic\|arxiv:ID\|code:path>` | Add research docs to knowledge base |
+| `/fetch-image <url> [filename]` | Download image to images/figures/ |
 | `/deploy` | Build + commit + push for Pages |
 | `/inspect [slide-number]` | Visual screenshot + analysis |
 | `/export-notes` | Extract speaker notes |
@@ -193,5 +196,5 @@ Anti-AI writing rules are in `.claude/rules/writing-ko.md`, `.claude/rules/writi
 - [x] Phase 5: Cleanup (delete samples/, final verification)
 - [x] Phase 6: Presentations repo + worktrees + Pages deployment (plan/06)
 - [x] Phase 7: Research / knowledge base (plan/02)
-- [ ] Phase 8: Content assets (plan/04)
+- [x] Phase 8: Content assets (plan/04)
 - [ ] Phase 9: Build variants (plan/05)

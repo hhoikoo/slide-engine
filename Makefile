@@ -45,6 +45,7 @@ check-dir:
 
 html: check-dir
 	@bash "$(SCRIPTS)/assemble-sections.sh" "$(DIR)"
+	@node "$(SCRIPTS)/render-mermaid.js" "$(DIR)" || true
 	@mkdir -p "$(OUTPUT_DIR)"
 	@node "$(SCRIPTS)/merge-theme.js" \
 		--base "$(THEME_DIR)/theme.css" \
@@ -64,6 +65,7 @@ html: check-dir
 
 pdf: check-dir
 	@bash "$(SCRIPTS)/assemble-sections.sh" "$(DIR)"
+	@node "$(SCRIPTS)/render-mermaid.js" "$(DIR)" || true
 	@mkdir -p "$(OUTPUT_DIR)"
 	@node "$(SCRIPTS)/merge-theme.js" \
 		--base "$(THEME_DIR)/theme.css" \
