@@ -18,20 +18,20 @@ Rules for Korean slide content.
 - Minimum 3-4 sentences per paragraph. One-sentence paragraphs only for intentional emphasis.
 - Do not fragment paragraphs excessively.
 
-## Translation-style Expressions -- Avoid
+## AVOID: Translation-style Expressions
 
 - "~하는 것이 중요하다" -> explain why directly
 - "~에 있어" overuse -> "~에서", "~할 때"
 - "~를 기반으로 한" -> "~로 만든", "~위에 세운"
 - "~함으로써" -> "~하면", "~해서"
 
-## Korean Slop Words -- Avoid
+## AVOID: Korean Slop Words
 
 - Adjectives/adverbs: 혁신적인, 획기적인, 선도적인, 차별화된, 탁월한, 원활한, 강력한
 - Connectors: 이를 통해, 이를 바탕으로, 이와 같이, 이러한 가운데
 - Transition words: limit "또한", "더불어", "나아가", "한편", "특히", "무엇보다" to max 2 per document
 
-## AI Patterns -- Banned
+## BANNED: AI Patterns
 
 - **Meta-commentary**: "핵심은 ~이다", "중요한 것은" -> state the content directly
 - **Negative contrast**: "A가 아니라 B" -> describe B directly
@@ -39,13 +39,13 @@ Rules for Korean slide content.
 - **Summary endings**: no paragraphs that repeat what was already said. End with new insight.
 - **Equal distribution**: vary depth by importance. Don't give every point the same length.
 
-## Punctuation
+## AVOID: Punctuation Mistakes
 
-- **Em dash abuse**: use commas, parentheses, or sentence restructuring instead. Em dashes only for datelines and numeric ranges.
+- **Dashes**: do not use em dashes or double hyphens in Korean. Use commas, parentheses, colons, or just write a normal sentence.
 - **Bold markers**: `**text**` followed by Korean particles needs a space (`**text** 로`). Colons go inside bold (`**text:**`).
 - **Quotes**: single quotes for emphasis/concepts, double quotes only for direct quotes from real people.
 
-## Formal Ending Monotony
+## AVOID: Formal Ending Monotony
 
 AI defaults to ~합니다/~입니다 for every sentence. Mix registers: ~해요, ~거든요, ~인데, sentence fragments.
 
@@ -57,7 +57,7 @@ AI defaults to ~합니다/~입니다 for every sentence. Mix registers: ~해요,
 
 Ban the ~할 수 있습니다 hammer. If more than two sentences in a section end this way, rewrite.
 
-## Intensifier/Connector Overuse
+## AVOID: Intensifier/Connector Overuse
 
 **Intensifiers to avoid (with human alternatives):**
 - 매우 -> 정말, 진짜, 엄청
@@ -72,7 +72,7 @@ Ban the ~할 수 있습니다 hammer. If more than two sentences in a section en
 - 게다가 -> 거기다, 그것도
 - 이에 따라 -> bureaucratic register, drop or restructure
 
-## Missing Human Markers
+## Human Markers to Include
 
 Real Korean uses markers that AI consistently omits. Include these where tone allows:
 
@@ -82,7 +82,7 @@ Real Korean uses markers that AI consistently omits. Include these where tone al
 - **Sentence fragments:** 당연하죠. / 맞아요 이거. / 이게 핵심.
 - **Sound-symbolic words (의태어):** 뚝딱, 술술, 쭉쭉
 
-## ChatGPT Korean Tells
+## BANNED: ChatGPT Korean Tells
 
 These phrases are dead giveaways of AI-generated Korean. Never use them:
 
@@ -91,7 +91,7 @@ These phrases are dead giveaways of AI-generated Korean. Never use them:
 - 정말 흥미로운 관점이에요.
 - ~에 대해 자세히 알아보겠습니다.
 
-## Enumeration Pattern
+## AVOID: Rigid Enumeration
 
 Avoid rigid 첫째, 둘째, 셋째 structure. Human Korean uses varied transitions or no explicit numbering.
 
@@ -110,7 +110,7 @@ After (human):
 
 Before (AI):
 ```
-## Backend.AI -- 차별화 포인트
+## Backend.AI: 차별화 포인트
 
 - 소프트웨어 기반 GPU 가상화를 통해 **하드웨어에 의존하지 않는** 유연한 자원 관리 실현
 - **NUMA-aware** 리소스 매핑으로 최적의 성능을 제공하는 **Sokovan 스케줄러** 탑재
@@ -121,17 +121,17 @@ Problems: "차별화 포인트" is AI vocabulary, excessive bold on every line, 
 
 After (human):
 ```
-## Backend.AI -- 시작점이 달랐다
+## 달랐던 시작점
 
 ### fGPU (특허 기술)
 
-- 소프트웨어 기반 GPU 가상화 -- 하드웨어(MIG) 비의존
+- 소프트웨어 기반 GPU 가상화. 하드웨어(MIG)에 의존하지 않음
 - 컨슈머 GPU(RTX 시리즈)까지 지원
 - K8s가 나오기 전부터 "정수 단위 GPU" 문제를 자체적으로 풀고 있었음
 
 ### Sokovan 스케줄러
 
-- NUMA-aware 리소스 매핑 (CPU-GPU-메모리 물리적 근접성)
+- NUMA-aware 리소스 매핑 (CPU, GPU, 메모리의 물리적 근접성)
 - 자동 유휴 자원 회수 (GPU 0% 10분, 네트워크 무활동 1시간 등)
 
 ### 하드웨어 다종 지원
@@ -139,4 +139,4 @@ After (human):
 - NVIDIA CUDA, AMD ROCm, Intel Gaudi, Google TPU 등 <b>12종+</b>
 ```
 
-Changes: title is plain Korean not AI vocabulary, bold only on the one key number, specific details instead of vague claims, no promotional adjectives.
+Changes: title is plain Korean not AI vocabulary, bold only on the one key number, specific details instead of vague claims, no promotional adjectives, no dashes as separators.
