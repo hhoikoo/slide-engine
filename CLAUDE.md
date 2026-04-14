@@ -41,19 +41,24 @@ Presentations live in a separate git repo configured via `PRESENTATIONS_DIR` in 
 
 ```
 ~/Documents/Presentation/
-├── template-gen/                          # engine repo (this repo)
-├── presentations/                         # main branch (repo config only)
+├── template-gen/                          # engine repo (this repo, public as "slide-engine")
+├── slides/                                # presentations repo (private)
 ├── presentations--2026-04-gpu-pooling/    # worktree for gpu-pooling branch
 ├── presentations--2026-05-webassembly/    # worktree for webassembly branch
 └── ...
 ```
 
-- `main` branch: repo config (.gitignore, .github/workflows/, README.md)
-- `gh-pages` branch: deployed HTML (managed by GitHub Actions)
+- `main` branch: repo config (.gitignore, README.md)
 - Presentation branches: named `{YYYY-MM}-{slug}`, one per talk
 - Worktrees: `presentations--{branch-name}` as siblings of the base repo
 
 `PRESENTATIONS_DIR` points to the base repo checkout (main branch). Skills that manage branches/worktrees use this path. Skills that work on a specific presentation (build, generate-slides) detect the presentation from cwd.
+
+### Deployment
+
+Built HTML is deployed via the `gh-pages` branch of this repo (slide-engine), not the slides repo. This keeps the slides repo private while serving presentations publicly on GitHub Pages.
+
+`/deploy` builds HTML, copies it to `gh-pages` via a temporary worktree, updates the index page, commits, and pushes. No CI/GitHub Actions needed.
 
 ### Presentation directory structure
 
