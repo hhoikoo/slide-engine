@@ -19,16 +19,19 @@ Generate a complete Marp presentation as sectioned markdown files.
 
 1. **Read context**: Read `guide.md` (at template-gen repo root) for available layout classes. Read the writing rules from `.claude/rules/writing-*.md`.
 2. **Read synopsis**: If a synopsis.md path is given or exists in cwd, read it. Otherwise use $ARGUMENTS as the topic.
-3. **Plan structure**: Outline the slide deck: title, TOC, section dividers, content slides, closing. Choose appropriate layout classes for each slide. Plan which sections go in which file.
-4. **Generate section files** in `sections/`:
+3. **Read research** (if available): If a `research/` directory exists with `.md` files, read all research docs. Note their IDs, key data points, and relevance sections.
+4. **Plan structure**: Outline the slide deck: title, TOC, section dividers, content slides, closing. Choose appropriate layout classes for each slide. Plan which sections go in which file. When research docs exist, plan where to incorporate specific data points.
+5. **Generate section files** in `sections/`:
    - `00-frontmatter.md`: YAML frontmatter only (`marp: true`, `theme: bai-flat`, `paginate: true`, `html: true`, `header:`)
    - `01-title.md`: Title slide
    - `02-*.md`, `03-*.md`, ...: Content sections (multiple slides per file, separated by `---`)
    - Final file: closing/divider slide
    - Each content slide gets speaker notes (in `<!-- ... -->` comments)
    - Insert `<!-- img-needed: "description" -->` markers where images would help
-5. **Build**: Run `/build html` to compile and verify.
-6. **Report**: List the section files generated and the output path.
+   - When using data from research docs, insert `<sup>[research:{id}]</sup>` citation markers (the id from the research doc's frontmatter)
+6. **Run citation map** (if citations exist): Run `node engine/scripts/generate-citation-map.js <presentation-dir>` to assign citation numbers and generate the references slide.
+7. **Build**: Run `/build html` to compile and verify.
+8. **Report**: List the section files generated and the output path.
 
 ## Section File Rules
 

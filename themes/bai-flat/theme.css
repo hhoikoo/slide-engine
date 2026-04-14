@@ -1762,6 +1762,41 @@ section .ep3-bg {
     background-color: rgb(from var(--color-ep3) r g b / 0.1) !important;
 }
 
+/* ──────────────────────────────────────────────
+   레이아웃: 참고문헌 (references)
+   사용법: <!-- _class: references -->
+   ────────────────────────────────────────────── */
+section.references {
+    font-size: 0.65em;
+    line-height: 1.5;
+
+    h2 {
+        font-size: 1.4em;
+        margin-bottom: 0.5em;
+        border-bottom: 2px solid var(--color-border);
+        padding-bottom: 0.3em;
+    }
+
+    ul {
+        list-style: none;
+        padding-left: 0;
+        columns: 1;
+    }
+
+    li {
+        margin-bottom: 0.3em;
+        text-indent: -1.5em;
+        padding-left: 1.5em;
+    }
+}
+section.references[data-paginate] {
+    display: block;
+}
+/* Hide page number on references slides */
+section.references::after {
+    display: none;
+}
+
 /* 좌측 보더 강조: 표 행이나 카드 요소에 컬러 바 적용 */
 section .ep1-bar {
     border-left: 4px solid var(--color-ep1) !important;

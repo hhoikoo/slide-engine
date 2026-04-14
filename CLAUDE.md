@@ -20,6 +20,7 @@ template-gen/
 │   ├── marp.config.js        # Marp engine config (image paths, SVG inlining, auto-shrink, CJK plugin)
 │   └── scripts/
 │       ├── assemble-sections.sh   # Concatenate sections/*.md into slides.md
+│       ├── generate-citation-map.js  # Assign citation numbers, generate references slide
 │       ├── merge-theme.js         # Combine base theme + local overrides
 │       └── marp-postprocess.js    # HTML post-processing (asset inlining)
 ├── themes/
@@ -102,6 +103,12 @@ npx marp --html --allow-local-files slides.md -o output/slides.html
 - **Emoji rendering:** Marp uses twemoji, which converts Unicode emoji to `<img>` elements that break inline layout. Avoid Unicode emoji in slides.
 - **CJK bold:** Handled by the `markdown-it-cjk-friendly` plugin (no `<b>` workaround needed).
 
+## Citation System
+
+Slides can reference research docs via `<sup>[research:{id}]</sup>` markers where `{id}` is the research doc's frontmatter ID. Running `node engine/scripts/generate-citation-map.js <presentation-dir>` assigns `[1]`, `[2]`... by order of first appearance, rewrites the markers in-place, generates `research/citation-map.md`, and creates a `{NN}-references.md` section file. The script is idempotent.
+
+The `/generate-slides` skill inserts citation markers when research docs exist and runs the citation map script before building.
+
 ## Section File Format
 
 Presentations use multi-file sectioned authoring under `sections/`.
@@ -150,6 +157,7 @@ Rules:
 | `/close-presentation <name>` | Remove worktree (keeps branch) |
 | `/generate-slides [synopsis]` | Generate slides from brief |
 | `/build [html\|pdf]` | Compile slides |
+| `/research <url\|topic\|arxiv:ID\|code:path>` | Add research docs to knowledge base |
 | `/deploy` | Build + commit + push for Pages |
 | `/inspect [slide-number]` | Visual screenshot + analysis |
 | `/export-notes` | Extract speaker notes |
@@ -184,6 +192,6 @@ Anti-AI writing rules are in `.claude/rules/writing-ko.md`, `.claude/rules/writi
 - [x] Phase 4: Writing rules enhancement (plan/03)
 - [x] Phase 5: Cleanup (delete samples/, final verification)
 - [x] Phase 6: Presentations repo + worktrees + Pages deployment (plan/06)
-- [ ] Phase 7: Research / knowledge base (plan/02)
+- [x] Phase 7: Research / knowledge base (plan/02)
 - [ ] Phase 8: Content assets (plan/04)
 - [ ] Phase 9: Build variants (plan/05)

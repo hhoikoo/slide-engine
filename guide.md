@@ -174,7 +174,13 @@
     section { --cols: 1fr 1.5fr; }
     </style>
 
-19. 자동 축소 (auto-shrink):
+19. 참고문헌 (references):
+  <!-- _class: references -->
+  소형 폰트, 페이지 번호 없음. generate-citation-map.js가 자동 생성합니다.
+  - [1] Author (2024). "Title". Source. URL
+  - [2] ...
+
+20. 자동 축소 (auto-shrink):
   콘텐츠가 슬라이드 영역을 초과하면 자동으로 축소합니다 (최소 65%).
   - title, divider를 제외한 모든 레이아웃(two-col, swot, timeline 포함)에 적용됩니다.
   - two-col: 섹션 전체 오버플로우 및 그리드 셀 내부 오버플로우 모두 감지합니다.
