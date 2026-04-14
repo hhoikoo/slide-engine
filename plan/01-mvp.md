@@ -19,7 +19,7 @@ Deferred to separate plan docs:
 - Research/knowledge base system (plan/02)
 - Writing rules enhancement (plan/03)
 - Build variants / whitelabel (plan/04)
-- GitHub Pages deployment (plan/05)
+- Presentations repo, worktrees, GitHub Pages (plan/06)
 - Gemini image generation (plan/91)
 - Slidev integration (plan/92)
 
@@ -557,7 +557,7 @@ Plan files are numbered by implementation order for the MVP (01-05), with 91+ re
 | 03 | Writing rules enhancement | Ready | Independent |
 | 04 | Content assets (image fetch, Mermaid) | TODO | 01 Phase 1-2 |
 | 05 | Build variants (vendor/whitelabel) | Deferred | 01 Phase 1-2 |
-| 06 | GitHub Pages deployment | TODO | 01 Phase 1-2 |
+| 06 | Presentations repo, worktrees, GitHub Pages | TODO | 01 Phase 1-2 |
 | 91 | Gemini image generation | Blocked | 01 Phase 1-2 |
 | 92 | Slidev integration | Deferred | 01 |
 
