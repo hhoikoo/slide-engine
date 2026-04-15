@@ -27,10 +27,11 @@ Generate a complete Marp presentation as sectioned markdown files.
 
 1. **Read context**: Read `docs/guide.md` (at template-gen repo root) for available layout classes. Read the writing rules from `.claude/rules/writing-*.md`.
 2. **Read synopsis**: Read `synopsis.md` from the presentation directory. If none exists, use `$ARGUMENTS` as the topic.
-3. **Read research** (if available): If a `research/` directory exists with `.md` files, read all research docs. Note their IDs, key data points, and relevance sections.
-4. **Plan structure**: Outline the slide deck: title, TOC, section dividers, content slides, closing. Choose appropriate layout classes for each slide. Plan which sections go in which file. When research docs exist, plan where to incorporate specific data points.
+3. **Read research and plan docs** (if available): If a `research/` directory exists with `.md` files, read all research docs. Also look for existing plan or content documents (e.g., `plan.md`, `*-content.md`, `*-presentation-content.md`) and read them thoroughly. These often contain structural emphasis and key insights that must not be lost.
+4. **Ask for event name**: The `header:` field in frontmatter should be the event name (e.g., "Lablup Seminar Day Q2 2026"), not the presentation topic. If the user hasn't provided an event name, ask.
+5. **Plan structure**: Outline the slide deck: title, TOC, **motivation/framing section**, section dividers, content slides, closing. Choose appropriate layout classes for each slide. Plan which sections go in which file. When research docs exist, plan where to incorporate specific data points. The motivation section should frame why this presentation exists and preview the narrative arc.
 5. **Generate section files** in `sections/`:
-   - `00-frontmatter.md`: YAML frontmatter only (`marp: true`, `theme: bai-flat`, `paginate: true`, `html: true`, `header:`)
+   - `00-frontmatter.md`: YAML frontmatter only (`marp: true`, `theme: bai-flat`, `paginate: true`, `html: true`, `header: "{event name}"`)
    - `01-title.md`: Title slide
    - `02-*.md`, `03-*.md`, ...: Content sections (multiple slides per file, separated by `---`)
    - Final file: closing/divider slide
@@ -57,4 +58,7 @@ Generate a complete Marp presentation as sectioned markdown files.
 - Use varied layouts -- title, toc, two-col, highlight-boxes, timeline, focus, etc.
 - Start with title slide, include TOC, use dividers between sections
 - End with a divider slide ("Thank You" / "Q&A")
-- Always generate speaker notes
+- Always generate speaker notes **in bullet-point format** (not prose scripts)
+- Include a motivation/framing section early in the deck (after TOC) that establishes why the presentation exists
+- When a two-col slide has columns with very different content density, consider splitting into two separate slides instead
+- When multiple short related topics each get their own slide, consider combining them into a single two-col or highlight-boxes slide

@@ -1797,6 +1797,48 @@ section.references::after {
     display: none;
 }
 
+/* ──────────────────────────────────────────────
+   레이아웃: 큰 숫자 지표 (big-numbers)
+   사용법: <!-- _class: big-numbers -->
+   div.metric 요소를 나란히 배치. 각 div 안에
+   div.number (큰 숫자) + div.caption (설명).
+   2~5개 지표를 균등 분할합니다.
+   ────────────────────────────────────────────── */
+section.big-numbers {
+    h2 {
+        text-align: center;
+        margin-bottom: 0.8em;
+    }
+
+    .metrics {
+        display: flex;
+        justify-content: space-around;
+        align-items: flex-start;
+        gap: 1em;
+        text-align: center;
+    }
+
+    .metric {
+        flex: 1;
+        min-width: 0;
+        max-width: 25%;
+    }
+
+    .number {
+        font-size: 3.2em;
+        font-weight: 700;
+        color: var(--primary);
+        line-height: 1.1;
+    }
+
+    .caption {
+        font-size: 0.7em;
+        color: #555;
+        margin-top: 0.4em;
+        line-height: 1.35;
+    }
+}
+
 /* 좌측 보더 강조: 표 행이나 카드 요소에 컬러 바 적용 */
 section .ep1-bar {
     border-left: 4px solid var(--color-ep1) !important;

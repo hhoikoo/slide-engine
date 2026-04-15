@@ -58,6 +58,10 @@ Never invent anonymous authorities. If you cannot cite it, do not attribute it.
 
 If a sentence could apply to any topic, it is too generic. Rewrite it to be specific to the actual subject.
 
+## AVOID: Filler Divider Subheadings
+
+Divider slides often need only the section title. Do not add a subheading just to fill space. Only add a subtitle when it provides genuinely useful context that the title alone does not convey. "왜 이 이야기를 하는가" under "이 발표의 동기" adds nothing.
+
 ## Self-Check Checklist
 
 Run this after writing or reviewing slides:

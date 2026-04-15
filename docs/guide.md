@@ -38,6 +38,8 @@
  <!-- _class: timeline -->
  순서 없는 목록(ul)을 사용합니다.
  각 항목은 <br>로 줄바꿈합니다 (html: true 필요).
+ 주의: 각 항목의 <br> 텍스트는 자동 줄바꿈 시 불균형해질 수 있습니다.
+ 긴 문장은 수동으로 <br>를 넣어 균형 잡힌 줄바꿈을 만들어야 합니다.
 
 7. 목차 (toc):
  <!-- _class: toc -->
@@ -180,7 +182,24 @@
   - [1] Author (2024). "Title". Source. URL
   - [2] ...
 
-20. 자동 축소 (auto-shrink):
+20. 큰 숫자 지표 (big-numbers):
+  <!-- _class: big-numbers -->
+  2~5개의 큰 숫자 지표를 균등 분할하여 배치합니다.
+  div.metrics 안에 div.metric 요소를 나열합니다.
+  각 div.metric 안에 div.number(큰 숫자)와 div.caption(설명)을 넣습니다.
+  예시:
+    <div class="metrics">
+    <div class="metric">
+    <div class="number">82%</div>
+    <div class="caption">K8s Production<br>사용률</div>
+    </div>
+    <div class="metric">
+    <div class="number">66%</div>
+    <div class="caption">GenAI Inference를<br>K8s 위에서 운영</div>
+    </div>
+    </div>
+
+21. 자동 축소 (auto-shrink):
   콘텐츠가 슬라이드 영역을 초과하면 자동으로 축소합니다 (최소 65%).
   - title, divider를 제외한 모든 레이아웃(two-col, swot, timeline 포함)에 적용됩니다.
   - two-col: 섹션 전체 오버플로우 및 그리드 셀 내부 오버플로우 모두 감지합니다.

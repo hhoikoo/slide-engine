@@ -18,6 +18,30 @@ Rules for Korean slide content.
 - Minimum 3-4 sentences per paragraph. One-sentence paragraphs only for intentional emphasis.
 - Do not fragment paragraphs excessively.
 
+## AVOID: Over-Translation of Technical Terms
+
+In technical presentations, keep English technical terms in English. Do not transliterate into Korean unless the Korean term is genuinely more natural in context (e.g., "배포" for deployment when not referring to K8s Deployments).
+
+| Do not write | Write instead |
+|---|---|
+| 스케줄러 | Scheduler |
+| 토폴로지 | Topology |
+| 에이전트 | Agent |
+| 프리미티브 | Primitive |
+| 오케스트레이터 | Orchestrator |
+| 오퍼레이터 | Operator |
+| 컨트롤 플레인 | Control Plane |
+| 인퍼런스 | Inference |
+| 트레이닝 | Training |
+| 어드미션 | Admission |
+| 프리엠션 | Preemption |
+| 라이프사이클 | Lifecycle |
+| 서비스 디스커버리 | Service Discovery |
+| 오토스케일러 | Autoscaler |
+| 시나리오 | Scenario (or rephrase) |
+
+Exception: words that have become standard Korean IT vocabulary (e.g., 서버, 클러스터, 컨테이너) are fine.
+
 ## AVOID: Translation-style Expressions
 
 - "~하는 것이 중요하다" -> explain why directly
@@ -33,6 +57,7 @@ Rules for Korean slide content.
 
 ## BANNED: AI Patterns
 
+- **Meta-framing**: "오해를 풀겠습니다", "흔한 오해 하나를 풀고 시작하겠습니다", "이건 오해. X 때문" -> just present the facts and let the audience draw the conclusion. Do not announce that you are correcting a misconception.
 - **Meta-commentary**: "핵심은 ~이다", "중요한 것은" -> state the content directly
 - **Negative contrast**: "A가 아니라 B" -> describe B directly
 - **Rigged comparisons**: no setting up scenarios where one side fails and the other succeeds. Present both sides' facts side by side.
