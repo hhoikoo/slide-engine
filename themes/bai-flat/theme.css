@@ -70,11 +70,11 @@
     --cmap-magma-9: #fbfcbf;
 
     /* highlight-boxes 기본 띠 색상 (슬라이드별 오버라이드 가능) */
-    --hbox-color-1: #5e35b1;
-    --hbox-color-2: #00838f;
-    --hbox-color-3: #2e7d32;
-    --hbox-color-4: var(--color-primary);
-    --hbox-color-5: #c62828;
+    --hbox-color-1: var(--cmap-plasma-1);
+    --hbox-color-2: var(--cmap-plasma-3);
+    --hbox-color-3: var(--cmap-plasma-5);
+    --hbox-color-4: var(--cmap-plasma-7);
+    --hbox-color-5: var(--cmap-plasma-9);
 
     /* SWOT 분석 강조색 */
     --color-swot-strg: hsl(120, 45%, 35%); /* 강점: 녹색 계열 */
