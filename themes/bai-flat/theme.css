@@ -245,7 +245,7 @@ section svg,
 section img {
     display: block;
     margin: 0 auto;
-    max-width: 100%;
+    max-width: 70%;
     object-fit: contain;
 }
 
