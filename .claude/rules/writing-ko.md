@@ -40,7 +40,22 @@ In technical presentations, keep English technical terms in English. Do not tran
 | 오토스케일러 | Autoscaler |
 | 시나리오 | Scenario (or rephrase) |
 
-Exception: words that have become standard Korean IT vocabulary (e.g., 서버, 클러스터, 컨테이너) are fine.
+Exception: words that have become standard Korean IT vocabulary (e.g., 서버, 클러스터, 컨테이너, 스냅샷, 파이프라인, 리뷰) are fine.
+
+### Calqued concept phrases (개념어 음차)
+
+Single tech nouns are one thing; multi-word English concept phrases transliterated wholesale read as raw translation. Replace with the natural Korean idea, not the sound.
+
+| Do not write | Write instead |
+|---|---|
+| 멘탈 모델 | 큰 그림 / 머릿속 그림 / 사고 틀 |
+| 토이 예시 / 토이 example | 단순 예시 / 간단한 예시 |
+| 베이스라인 (as "baseline scenario") | 기본 그림 / 기준 (or keep `baseline` in English) |
+| 유즈 케이스 | 사용 사례 / 쓰임새 |
+
+### Transliteration consistency
+
+If a term appears in English elsewhere in the same doc, do not transliterate it in one spot. Pick one and hold it. In English-heavy decks the default is English: `routing` not 라우팅, `telemetry` not 텔레메트리, `profile` not 프로파일 (verb -> 측정하다/재 보다). One-off 음차 next to the same word in Latin script is the tell.
 
 ## AVOID: 번역투 (Translation-ese)
 
