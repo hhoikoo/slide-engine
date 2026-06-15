@@ -74,3 +74,7 @@ Run this after writing or reviewing slides:
 6. Read bullets aloud: do they sound spoken or written?
 7. Could this sentence apply to any topic? Too generic if yes
 8. Check for formal connector clustering (Furthermore/Moreover/Additionally or 따라서/또한/게다가)
+9. Korean: grep for a comma right after a connective ending (`고,` `며,` `지만,` `면서,` `서,`) and delete it (strongest Korean AI tell)
+10. Korean: scan for translation-ese (~에 대해, ~를 통해, ~되어진다, ~에 의해, 그/그녀 pronoun spam) per writing-ko.md
+11. English: headings in sentence case, not Title Case
+12. No `**Label**: description` bullets in either language
