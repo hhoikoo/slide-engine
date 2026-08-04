@@ -1,6 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 400" width="1000" height="400"
      font-family="'Inter Display', Pretendard, sans-serif">
 
+  <!-- fill-as-value -->
   <!-- archetype: comparison matrix
        encoding: colour = magnitude. one blue triple in three steps, pale = low,
        mid = medium, dark = high. 1 hue. solid frames group the columns (options),

@@ -42,6 +42,15 @@ Warn codes: `TYPE_LADDER` (size off 13.33/15.56/17.78/20/22.22/26.67), `TEXT_BUD
 
 `PAINT_ORDER` reads static coordinates and ignores `transform`, so it is the cheap version of `check-svg.js`'s `OCCLUDED_TEXT`. Trust the browser one.
 
+Two declarations a file can make about its own colour, both as comments anywhere in the source:
+
+| Declaration | Effect |
+|---|---|
+| `<!-- categorical: N -->` | raises the hue budget to `N`, for one hue per member of a genuinely categorical set |
+| `<!-- fill-as-value -->` | raises the saturated-area cap to 45%, for a matrix whose cell fill *is* the value rather than a tint |
+
+`SATURATION` marks a 4px grid rather than summing shape areas, so a card stack or any other overlapping group is charged once for the region it covers instead of once per card. Every accent triple's pale stop counts toward it; those stops are the area fills the budget exists to police.
+
 ## check-svg.js
 
 Geometric check with real text layout. Inlines the SVG into a page DOM the way `engine/marp.config.js` does, then measures every text node in Chrome. Needs the repo's bundled puppeteer.
@@ -64,7 +73,9 @@ Errors: `OUT_OF_VIEWBOX`, `TEXT_OVERFLOW`, `OCCLUDED_TEXT`, `TEXT_ON_STROKE`, `F
 
 `TEXT_ON_STROKE` is the companion to `OCCLUDED_TEXT`: that one fires when a shape is painted *over* a label, this one when the label is painted last and a line drawn underneath still runs through the glyphs. A cylinder's cap arc crossing its own label is the canonical case, and emitting text last does not fix it.
 
-`FONT_FALLBACK` reports what *this machine* renders, so a missing family means the same substitution happens in the build. `D2Coding` is not installed here; every figure using it renders in the wider Menlo, which is what pushes monospace labels out of their boxes.
+`FONT_FALLBACK` reports what *this machine* renders, so a missing family means the same substitution happens in the build. The theme's `@font-face` block is injected into the page first, so `Inter Display`, `Pretendard` and `D2Coding` all resolve from `themes/bai-flat/fonts/` regardless of what is installed; a warning means the stack names something neither bundled nor installed.
+
+The probe carries the weight the figure actually sets, because a browser downloads only the faces a page uses. A family declared per weight, as `D2Coding` is, has no face loaded at 400 when the figure sets 700 everywhere, and probing a fixed weight would report a fallback for a font that renders correctly.
 
 Set `PUPPETEER_PATH` to override the puppeteer lookup, which otherwise walks up from the script and from the working directory.
 

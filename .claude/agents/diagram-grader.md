@@ -58,7 +58,7 @@ The checklist gates (1, 3, 4, 5, 6) are mechanical. Work them honestly but quick
 
 ## Output
 
-Return exactly this structure:
+Return exactly this structure. **The first line of your reply is `VERDICT:` and one of the four words.** Not a preamble, not the impression, not a summary of what you read. A reply whose first line is anything else is unusable, because the caller reads that line to decide whether to revise or ship, and omitting it is the most common way these reports fail.
 
 ```
 VERDICT: REJECT | BLOCK | REVISE | PASS

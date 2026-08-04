@@ -151,7 +151,9 @@ Datastore. Two paths: the body, which carries the fill and the outer outline, th
 
 Read it as: start at the left of the top ellipse, sweep 1 over the top, drop `v{body}`, sweep 1 under the bottom, close. Then repeat the first arc with sweep 0 to draw the front half of the top ellipse.
 
-You set `rx` (half the width) and the body height. **`ry / rx = 0.21`**, from `tokens.md`. At `rx=68` that is `ry=14`. Overall height is `body + 2 x ry`. Centre the label at `top_ellipse_centre + body x 0.7`, low enough to clear the cap arc.
+You set `rx` (half the width) and the body height. **`ry / rx = 0.21`**, from `tokens.md`. At `rx=68` that is `ry=14`. Overall height is `body + 2 x ry`.
+
+**Keep `body` at 48 or more, and centre the label at `top_ellipse_centre + ry + body / 2`**, the vertical middle of the straight body rather than a fraction of the whole glyph. The cap arc's lowest point sits at `top_ellipse_centre + ry`, so anchoring off `ry` is what guarantees the clearance. The older `top_ellipse_centre + body x 0.7` rule ignores `ry` entirely: it holds at a tall body and puts the baseline straight through the cap arc once `body` drops toward the `ry` scale, which `check-svg.js` fails as `TEXT_ON_STROKE`. A cylinder shorter than 48 in the body cannot hold a label at all; widen it or label it outside.
 
 ### c-diamond
 
@@ -297,11 +299,13 @@ The house's answer to a legend: label the element in place, on a hairline curved
 
 ```xml
 <path d="M96,740 Q96,700 138,694" fill="none"
-      stroke="#979ea8" stroke-width="1" stroke-linecap="round"
+      stroke="#979ea8" stroke-width="1"
       marker-end="url(#ah-hair)"/>
 <text x="96" y="756" font-size="15.56" font-style="italic" fill="#6f7681"
       text-anchor="middle">one per zone</text>
 ```
+
+**No `stroke-linecap="round"` here either.** A leader carries a marker, so the same rule as `c-elbow` applies: the round cap is centred on the endpoint that `refX="10"` already puts the arrowhead tip on, and it protrudes past the tip. `lint-svg.py` fails it as `ARROW_CAP`. Round caps belong on the open-ended parts only: bus bars, brackets, threshold rules, a cylinder's cap arc.
 
 **The control-point rule.** One quadratic, always. If the leader leaves the label vertically, the control point is `(start.x, end.y)`. If it leaves horizontally, it is `(end.x, start.y)`. Either way the curve is a quarter turn: it leaves the label along one axis and arrives at the target along the other.
 
@@ -346,7 +350,7 @@ The path not taken. `#dfe3e8` at full weight, with a matching arrowhead, so it r
 
 ```xml
 <path d="M40,856 H136" fill="none" stroke="#dfe3e8" stroke-width="2"
-      stroke-linecap="round" marker-end="url(#ah-ghost)"/>
+      marker-end="url(#ah-ghost)"/>
 ```
 
 Full weight is the point. A thinner or dashed ghost reads as a different kind of flow rather than the same flow, unused. Needs the `ah-ghost` marker.

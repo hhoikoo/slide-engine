@@ -19,7 +19,10 @@ Exit: 0 clean, 1 at least one FAIL, 2 bad usage or unparseable input.
 
 A file may declare intentional categorical colour with a comment:
   <!-- categorical: 6 -->
-which raises the hue budget to that number.
+which raises the hue budget to that number. A matrix whose cell fill carries the
+value declares:
+  <!-- fill-as-value -->
+which raises the saturated-area cap.
 """
 
 import argparse
@@ -47,6 +50,21 @@ PRODUCT_RADIUS = 6.0
 MAX_HUES = 3
 MAX_SATURATED_AREA_SHARE = 0.20
 SATURATION_FLOOR = 0.15
+
+# The pale stop of every accent triple is an area fill, so all six have to reach
+# the saturated-area estimate. They span L 0.906 to L 0.971, and a ceiling inside
+# that range exempts whichever hues happen to sit above it. Pure white carries no
+# saturation, so SATURATION_FLOOR excludes it without help from the ceiling.
+LIGHTNESS_FLOOR = 0.06
+LIGHTNESS_CEILING = 0.985
+
+# Saturated area is measured by marking a grid rather than summing shape areas,
+# so overlapping fills are charged once. The cell matches the house 4px grid.
+COVERAGE_CELL = 4
+
+# A matrix that encodes its values as cell fill spends area on colour by design
+# and cannot meet the budget written for decorative tints.
+FILL_AS_VALUE_AREA_SHARE = 0.45
 
 WORDS_PER_NODE_FAIL = 6
 WORDS_PER_NODE_WARN = 4
@@ -131,6 +149,7 @@ PROVENANCE = (
 
 SVG_NS = "http://www.w3.org/2000/svg"
 CATEGORICAL = re.compile(r"<!--\s*categorical\s*:\s*(\d+)\s*-->", re.I)
+FILL_AS_VALUE = re.compile(r"<!--\s*fill-as-value\s*-->", re.I)
 
 NAMED_COLORS = {
     "white": "#ffffff", "black": "#000000", "red": "#ff0000", "grey": "#808080",
@@ -233,13 +252,36 @@ HUE_BINS = (
 NEUTRAL_ROLES = ("ink/", "ramp/", "text/", "theme/fg", "theme/bg", "theme/border")
 
 
+def coverage_share(boxes, canvas_w, canvas_h):
+    """Fraction of the canvas any of `boxes` covers, counting overlap once.
+
+    A card stack is three rects laid nearly on top of each other; summing their
+    areas reports three times the colour a reader sees. Marking a grid instead
+    charges each region once, whatever is stacked on it.
+    """
+    if not boxes or canvas_w <= 0 or canvas_h <= 0:
+        return 0.0
+    cols = int(math.ceil(canvas_w / COVERAGE_CELL))
+    rows = int(math.ceil(canvas_h / COVERAGE_CELL))
+    covered = set()
+    for x0, y0, x1, y1 in boxes:
+        c0 = max(0, int(math.floor(min(x0, x1) / COVERAGE_CELL)))
+        c1 = min(cols, int(math.ceil(max(x0, x1) / COVERAGE_CELL)))
+        r0 = max(0, int(math.floor(min(y0, y1) / COVERAGE_CELL)))
+        r1 = min(rows, int(math.ceil(max(y0, y1) / COVERAGE_CELL)))
+        for r in range(r0, r1):
+            for c in range(c0, c1):
+                covered.add((r, c))
+    return len(covered) * COVERAGE_CELL ** 2 / (canvas_w * canvas_h)
+
+
 def hue_name(hex_color, palette=None):
     """Hue family for a saturated colour, or None for neutrals and extremes."""
     role = (palette or {}).get(hex_color, "")
     if role.startswith(NEUTRAL_ROLES):
         return None
     hue, sat, lightness = hsl(hex_color)
-    if sat < SATURATION_FLOOR or lightness < 0.06 or lightness > 0.96:
+    if sat < SATURATION_FLOOR or not LIGHTNESS_FLOOR <= lightness <= LIGHTNESS_CEILING:
         return None
     for upper, name in HUE_BINS:
         if hue < upper:
@@ -654,14 +696,20 @@ def check_palette(report, data, palette, height):
         report.fail("HUE_BUDGET", "%d hues (%s), %s"
                     % (len(hues), ", ".join(hues), detail))
 
-    canvas_area = CANVAS_WIDTH * (height or CANVAS_MAX_HEIGHT)
-    saturated = sum(s["area"] for s in data["shapes"]
-                    if s["fill"] and s["fill"].startswith("#") and hue_name(s["fill"], palette))
-    share = saturated / canvas_area if canvas_area else 0.0
+    canvas_h = height or CANVAS_MAX_HEIGHT
+    tinted = [s["bbox"] for s in data["shapes"]
+              if s["fill"] and s["fill"].startswith("#") and hue_name(s["fill"], palette)]
+    share = coverage_share(tinted, CANVAS_WIDTH, canvas_h)
     report.facts["saturated_area_share"] = round(share, 3)
-    if share > MAX_SATURATED_AREA_SHARE:
-        report.warn("SATURATION", "saturated fills cover an estimated %.0f%% of the canvas (max %.0f%%)"
-                    % (share * 100, MAX_SATURATED_AREA_SHARE * 100))
+    cap = MAX_SATURATED_AREA_SHARE
+    fill_as_value = FILL_AS_VALUE.search(data["raw"])
+    if fill_as_value:
+        cap = FILL_AS_VALUE_AREA_SHARE
+        report.facts["saturated_area_cap"] = cap
+    if share > cap:
+        detail = "declared fill-as-value" if fill_as_value else "the budget"
+        report.warn("SATURATION", "saturated fills cover an estimated %.0f%% of the canvas, over %s of %.0f%%"
+                    % (share * 100, detail, cap * 100))
 
 
 def check_strokes(report, data):

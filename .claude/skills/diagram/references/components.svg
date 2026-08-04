@@ -191,16 +191,12 @@
   <rect x="520" y="576" width="120" height="48" rx="6" fill="#ffffff"
         stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
   <path d="M440,536 H474 Q480,536 480,542 V600 Q480,606 486,606 H514" fill="none"
-        stroke="#3a414a" stroke-width="2" stroke-linejoin="round"
-        stroke-linecap="round" marker-end="url(#ah-ink)"/>
+        stroke="#3a414a" stroke-width="2" stroke-linejoin="round" marker-end="url(#ah-ink)"/>
 
   <!-- c-arrowhead -->
-  <path d="M700,520 H860" fill="none" stroke="#3a414a" stroke-width="2"
-        stroke-linecap="round" marker-end="url(#ah-ink)"/>
-  <path d="M700,556 H860" fill="none" stroke="#3a414a" stroke-width="4"
-        stroke-linecap="round" marker-end="url(#ah-ink-thick)"/>
-  <path d="M700,592 H860" fill="none" stroke="#979ea8" stroke-width="1"
-        stroke-linecap="round" marker-end="url(#ah-hair)"/>
+  <path d="M700,520 H860" fill="none" stroke="#3a414a" stroke-width="2" marker-end="url(#ah-ink)"/>
+  <path d="M700,556 H860" fill="none" stroke="#3a414a" stroke-width="4" marker-end="url(#ah-ink-thick)"/>
+  <path d="M700,592 H860" fill="none" stroke="#979ea8" stroke-width="1" marker-end="url(#ah-hair)"/>
   <text x="880" y="520" font-size="13.33" font-style="italic" fill="#6f7681"
         dominant-baseline="central">2px</text>
   <text x="880" y="556" font-size="13.33" font-style="italic" fill="#6f7681"
@@ -212,7 +208,7 @@
   <rect x="40" y="640" width="140" height="48" rx="6" fill="#ffffff"
         stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
   <path d="M96,740 Q96,700 138,694" fill="none"
-        stroke="#979ea8" stroke-width="1" stroke-linecap="round"
+        stroke="#979ea8" stroke-width="1"
         marker-end="url(#ah-hair)"/>
   <text x="96" y="756" font-size="15.56" font-style="italic" fill="#6f7681"
         text-anchor="middle">one per zone</text>
@@ -243,14 +239,11 @@
         text-anchor="middle" dominant-baseline="central">node</text>
 
   <!-- c-ghost-route -->
-  <path d="M40,820 H136" fill="none" stroke="#3a414a" stroke-width="2"
-        stroke-linecap="round" marker-end="url(#ah-ink)"/>
-  <path d="M40,856 H136" fill="none" stroke="#dfe3e8" stroke-width="2"
-        stroke-linecap="round" marker-end="url(#ah-ghost)"/>
+  <path d="M40,820 H136" fill="none" stroke="#3a414a" stroke-width="2" marker-end="url(#ah-ink)"/>
+  <path d="M40,856 H136" fill="none" stroke="#dfe3e8" stroke-width="2" marker-end="url(#ah-ghost)"/>
 
   <!-- c-arrow-label -->
-  <path d="M240,844 H360" fill="none" stroke="#3a414a" stroke-width="2"
-        stroke-linecap="round" marker-end="url(#ah-ink)"/>
+  <path d="M240,844 H360" fill="none" stroke="#3a414a" stroke-width="2" marker-end="url(#ah-ink)"/>
   <text x="296" y="828" font-size="17.78" font-weight="700" fill="#000000"
         text-anchor="middle">writes</text>
 

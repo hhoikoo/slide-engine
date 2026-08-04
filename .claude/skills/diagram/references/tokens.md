@@ -45,7 +45,9 @@ Monospace: use `D2Coding, monospace`. D2Coding is bundled, so it no longer falls
 
 **Three distinct sizes per diagram. Four is the hard maximum.** Corpus median is 3.
 
-**Panel labels are NOT 26.67.** Set them at 15.56 or 17.78 bold in a text grey (`#4c535d`). At 26.67 a panel label reads as an in-canvas title, which this file forbids, and it breaks the flat-scale rule below. 26.67 and above exist only for poster-scale artwork that is not going on a slide.
+**Panel labels are NOT 26.67.** Set them at 15.56 or 17.78 bold in a text grey (`#4c535d`). At 26.67 a panel label reads as an in-canvas title, which this file forbids, and it breaks the flat-scale rule below.
+
+**26.67 has exactly one licensed use on a slide: the elision glyph**, `…` or `⋮` standing in for items you did not draw (`components.md`, `c-ellipsis-h` and `c-ellipsis-v`). It costs a rung of the four-size budget, so count it. Above 26.67 is poster-scale artwork that is not going on a slide.
 
 **The scale is deliberately flat.** Title-to-body ratio across 53 files has a median of **1.18**. Modal size is 18px; 93% of all glyphs sit between 13 and 23px. Hierarchy is carried by weight, colour and italic, never by size.
 
@@ -149,7 +151,9 @@ Net effect on the accent table above: amber mid becomes `#e8822a`, green mid bec
 
 1. **2-3 hues per diagram.** Four or more only when colour is genuinely categorical, one hue per member of a set (per tenant, per job, per request). Corpus: Page 2 = 2, proxy-impl = 3, RGC = 3, Workload Mapping = 6 (six tenants: the legitimate categorical case).
 
-2. **Saturated area under 20% of canvas.** Measured: proxy-impl 1.8%, Page 2 9.7%, RGC 18%. The neutral-to-coloured pixel ratio on typical diagrams runs **95:5**.
+2. **Saturated area under 20% of canvas.** Measured: proxy-impl 1.8%, Page 2 9.7%, RGC 18%. The neutral-to-coloured pixel ratio on typical diagrams runs **95:5**. Every accent triple's pale stop counts against this, because those stops *are* the area fills the budget exists to police. The one exception is a comparison matrix where the cell fill carries the value rather than decorating it; that file declares `<!-- fill-as-value -->` and gets 45%.
+
+   **This is the constraint that bites when a diagram has to be colour-coded per box.** Tinting every box in a full-canvas architecture figure lands around 24%. The way through is to put the hue on each box's 2px stroke, which is where the emphasis ladder wants it anyway, and reserve the pale fill for one named subset. That keeps a per-box encoding legible at roughly 6% and gives the fill channel a second job worth having.
 
 3. **Colour encodes exactly one variable per diagram.** Unanimous across all four forensic passes. If you cannot name that variable in one word: *ownership*, *tenant*, *layer*, *novelty*: the diagram has no colour system and you must remove colour until it does.
 
@@ -170,9 +174,11 @@ The corpus splits 1183 rounded / 1034 sharp rects, and the split is **by file, n
 | | **Product register** | **Whiteboard register** |
 |---|---|---|
 | corners | `rx="6"` | sharp, `rx="0"` |
-| fills | pale hue tints | white |
+| fills | white, or a pale hue tint where colour encodes something | white |
 | outlines | `#000` or same-hue-darker | `#000` |
 | use for | architecture, integration, platform | mechanism, dataflow, algorithm |
+
+**The register is the corner radius, not the fill.** White is the default fill in both, and `components.md`'s `c-box`, the canonical product-register component, is `rx="6" fill="#ffffff" stroke="#000000"`. A pale hue tint is the *variant* you reach for when the colour encoding calls for it, never the thing that makes a file product-register. Reading this table as "white fill means whiteboard register" is a known misread, and it has made reviewers ask for sharp corners on correct product-register figures.
 
 Everything else in this file applies to both.
 

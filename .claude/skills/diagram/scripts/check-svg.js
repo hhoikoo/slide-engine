@@ -345,33 +345,49 @@ const PROBE = function (cfg) {
   // (returns true for anything that falls back), so measure instead: render a
   // probe string in `"Family", monospace` and in bare `monospace`. Identical
   // widths against two different generic fallbacks means Family did not resolve.
-  const probeWidth = (family) => {
+  //
+  // The probe carries the weight the figure actually sets. A theme declares one
+  // @font-face per weight and the browser only downloads the faces a page uses,
+  // so probing a fixed weight reports a fallback for any family the figure uses
+  // exclusively at some other weight.
+  const GENERIC_FAMILY = /^(sans-serif|serif|monospace|system-ui|ui-sans-serif|ui-serif|ui-monospace|ui-rounded|math|emoji|cursive|fantasy)$/i;
+  const probeWidth = (weight, family) => {
     const c = document.createElement('canvas').getContext('2d');
-    c.font = `40px ${family}`;
+    c.font = `${weight} 40px ${family}`;
     return c.measureText('MWQ@ilj0—한글가나').width;
   };
-  const fontResolves = (name) => {
-    if (/^(sans-serif|serif|monospace|system-ui|ui-sans-serif|ui-serif|ui-monospace|ui-rounded|math|emoji|cursive|fantasy)$/i.test(name)) return true;
+  const fontResolves = (name, weight) => {
+    if (GENERIC_FAMILY.test(name)) return true;
     const q = `"${name.replace(/"/g, '')}"`;
-    return probeWidth(`${q}, monospace`) !== probeWidth('monospace')
-        || probeWidth(`${q}, serif`) !== probeWidth('serif');
+    return probeWidth(weight, `${q}, monospace`) !== probeWidth(weight, 'monospace')
+        || probeWidth(weight, `${q}, serif`) !== probeWidth(weight, 'serif');
   };
-  const stacks = new Set();
-  for (const t of texts) stacks.add(getComputedStyle(t).fontFamily);
+  const weightsByStack = new Map();
+  const noteStack = (el) => {
+    const style = getComputedStyle(el);
+    const stack = style.fontFamily;
+    if (!weightsByStack.has(stack)) weightsByStack.set(stack, new Set());
+    weightsByStack.get(stack).add(style.fontWeight || '400');
+  };
+  for (const t of texts) noteStack(t);
   for (const fo of fos) {
     const inner = fo.firstElementChild;
-    if (inner) stacks.add(getComputedStyle(inner).fontFamily);
+    if (inner) noteStack(inner);
   }
   const fontReport = [];
-  for (const stack of stacks) {
+  for (const [stack, weights] of weightsByStack) {
     const fams = stack.split(',').map(s => s.trim().replace(/^["']|["']$/g, ''));
     const first = fams[0];
-    const ok = fontResolves(first);
-    const resolvedTo = fams.find(fontResolves) || 'generic default';
-    fontReport.push({ stack, first, resolved: ok, resolvedTo });
+    const used = [...weights].sort();
+    const missing = used.filter(w => !fontResolves(first, w));
+    const ok = missing.length === 0;
+    const fallbackWeight = missing[0] || used[0];
+    const resolvedTo = fams.find(f => fontResolves(f, fallbackWeight)) || 'generic default';
+    fontReport.push({ stack, first, resolved: ok, resolvedTo, weights: used });
     if (!ok) {
-      findings.push({ level: 'warn', code: 'FONT_FALLBACK',
-        text: first, detail: `"${first}" not installed; this machine renders it as "${resolvedTo}"` });
+      findings.push({ level: 'warn', code: 'FONT_FALLBACK', text: first,
+        detail: `"${first}" has no face at weight ${missing.join(', ')}; `
+          + `this machine renders it as "${resolvedTo}"` });
     }
   }
 

@@ -106,6 +106,8 @@ Look at the PNG yourself first. Then dispatch the `diagram-grader` agent with th
 
 **Do not tell the grader what you intended stylistically or how you drew it.** Its entire value is that it arrives without your assumptions. Give it the goal and the artifact, nothing else.
 
+**Write that one sentence carefully: the grader grades against it.** It is the only constraint you hand over, so anything you get wrong in it comes back as a defect on a correct figure. Watch the counts especially. Describing a three-way colour encoding as "which of the two systems each box belongs to" has produced a `BLOCK` demanding the third hue be removed. State what the figure must communicate, at the cardinality it actually uses, and leave every styling decision out.
+
 ### 7. Revise, up to three rounds
 
 Apply the grader's defects. Re-lint, re-render, dispatch a **fresh** grader. A new agent each round, never a continuation, so each round gets genuinely fresh eyes.
@@ -152,6 +154,6 @@ Never write deck subject matter into anything outside `presentations/`. That inc
 
 - Hand-authored SVG over mermaid, per `.claude/rules/marp-authoring.md`. Mermaid is for throwaway drafts only.
 - Deployed HTML is Safari-exposed and Safari has not shipped `context-stroke`. For published decks, define one marker per colour rather than relying on it.
-- `D2Coding` is not installed on the build machine. If you need monospace, use `ui-monospace, Menlo, monospace` and budget width at `font-size * 0.60` per character.
+- Monospace is `D2Coding, monospace`. It is bundled in `themes/bai-flat/fonts/` and declared `@font-face` in the theme, so it resolves the same everywhere; budget width at `font-size * 0.50` per Latin character and `* 1.00` per Hangul syllable. See `tokens.md`.
 - There is no dark mode in this deck. Diagrams only need to work on white.
 - In a `side-by-side` layout a figure renders at 0.566 scale. Author something simpler for that slot, or size type accordingly.
