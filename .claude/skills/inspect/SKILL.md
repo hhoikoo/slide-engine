@@ -28,9 +28,15 @@ Capture slide screenshots and visually analyze them for layout and design issues
    ```bash
    OUTDIR="presentations/{id}/output/screenshots"
    mkdir -p "$OUTDIR"
-   cp "presentations/{id}/slides.md" "$OUTDIR/slides.md"
-   ./node_modules/.bin/marp --no-config --images png --image-scale 2 "$OUTDIR/slides.md"
+   THEME_DIR="$PWD/themes/bai-flat" ./node_modules/.bin/marp --no-stdin \
+     --config "$PWD/engine/marp.config.js" \
+     --theme-set "presentations/{id}/output/.merged-theme.css" \
+     --html --allow-local-files \
+     --images png --image-scale 2 \
+     -o "$OUTDIR/slides.png" \
+     "presentations/{id}/slides.md"
    ```
+   Render the deck in place rather than copying `slides.md` elsewhere: relative image paths resolve against the source file, so a copied deck loses every figure. The merged theme and `--allow-local-files` are what make the screenshot match the built deck, including the bundled `@font-face` files; without them marp falls back to its own default theme and to system fonts, and the screenshots show a layout that does not exist.
 4. **Read slide images**: Use the Read tool on each PNG file.
 5. **Verify slide numbers**: Screenshot filenames (`slides.NNN.png`) are authoritative. Do NOT guess from section file order.
 6. **Analyze each slide** for: text overflow, layout issues, empty slides, image sizing, readability, spacing.

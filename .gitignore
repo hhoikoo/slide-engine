@@ -20,3 +20,5 @@ samples/
 
 # Generated diagram artifacts
 **/images/generated/
+__pycache__/
+*.pyc

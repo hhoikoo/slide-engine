@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 256" width="1000" height="256"
+     font-family="'Inter Display', Pretendard, sans-serif">
+
+  <!-- archetype: before / after
+       encoding: colour = novelty. blue marks everything the change introduces
+       (the queue and its two links); everything that survives the change stays
+       neutral. 1 hue. Panel geometry is identical: panel B is panel A + 536 on x. -->
+
+  <rect x="0" y="0" width="1000" height="256" fill="#ffffff"/>
+
+  <defs>
+    <marker id="ah-ink" viewBox="0 0 10 10" refX="10" refY="5"
+            markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#3a414a"/>
+    </marker>
+    <marker id="ah-blue" viewBox="0 0 10 10" refX="10" refY="5"
+            markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#6db1ff"/>
+    </marker>
+    <marker id="ah-hair" viewBox="0 0 10 10" refX="10" refY="5"
+            markerWidth="4" markerHeight="4" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#979ea8"/>
+    </marker>
+  </defs>
+
+  <!-- boxes, panel A -->
+  <rect x="12" y="84" width="120" height="56" rx="6" fill="#ffffff"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+  <rect x="172" y="84" width="120" height="56" rx="6" fill="#ffffff"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+  <rect x="332" y="84" width="120" height="56" rx="6" fill="#ffffff"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+
+  <!-- boxes, panel B: same rects, x + 536 -->
+  <rect x="548" y="84" width="120" height="56" rx="6" fill="#ffffff"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+  <rect x="708" y="84" width="120" height="56" rx="6" fill="#ffffff"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+  <rect x="868" y="84" width="120" height="56" rx="6" fill="#ffffff"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+
+  <!-- what the change adds -->
+  <rect x="720" y="194" width="96" height="48" rx="6" fill="#edf5ff"
+        stroke="#6db1ff" stroke-width="2" stroke-linejoin="round"/>
+
+  <!-- transition -->
+  <path d="M472,100 H504 V90 L528,112 L504,134 V124 H472 Z" fill="#979ea8"/>
+
+  <!-- connectors, panel A -->
+  <path d="M132,112 H166" fill="none"
+        stroke="#3a414a" stroke-width="2" marker-end="url(#ah-ink)"/>
+  <path d="M292,112 H326" fill="none"
+        stroke="#3a414a" stroke-width="2" marker-end="url(#ah-ink)"/>
+
+  <!-- connectors, panel B: the direct ingest-to-transform link is gone -->
+  <path d="M608,140 V212 Q608,218 614,218 H714" fill="none"
+        stroke="#6db1ff" stroke-width="2" stroke-linejoin="round"
+        marker-end="url(#ah-blue)"/>
+  <path d="M768,194 V146" fill="none"
+        stroke="#6db1ff" stroke-width="2" marker-end="url(#ah-blue)"/>
+  <path d="M828,112 H862" fill="none"
+        stroke="#3a414a" stroke-width="2" marker-end="url(#ah-ink)"/>
+
+  <!-- leader -->
+  <path d="M182,216 Q162,184 152,128" fill="none"
+        stroke="#979ea8" stroke-width="1" marker-end="url(#ah-hair)"/>
+
+  <!-- text, last -->
+  <text x="12" y="26" font-size="15.56" font-weight="700" fill="#4c535d">before</text>
+  <text x="548" y="26" font-size="15.56" font-weight="700" fill="#4c535d">after</text>
+
+  <text x="72" y="112" font-size="17.78" font-weight="700" fill="#000000"
+        text-anchor="middle" dominant-baseline="central">ingest</text>
+  <text x="232" y="112" font-size="17.78" font-weight="700" fill="#000000"
+        text-anchor="middle" dominant-baseline="central">transform</text>
+  <text x="392" y="112" font-size="17.78" font-weight="700" fill="#000000"
+        text-anchor="middle" dominant-baseline="central">load</text>
+
+  <text x="608" y="112" font-size="17.78" font-weight="700" fill="#000000"
+        text-anchor="middle" dominant-baseline="central">ingest</text>
+  <text x="768" y="112" font-size="17.78" font-weight="700" fill="#000000"
+        text-anchor="middle" dominant-baseline="central">transform</text>
+  <text x="928" y="112" font-size="17.78" font-weight="700" fill="#000000"
+        text-anchor="middle" dominant-baseline="central">load</text>
+
+  <text x="768" y="218" font-size="17.78" font-weight="700" fill="#1071e5"
+        text-anchor="middle" dominant-baseline="central">queue</text>
+
+  <text x="152" y="72" font-size="15.56" font-weight="700" fill="#000000"
+        text-anchor="middle">waits</text>
+  <text x="616" y="178" font-size="15.56" font-weight="700" fill="#1071e5">writes</text>
+  <text x="776" y="178" font-size="15.56" font-weight="700" fill="#1071e5">reads</text>
+
+  <text x="190" y="232" font-size="13.33" font-style="italic" fill="#6f7681"
+        text-anchor="middle">failure restarts the chain</text>
+
+</svg>

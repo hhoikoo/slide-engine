@@ -33,3 +33,5 @@ Use the presentation from earlier in this conversation. If none established, ask
 7. Verify the download succeeded (non-empty, correct type).
 8. Append a row to `images/figures/INDEX.md` (create the file from the standard header if missing): `| \`f{NN}.{ext}\` | {description} |`.
 9. Print the relative markdown reference: `![alt](images/figures/f{NN}.{ext})`
+
+The `INDEX.md` description is a plain noun phrase naming what the figure actually is, sentence case, no trailing period (`.claude/rules/writing-shortform.md`). It is the only record of what `fNN` means, so be concrete.

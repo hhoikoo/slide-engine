@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 320" width="1000" height="320"
+     font-family="'Inter Display', Pretendard, sans-serif">
+
+  <!-- archetype: request flow
+       encoding: colour = branch. amber = reached only on a cache miss, teal = the hit
+       return, neutral = on both paths. 2 hues.
+       line weight = flow class. 4px = the traced request (a miss, the full traversal),
+       2px = every other flow. no ghost route. -->
+
+  <rect x="0" y="0" width="1000" height="320" fill="#ffffff"/>
+
+  <defs>
+    <marker id="ah-ink" viewBox="0 0 10 10" refX="10" refY="5"
+            markerWidth="3" markerHeight="3" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#3a414a"/>
+    </marker>
+    <marker id="ah-amber-thick" viewBox="0 0 10 10" refX="10" refY="5"
+            markerWidth="3" markerHeight="3" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#e8822a"/>
+    </marker>
+    <marker id="ah-amber" viewBox="0 0 10 10" refX="10" refY="5"
+            markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#e8822a"/>
+    </marker>
+    <marker id="ah-teal" viewBox="0 0 10 10" refX="10" refY="5"
+            markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#00c2a8"/>
+    </marker>
+    <marker id="ah-hair" viewBox="0 0 10 10" refX="10" refY="5"
+            markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#979ea8"/>
+    </marker>
+  </defs>
+
+  <!-- boxes -->
+  <rect x="16" y="166" width="104" height="52" rx="26" fill="#ffffff"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+
+  <rect x="156" y="164" width="176" height="56" rx="6" fill="#f2f3f5"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+
+  <path d="M456,136 L544,192 L456,248 L368,192 z" fill="#f2f3f5"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+
+  <rect x="604" y="164" width="176" height="56" rx="6" fill="#fff3d9"
+        stroke="#e8822a" stroke-width="2" stroke-linejoin="round"/>
+
+  <path d="M816,166 C816,148 984,148 984,166 L984,218 C984,236 816,236 816,218 Z"
+        fill="#fff3d9" stroke="#e8822a" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M816,166 C816,184 984,184 984,166" fill="none"
+        stroke="#e8822a" stroke-width="2"/>
+
+  <!-- connectors: the traced request, 4px -->
+  <path d="M120,192 H148" fill="none"
+        stroke="#3a414a" stroke-width="4"
+        marker-end="url(#ah-ink)"/>
+  <path d="M332,192 H360" fill="none"
+        stroke="#3a414a" stroke-width="4"
+        marker-end="url(#ah-ink)"/>
+  <path d="M544,192 H596" fill="none"
+        stroke="#e8822a" stroke-width="4"
+        marker-end="url(#ah-amber-thick)"/>
+  <path d="M780,192 H808" fill="none"
+        stroke="#e8822a" stroke-width="4"
+        marker-end="url(#ah-amber-thick)"/>
+
+  <!-- connectors: every other flow, 2px -->
+  <path d="M456,248 V294 Q456,300 450,300 H74 Q68,300 68,294 V224" fill="none"
+        stroke="#00c2a8" stroke-width="2" stroke-linejoin="round"
+        marker-end="url(#ah-teal)"/>
+  <path d="M692,164 V50 Q692,44 686,44 H462 Q456,44 456,50 V130" fill="none"
+        stroke="#e8822a" stroke-width="2" stroke-linejoin="round"
+        marker-end="url(#ah-amber)"/>
+
+  <!-- leaders -->
+  <path d="M216,108 Q216,144 240,157" fill="none"
+        stroke="#979ea8" stroke-width="1" marker-end="url(#ah-hair)"/>
+  <path d="M280,272 Q280,288 292,293" fill="none"
+        stroke="#979ea8" stroke-width="1" marker-end="url(#ah-hair)"/>
+  <path d="M924,278 Q944,270 944,236" fill="none"
+        stroke="#979ea8" stroke-width="1" marker-end="url(#ah-hair)"/>
+
+  <!-- text, last -->
+  <text x="68" y="192" font-size="20" font-weight="700" fill="#000000"
+        text-anchor="middle" dominant-baseline="central">client</text>
+  <text x="244" y="192" font-size="20" font-weight="700" fill="#000000"
+        text-anchor="middle" dominant-baseline="central">reverse proxy</text>
+  <text x="456" y="192" font-size="20" font-weight="700" fill="#000000"
+        text-anchor="middle" dominant-baseline="central">cache lookup</text>
+  <text x="692" y="192" font-size="20" font-weight="700" fill="#000000"
+        text-anchor="middle" dominant-baseline="central">origin server</text>
+  <text x="900" y="192" font-size="20" font-weight="700" fill="#000000"
+        text-anchor="middle" dominant-baseline="central">object store</text>
+
+  <text x="574" y="32" font-size="17.78" font-weight="700" fill="#cc4e00"
+        text-anchor="middle">warms cache</text>
+  <text x="570" y="180" font-size="17.78" font-weight="700" fill="#cc4e00"
+        text-anchor="middle">miss</text>
+  <text x="468" y="266" font-size="17.78" font-weight="700" fill="#008573">hit</text>
+
+  <text x="216" y="96" font-size="15.56" font-style="italic" fill="#6f7681"
+        text-anchor="middle">single entry point</text>
+  <text x="280" y="262" font-size="15.56" font-style="italic" fill="#6f7681"
+        text-anchor="middle">most requests</text>
+  <text x="848" y="288" font-size="15.56" font-style="italic" fill="#6f7681"
+        text-anchor="middle">source of truth</text>
+
+</svg>

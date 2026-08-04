@@ -24,7 +24,7 @@ slide-engine/
 │   └── guide.md              # Layout class reference
 ├── engine/
 │   ├── marp.config.js        # Marp engine config
-│   └── scripts/              # assemble, cite, mermaid, variant, theme merge, postprocess
+│   └── scripts/              # assemble, cite, mermaid, variant, theme merge, postprocess, lint-text
 ├── themes/bai-flat/          # CSS theme + assets
 └── .claude/                  # Skills, agents, rules, output style
 ```
@@ -64,7 +64,10 @@ make html    DIR=presentations/{name} THEME=bai-flat
 make pdf     DIR=presentations/{name} THEME=bai-flat
 make html-wl DIR=presentations/{name} THEME=bai-flat  # whitelabel
 make pdf-wl  DIR=presentations/{name} THEME=bai-flat  # whitelabel
+make lint    DIR=presentations/{name}                 # check text against .claude/rules/
 ```
+
+`make html` runs the text linter in warn-only mode first. `make lint` exits non-zero on hits. The script is `engine/scripts/lint-text.sh`; run it directly for a single file or with `-a` to include research and draft notes.
 
 ## Skills
 
@@ -79,11 +82,29 @@ make pdf-wl  DIR=presentations/{name} THEME=bai-flat  # whitelabel
 | `/deploy [name]` | Build + push HTML (+ optional PDF) to Pages |
 | `/inspect [slide] [name]` | Visual screenshot + analysis |
 | `/export-notes [name]` | Extract speaker notes |
+| `/revise [name]` | Voice pass: run the linter, then the manual checks |
+| `/diagram <what to show>` | Author, lint and grade a hand-built SVG figure |
 | `/commit` | Git commit |
+
+## Writing rules
+
+Writing or revising slide text means following the active rules in `.claude/rules/`, not approximating them from memory.
+
+| File | Loads | Owns |
+|---|---|---|
+| `writing-core.md` | **at launch, always** | register table, honesty bar, the twenty always-on rules, deck structure, worked exemplars |
+| `writing-en.md` | on reading a `.md` | English long tail, two-column do/instead tables |
+| `writing-ko.md` | on reading a `.md` | Korean long tail, split by register (bullets vs notes) |
+| `writing-shortform.md` | on reading `.svg`, `INDEX.md`, `.yaml`, a deck `.md` | diagram labels, box headers, table cells, alt text |
+| `text-syntax.md` | on any file | all punctuation and dashes, encoding, provenance blocklist |
+
+Only `writing-core.md` has no `paths:` frontmatter, so it is the one file guaranteed to be in context at generation time and after `/compact`. The others are path-scoped and lazy.
+
+Enforcement is `engine/scripts/lint-text.sh` (mechanical, ~80% of the corpus) plus `/revise` (the rest).
 
 ## Output style
 
-This project uses the `concise` output style (`.claude/output-styles/concise.md`). Terse, fragment-first voice for chat, comments, commits, docs. Covers both English and Korean. Subagents import it via `@.claude/output-styles/concise.md`.
+This project uses the `concise` output style (`.claude/output-styles/concise.md`). It owns chat response shape only; content voice lives in `.claude/rules/`. Output styles never reach subagents, so every agent `@`-imports what it needs: `concise.md` for all of them, plus the relevant writing rule for any agent that reads or writes prose.
 
 ## Delegation policy
 

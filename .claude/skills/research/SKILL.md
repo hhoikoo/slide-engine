@@ -65,6 +65,12 @@ The last token in `$ARGUMENTS` may be a presentation identifier (opaque ID or hu
 5. Save to `research/r{NN}.md`.
 6. Report what was saved.
 
+## Voice
+
+Research docs quote and summarize outside sources, so the honesty bar in `.claude/rules/writing-core.md` is the binding rule: record what the source actually said, keep every number attached to its source, and mark what you could not verify. Do not paraphrase a claim into something stronger than the original.
+
+Preserve the source's own punctuation inside quotations, including dashes. `.claude/rules/text-syntax.md` governs your prose around the quotation, not the quotation itself.
+
 ## Notes
 
 - Always fill in all frontmatter fields.

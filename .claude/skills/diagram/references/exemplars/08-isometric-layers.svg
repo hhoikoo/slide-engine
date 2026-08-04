@@ -1,0 +1,170 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 540" width="1000" height="540"
+     font-family="'Inter Display', Pretendard, sans-serif">
+
+  <!-- archetype: isometric layer stack
+       encoding: colour = network fabric. one hue per fabric, blue management,
+       amber interconnect, teal storage. three hues, one per member of the set,
+       so the count is the size of the set and not a palette choice. the hue is
+       held across five surfaces: slab fill (mid stop at .2), slab outline (dark
+       stop), connector (dark stop), bar (mid stop) and the fabric's own label
+       (dark stop). that is the whole encoding and it is why there is no legend.
+
+       projection: 45 degree cavalier oblique. depth vector (-48,+48), equal on
+       both axes, no foreshortening, no transform attribute anywhere.
+       slab W:D = 444:48. stack pitch 36.
+       objects sit with their base line at y_slab_top + D/2 = +24, so the slab's
+       depth band brackets the base and its near half stays visible in front of
+       the object. pitch 36 against depth 48 is deliberate: it holds every base
+       line at least 12px clear of every other slab's back and front edge, which
+       is what lets the cubes read as standing on the management slab and the
+       cylinder on the storage slab. at pitch = D/2 both would land on a
+       neighbour's edge and sit on the wrong plane.
+       cubes are neutral ramp only, top #ffffff > front #f2f3f5 > side #ced4db,
+       depth 0.4 of the face width. the cylinder is the flat datastore glyph,
+       not projected. top slab painted first, bottom slab last, objects after
+       every slab.
+
+       a connector ending on a bar is a tap; one running past a bar is a
+       crossing, and no connector crosses a bar of its own hue.
+       panel B is panel A with +276 on every y and the amber slab, bar,
+       connector and label removed. nothing else moves. -->
+
+  <rect x="0" y="0" width="1000" height="540" fill="#ffffff"/>
+
+  <!-- slabs, top of the stack painted first -->
+  <path d="M216,88 l-48,48 h444 l48,-48 z" fill="#6db1ff" fill-opacity="0.2"
+        stroke="#1071e5" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M216,124 l-48,48 h444 l48,-48 z" fill="#e8822a" fill-opacity="0.2"
+        stroke="#cc4e00" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M216,160 l-48,48 h444 l48,-48 z" fill="#00c2a8" fill-opacity="0.2"
+        stroke="#008573" stroke-width="2" stroke-linejoin="round"/>
+
+  <path d="M216,364 l-48,48 h444 l48,-48 z" fill="#6db1ff" fill-opacity="0.2"
+        stroke="#1071e5" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M216,436 l-48,48 h444 l48,-48 z" fill="#00c2a8" fill-opacity="0.2"
+        stroke="#008573" stroke-width="2" stroke-linejoin="round"/>
+
+  <!-- cubes, base line at the middle of the management slab -->
+  <path d="M236,60 l-16,16 h40 l16,-16 z" fill="#ffffff" stroke="#000000"
+        stroke-width="2" stroke-linejoin="round"/>
+  <path d="M276,60 l-16,16 v36 l16,-16 z" fill="#ced4db" stroke="#000000"
+        stroke-width="2" stroke-linejoin="round"/>
+  <path d="M220,76 h40 v36 h-40 z" fill="#f2f3f5" stroke="#000000"
+        stroke-width="2" stroke-linejoin="round"/>
+
+  <path d="M312,60 l-16,16 h40 l16,-16 z" fill="#ffffff" stroke="#000000"
+        stroke-width="2" stroke-linejoin="round"/>
+  <path d="M352,60 l-16,16 v36 l16,-16 z" fill="#ced4db" stroke="#000000"
+        stroke-width="2" stroke-linejoin="round"/>
+  <path d="M296,76 h40 v36 h-40 z" fill="#f2f3f5" stroke="#000000"
+        stroke-width="2" stroke-linejoin="round"/>
+
+  <path d="M388,60 l-16,16 h40 l16,-16 z" fill="#ffffff" stroke="#000000"
+        stroke-width="2" stroke-linejoin="round"/>
+  <path d="M428,60 l-16,16 v36 l16,-16 z" fill="#ced4db" stroke="#000000"
+        stroke-width="2" stroke-linejoin="round"/>
+  <path d="M372,76 h40 v36 h-40 z" fill="#f2f3f5" stroke="#000000"
+        stroke-width="2" stroke-linejoin="round"/>
+
+  <path d="M464,60 l-16,16 h40 l16,-16 z" fill="#ffffff" stroke="#000000"
+        stroke-width="2" stroke-linejoin="round"/>
+  <path d="M504,60 l-16,16 v36 l16,-16 z" fill="#ced4db" stroke="#000000"
+        stroke-width="2" stroke-linejoin="round"/>
+  <path d="M448,76 h40 v36 h-40 z" fill="#f2f3f5" stroke="#000000"
+        stroke-width="2" stroke-linejoin="round"/>
+
+  <path d="M236,336 l-16,16 h40 l16,-16 z" fill="#ffffff" stroke="#000000"
+        stroke-width="2" stroke-linejoin="round"/>
+  <path d="M276,336 l-16,16 v36 l16,-16 z" fill="#ced4db" stroke="#000000"
+        stroke-width="2" stroke-linejoin="round"/>
+  <path d="M220,352 h40 v36 h-40 z" fill="#f2f3f5" stroke="#000000"
+        stroke-width="2" stroke-linejoin="round"/>
+
+  <path d="M312,336 l-16,16 h40 l16,-16 z" fill="#ffffff" stroke="#000000"
+        stroke-width="2" stroke-linejoin="round"/>
+  <path d="M352,336 l-16,16 v36 l16,-16 z" fill="#ced4db" stroke="#000000"
+        stroke-width="2" stroke-linejoin="round"/>
+  <path d="M296,352 h40 v36 h-40 z" fill="#f2f3f5" stroke="#000000"
+        stroke-width="2" stroke-linejoin="round"/>
+
+  <path d="M388,336 l-16,16 h40 l16,-16 z" fill="#ffffff" stroke="#000000"
+        stroke-width="2" stroke-linejoin="round"/>
+  <path d="M428,336 l-16,16 v36 l16,-16 z" fill="#ced4db" stroke="#000000"
+        stroke-width="2" stroke-linejoin="round"/>
+  <path d="M372,352 h40 v36 h-40 z" fill="#f2f3f5" stroke="#000000"
+        stroke-width="2" stroke-linejoin="round"/>
+
+  <path d="M464,336 l-16,16 h40 l16,-16 z" fill="#ffffff" stroke="#000000"
+        stroke-width="2" stroke-linejoin="round"/>
+  <path d="M504,336 l-16,16 v36 l16,-16 z" fill="#ced4db" stroke="#000000"
+        stroke-width="2" stroke-linejoin="round"/>
+  <path d="M448,352 h40 v36 h-40 z" fill="#f2f3f5" stroke="#000000"
+        stroke-width="2" stroke-linejoin="round"/>
+
+  <!-- cylinders, base ellipse at the middle of the storage slab -->
+  <path d="M540,152 a28,6 0 0 1 56,0 v32 a28,6 0 0 1 -56,0 z" fill="#f2f3f5"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M540,152 a28,6 0 0 0 56,0" fill="none" stroke="#000000" stroke-width="2"/>
+
+  <path d="M540,428 a28,6 0 0 1 56,0 v32 a28,6 0 0 1 -56,0 z" fill="#f2f3f5"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M540,428 a28,6 0 0 0 56,0" fill="none" stroke="#000000" stroke-width="2"/>
+
+  <!-- braces bracketing the cube group -->
+  <path d="M220,52 c0,-6 4,-10 10,-10 h122 c6,0 10,-4 10,-10 0,6 4,10 10,10 h122 c6,0 10,4 10,10"
+        fill="none" stroke="#3a414a" stroke-width="2" stroke-linejoin="round"
+        stroke-linecap="round"/>
+  <path d="M220,328 c0,-6 4,-10 10,-10 h122 c6,0 10,-4 10,-10 0,6 4,10 10,10 h122 c6,0 10,4 10,10"
+        fill="none" stroke="#3a414a" stroke-width="2" stroke-linejoin="round"
+        stroke-linecap="round"/>
+
+  <!-- attachments: slab edge to bar, dead horizontal, no arrowhead -->
+  <path d="M636,112 H940" fill="none" stroke="#1071e5" stroke-width="2"/>
+  <path d="M636,148 H820" fill="none" stroke="#cc4e00" stroke-width="2"/>
+  <path d="M636,184 H700" fill="none" stroke="#008573" stroke-width="2"/>
+
+  <path d="M636,388 H940" fill="none" stroke="#1071e5" stroke-width="2"/>
+  <path d="M636,460 H700" fill="none" stroke="#008573" stroke-width="2"/>
+
+  <!-- fabrics -->
+  <path d="M700,56 V224" fill="none" stroke="#00c2a8" stroke-width="7"
+        stroke-linecap="round"/>
+  <path d="M820,56 V224" fill="none" stroke="#e8822a" stroke-width="7"
+        stroke-linecap="round"/>
+  <path d="M940,56 V224" fill="none" stroke="#6db1ff" stroke-width="7"
+        stroke-linecap="round"/>
+
+  <path d="M700,332 V500" fill="none" stroke="#00c2a8" stroke-width="7"
+        stroke-linecap="round"/>
+  <path d="M940,332 V500" fill="none" stroke="#6db1ff" stroke-width="7"
+        stroke-linecap="round"/>
+
+  <!-- text, last, and never skewed -->
+  <text x="700" y="44" font-size="15.56" font-style="italic" fill="#008573"
+        text-anchor="middle">storage</text>
+  <text x="820" y="44" font-size="15.56" font-style="italic" fill="#cc4e00"
+        text-anchor="middle">interconnect</text>
+  <text x="940" y="44" font-size="15.56" font-style="italic" fill="#1071e5"
+        text-anchor="middle">management</text>
+
+  <text x="700" y="320" font-size="15.56" font-style="italic" fill="#008573"
+        text-anchor="middle">storage</text>
+  <text x="940" y="320" font-size="15.56" font-style="italic" fill="#1071e5"
+        text-anchor="middle">management</text>
+
+  <text x="362" y="22" font-size="17.78" font-weight="700" fill="#000000"
+        text-anchor="middle">workload pods</text>
+  <text x="362" y="298" font-size="17.78" font-weight="700" fill="#000000"
+        text-anchor="middle">workload pods</text>
+
+  <text x="568" y="232" font-size="17.78" font-weight="700" fill="#000000"
+        text-anchor="middle">local disk</text>
+  <text x="568" y="250" font-size="13.33" fill="#6f7681" text-anchor="middle">(nvme)</text>
+  <text x="568" y="508" font-size="17.78" font-weight="700" fill="#000000"
+        text-anchor="middle">local disk</text>
+  <text x="568" y="526" font-size="13.33" fill="#6f7681" text-anchor="middle">(nvme)</text>
+
+  <text x="16" y="128" font-size="15.56" font-weight="700" fill="#4c535d">all fabrics</text>
+  <text x="16" y="404" font-size="15.56" font-weight="700" fill="#4c535d">no interconnect</text>
+
+</svg>

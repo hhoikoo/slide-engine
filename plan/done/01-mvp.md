@@ -444,7 +444,7 @@ No longer creates `slides.md` directly -- that is now a build artifact assembled
 6. Insert `<!-- img-needed: "description" -->` markers where images would help (for later `/generate-image` runs, deferred to plan/91). Do NOT invoke `/generate-image` in MVP.
 7. Run `/build html` to verify
 
-**`/build`**: 
+**`/build`**:
 1. Detect presentation directory (look for `sections/` in cwd or parent)
 2. Run: `make -C "$TEMPLATE_DIR" $FORMAT DIR="$PRESENTATION_DIR" THEME="${THEME:-bai-flat}"`
 3. Fallback if engine not set up: `cat sections/*.md > slides.md && npx marp --html --allow-local-files slides.md -o output/slides.html` (crude assembly + direct marp invocation)

@@ -1,0 +1,504 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 2028" width="1000" height="2028"
+     font-family="'Inter Display', Pretendard, sans-serif">
+
+  <!-- Composite parts for the house diagram style. This file is a reference
+       sheet, not a slide figure: its viewBox is 1000 x 2028, so lint-svg.py
+       fails CANVAS and warns TEXT_BUDGET by design. Every other check passes
+       and must keep passing.
+
+       The build engine inlines each figure into the slide DOM and rewrites
+       every id with a per-file random prefix, so cross-file <use href> cannot
+       resolve. Copy what you need into your figure; never reference this file.
+       See components.md.
+
+       Paint order follows the house rule with one adaptation: shapes then
+       labels per part, and every section heading and id caption in one block
+       at the end, so no caption is painted over by the shape it names. -->
+
+  <rect x="0" y="0" width="1000" height="2028" fill="#ffffff"/>
+
+  <defs>
+    <!-- c-arrowhead. One triangle, three sizes. markerUnits defaults to
+         strokeWidth, so markerWidth x stroke-width is the rendered length:
+         hold it at 12 for the full head, 7 for the half head on hairlines.
+         One marker per colour, because Safari has not shipped context-stroke. -->
+    <marker id="ah-ink" viewBox="0 0 10 10" refX="10" refY="5"
+            markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#3a414a"/>
+    </marker>
+    <marker id="ah-ink-thick" viewBox="0 0 10 10" refX="10" refY="5"
+            markerWidth="3" markerHeight="3" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#3a414a"/>
+    </marker>
+    <marker id="ah-hair" viewBox="0 0 10 10" refX="10" refY="5"
+            markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#979ea8"/>
+    </marker>
+    <marker id="ah-blue" viewBox="0 0 10 10" refX="10" refY="5"
+            markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#6db1ff"/>
+    </marker>
+    <marker id="ah-amber" viewBox="0 0 10 10" refX="10" refY="5"
+            markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#e8822a"/>
+    </marker>
+    <marker id="ah-ghost" viewBox="0 0 10 10" refX="10" refY="5"
+            markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#dfe3e8"/>
+    </marker>
+
+    <!-- Symbols. Fixed geometry only. Always pass width and height equal to the
+         symbol viewBox on <use>, or the part scales and its stroke weight stops
+         matching the rest of the figure. -->
+
+    <!-- c-iso-cube. Container / pod / session, in the 45 degree cavalier
+         oblique of tokens.md. W 88, d 36 (0.41 W), H 84 (0.95 W). Faces run
+         top > front > side in lightness; no hue on a cube, ever.
+         Front-face top-left lands at (x+2, y+38); the base line, the one that
+         seats on a plane, lands at y+122. -->
+    <symbol id="c-iso-cube" viewBox="0 0 128 124">
+      <path d="M38,2 l-36,36 h88 l36,-36 z" fill="#ffffff"
+            stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+      <path d="M126,2 l-36,36 v84 l36,-36 z" fill="#ced4db"
+            stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+      <path d="M2,38 h88 v84 h-88 z" fill="#f2f3f5"
+            stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+    </symbol>
+
+    <!-- c-cloud. Internet, or anything outside the drawn system. Outline is the
+         union of three circles resting on one baseline: r16 at (25,35), r22 at
+         (53,29), r14 at (79,37), base y=51. -->
+    <symbol id="c-cloud" viewBox="0 0 96 56">
+      <path d="M25,51 a16,16 0 1 1 7.55,-30.11 a22,22 0 0 1 41.82,2.9 a14,14 0 1 1 4.63,27.21 H25 Z"
+            fill="#ffffff" stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+    </symbol>
+
+    <!-- c-block-arrow. "And then the world changed", between before/after
+         panels. Never for dataflow: that is a line arrow. -->
+    <symbol id="c-block-arrow" viewBox="0 0 56 44">
+      <path d="M0,10 H32 V0 L56,22 L32,44 V34 H0 Z" fill="#979ea8"/>
+    </symbol>
+
+    <!-- c-port-stub. Half-circle port on a box edge, radius 8. The leading rect
+         erases the box outline across the mouth. Place at x = edge - 2,
+         y = centre - 10. -->
+    <symbol id="c-port-stub" viewBox="0 0 12 20">
+      <rect x="0" y="2" width="4" height="16" fill="#ffffff"/>
+      <path d="M2,2 a8,8 0 0 1 0,16" fill="#ffffff"
+            stroke="#000000" stroke-width="2" stroke-linecap="round"/>
+    </symbol>
+  </defs>
+
+  <!-- ================= containers and grouping ================= -->
+
+  <!-- c-boundary -->
+  <rect x="40" y="72" width="280" height="104" rx="6" fill="none"
+        stroke="#979ea8" stroke-width="2" stroke-dasharray="6 4"
+        stroke-linejoin="round"/>
+  <rect x="56" y="112" width="116" height="48" rx="6" fill="#ffffff"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+  <rect x="188" y="112" width="116" height="48" rx="6" fill="#ffffff"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+  <text x="56" y="98" font-size="15.56" font-style="italic" fill="#6f7681">zone</text>
+
+  <!-- c-band -->
+  <rect x="360" y="72" width="240" height="104" rx="6" fill="#f2f3f5"/>
+  <rect x="376" y="112" width="92" height="48" rx="6" fill="#ffffff"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+  <rect x="492" y="112" width="92" height="48" rx="6" fill="#ffffff"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+  <text x="376" y="98" font-size="15.56" font-style="italic" fill="#6f7681">group</text>
+
+  <!-- c-swimlane -->
+  <rect x="736" y="80" width="240" height="88" rx="6" fill="#f2f3f5"/>
+  <rect x="752" y="96" width="96" height="56" rx="6" fill="#ffffff"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+  <rect x="864" y="96" width="96" height="56" rx="6" fill="#ffffff"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+  <text x="720" y="124" font-size="15.56" font-style="italic" fill="#6f7681"
+        text-anchor="end" dominant-baseline="central">control</text>
+
+  <!-- ================= nodes ================= -->
+
+  <!-- c-box -->
+  <rect x="40" y="252" width="160" height="56" rx="6" fill="#ffffff"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+  <text x="120" y="280" font-size="17.78" font-weight="700" fill="#000000"
+        text-anchor="middle" dominant-baseline="central">scheduler</text>
+
+  <!-- c-stadium -->
+  <rect x="240" y="252" width="144" height="56" rx="28" fill="#ffffff"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+  <text x="312" y="280" font-size="17.78" font-weight="700" fill="#000000"
+        text-anchor="middle" dominant-baseline="central">client</text>
+
+  <!-- c-cylinder -->
+  <path d="M424,264 a68,14 0 0 1 136,0 v32 a68,14 0 0 1 -136,0 z" fill="#ffffff"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M424,264 a68,14 0 0 0 136,0" fill="none"
+        stroke="#000000" stroke-width="2" stroke-linecap="round"/>
+  <text x="492" y="290" font-size="17.78" font-weight="700" fill="#000000"
+        text-anchor="middle" dominant-baseline="central">store</text>
+
+  <!-- c-diamond -->
+  <path d="M688,240 L776,280 L688,320 L600,280 Z" fill="#f2f3f5"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+  <text x="688" y="280" font-size="17.78" font-weight="700" fill="#000000"
+        text-anchor="middle" dominant-baseline="central">cache hit</text>
+
+  <!-- c-note -->
+  <path d="M822,252 H970 Q976,252 976,258 V300 c-20,10 -60,-10 -80,0 c-20,10 -60,-10 -80,0 V258 Q816,252 822,252 Z"
+        fill="#ffffff" stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+  <text x="896" y="276" font-size="17.78" font-weight="700" fill="#000000"
+        text-anchor="middle" dominant-baseline="central">request</text>
+
+  <!-- c-parallelogram -->
+  <path d="M64,380 H240 L216,436 H40 Z" fill="#ffffff"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+  <text x="140" y="408" font-size="17.78" font-weight="700" fill="#000000"
+        text-anchor="middle" dominant-baseline="central">batch job</text>
+
+  <!-- c-cloud -->
+  <use href="#c-cloud" x="280" y="392" width="96" height="56"/>
+  <text x="384" y="420" font-size="17.78" font-weight="700" fill="#000000"
+        dominant-baseline="central">internet</text>
+
+  <!-- c-ghost-column -->
+  <rect x="520" y="364" width="92" height="72" rx="6" fill="#ffffff"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+  <rect x="632" y="364" width="92" height="72" rx="6" fill="#ffffff"
+        stroke="#dfe3e8" stroke-width="2" stroke-linejoin="round"/>
+  <rect x="744" y="364" width="92" height="72" rx="6" fill="#ffffff"
+        stroke="#dfe3e8" stroke-width="2" stroke-linejoin="round"/>
+  <text x="566" y="400" font-size="17.78" font-weight="700" fill="#000000"
+        text-anchor="middle" dominant-baseline="central">shard</text>
+
+  <!-- ================= connectors and annotation ================= -->
+
+  <!-- c-card-stack -->
+  <rect x="64" y="528" width="160" height="56" rx="6" fill="#ffffff"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+  <rect x="52" y="520" width="160" height="56" rx="6" fill="#ffffff"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+  <rect x="40" y="512" width="160" height="56" rx="6" fill="#ffffff"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+  <text x="120" y="540" font-size="17.78" font-weight="700" fill="#000000"
+        text-anchor="middle" dominant-baseline="central">worker</text>
+
+  <!-- c-elbow -->
+  <rect x="320" y="512" width="120" height="48" rx="6" fill="#ffffff"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+  <rect x="520" y="576" width="120" height="48" rx="6" fill="#ffffff"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M440,536 H474 Q480,536 480,542 V600 Q480,606 486,606 H514" fill="none"
+        stroke="#3a414a" stroke-width="2" stroke-linejoin="round"
+        stroke-linecap="round" marker-end="url(#ah-ink)"/>
+
+  <!-- c-arrowhead -->
+  <path d="M700,520 H860" fill="none" stroke="#3a414a" stroke-width="2"
+        stroke-linecap="round" marker-end="url(#ah-ink)"/>
+  <path d="M700,556 H860" fill="none" stroke="#3a414a" stroke-width="4"
+        stroke-linecap="round" marker-end="url(#ah-ink-thick)"/>
+  <path d="M700,592 H860" fill="none" stroke="#979ea8" stroke-width="1"
+        stroke-linecap="round" marker-end="url(#ah-hair)"/>
+  <text x="880" y="520" font-size="13.33" font-style="italic" fill="#6f7681"
+        dominant-baseline="central">2px</text>
+  <text x="880" y="556" font-size="13.33" font-style="italic" fill="#6f7681"
+        dominant-baseline="central">4px</text>
+  <text x="880" y="592" font-size="13.33" font-style="italic" fill="#6f7681"
+        dominant-baseline="central">1px</text>
+
+  <!-- c-leader -->
+  <rect x="40" y="640" width="140" height="48" rx="6" fill="#ffffff"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M96,740 Q96,700 138,694" fill="none"
+        stroke="#979ea8" stroke-width="1" stroke-linecap="round"
+        marker-end="url(#ah-hair)"/>
+  <text x="96" y="756" font-size="15.56" font-style="italic" fill="#6f7681"
+        text-anchor="middle">one per zone</text>
+
+  <!-- c-block-arrow -->
+  <use href="#c-block-arrow" x="240" y="644" width="56" height="44"/>
+
+  <!-- c-bracket -->
+  <rect x="360" y="640" width="88" height="48" rx="6" fill="#ffffff"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+  <rect x="464" y="640" width="88" height="48" rx="6" fill="#ffffff"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+  <rect x="568" y="640" width="88" height="48" rx="6" fill="#ffffff"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M360,700 V706 H656 V700" fill="none"
+        stroke="#3a414a" stroke-width="1" stroke-linejoin="round"/>
+  <text x="508" y="726" font-size="15.56" font-style="italic" fill="#6f7681"
+        text-anchor="middle">one shard</text>
+
+  <!-- c-port-stub: a bump above, the slot variant below -->
+  <rect x="700" y="640" width="160" height="64" rx="6" fill="#ffffff"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+  <use href="#c-port-stub" x="858" y="650" width="12" height="20"/>
+  <rect x="858.5" y="680" width="3" height="16" fill="#ffffff"/>
+  <path d="M860,680 a8,8 0 0 0 0,16" fill="#ffffff"
+        stroke="#000000" stroke-width="2" stroke-linecap="round"/>
+  <text x="780" y="672" font-size="17.78" font-weight="700" fill="#000000"
+        text-anchor="middle" dominant-baseline="central">node</text>
+
+  <!-- c-ghost-route -->
+  <path d="M40,820 H136" fill="none" stroke="#3a414a" stroke-width="2"
+        stroke-linecap="round" marker-end="url(#ah-ink)"/>
+  <path d="M40,856 H136" fill="none" stroke="#dfe3e8" stroke-width="2"
+        stroke-linecap="round" marker-end="url(#ah-ghost)"/>
+
+  <!-- c-arrow-label -->
+  <path d="M240,844 H360" fill="none" stroke="#3a414a" stroke-width="2"
+        stroke-linecap="round" marker-end="url(#ah-ink)"/>
+  <text x="296" y="828" font-size="17.78" font-weight="700" fill="#000000"
+        text-anchor="middle">writes</text>
+
+  <!-- c-panel-label -->
+  <rect x="460" y="828" width="64" height="40" rx="6" fill="#ffffff"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+  <rect x="532" y="828" width="64" height="40" rx="6" fill="#ffffff"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+  <rect x="660" y="828" width="64" height="40" rx="6" fill="#ffffff"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+  <rect x="732" y="828" width="64" height="40" rx="6" fill="#ffffff"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+  <text x="460" y="820" font-size="15.56" font-weight="700" fill="#4c535d">before</text>
+  <text x="660" y="820" font-size="15.56" font-weight="700" fill="#4c535d">after</text>
+
+  <!-- ================= data display ================= -->
+
+  <!-- c-axes -->
+  <path d="M60,964 V1084" fill="none" stroke="#3a414a" stroke-width="2"/>
+  <path d="M60,1084 H300" fill="none" stroke="#3a414a" stroke-width="2"/>
+  <path d="M60,1068 L120,1044 L180,1032 L240,1008 L300,1000" fill="none"
+        stroke="#3a414a" stroke-width="2" stroke-linejoin="round"
+        stroke-linecap="round"/>
+  <text x="60" y="956" font-size="15.56" font-style="italic" fill="#6f7681">value</text>
+  <text x="300" y="1104" font-size="15.56" font-style="italic" fill="#6f7681"
+        text-anchor="end">time</text>
+  <text x="308" y="1000" font-size="15.56" font-weight="700" fill="#000000"
+        dominant-baseline="central">p95</text>
+
+  <!-- c-threshold -->
+  <path d="M420,964 V1084" fill="none" stroke="#3a414a" stroke-width="2"/>
+  <path d="M420,1084 H660" fill="none" stroke="#3a414a" stroke-width="2"/>
+  <path d="M420,984 H660" fill="none" stroke="#e8822a" stroke-width="2"
+        stroke-dasharray="6 4" stroke-linecap="round"/>
+  <path d="M420,1068 L480,1052 L540,1028 L600,1008 L660,996" fill="none"
+        stroke="#e8822a" stroke-width="2" stroke-linejoin="round"
+        stroke-linecap="round"/>
+  <text x="668" y="984" font-size="15.56" font-weight="700" fill="#cc4e00"
+        dominant-baseline="central">capacity</text>
+
+  <!-- c-scale-strip -->
+  <rect x="812" y="968" width="40" height="24" rx="6" fill="#edf5ff"/>
+  <rect x="856" y="968" width="40" height="24" rx="6" fill="#6db1ff"/>
+  <rect x="900" y="968" width="40" height="24" rx="6" fill="#1071e5"/>
+  <text x="812" y="960" font-size="13.33" font-style="italic" fill="#6f7681">low</text>
+  <text x="940" y="960" font-size="13.33" font-style="italic" fill="#6f7681"
+        text-anchor="end">high</text>
+
+  <!-- c-bus-bar -->
+  <rect x="40" y="1160" width="100" height="40" rx="6" fill="#ffffff"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+  <rect x="40" y="1212" width="100" height="40" rx="6" fill="#ffffff"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M140,1180 H200" fill="none" stroke="#6db1ff" stroke-width="2"/>
+  <path d="M140,1232 H200" fill="none" stroke="#6db1ff" stroke-width="2"/>
+  <path d="M200,1152 V1260" fill="none" stroke="#6db1ff" stroke-width="7"
+        stroke-linecap="round"/>
+  <text x="90" y="1180" font-size="17.78" font-weight="700" fill="#000000"
+        text-anchor="middle" dominant-baseline="central">node</text>
+  <text x="90" y="1232" font-size="17.78" font-weight="700" fill="#000000"
+        text-anchor="middle" dominant-baseline="central">node</text>
+  <text x="200" y="1140" font-size="15.56" font-style="italic" fill="#6f7681"
+        text-anchor="middle">storage</text>
+
+  <!-- ================= isometric ================= -->
+
+  <!-- c-iso-plane. Three slabs, W 288 x D 64 (4.5:1), pitch 36 (56% of depth).
+       Top slab painted first, bottom slab last. One hue per plane, carried by
+       the opaque outline; the fill is the same hue at 0.18. -->
+  <path d="M176,1360 l-64,64 h288 l64,-64 z" fill="#6db1ff" fill-opacity="0.18"
+        stroke="#1071e5" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M176,1396 l-64,64 h288 l64,-64 z" fill="#00c2a8" fill-opacity="0.18"
+        stroke="#008573" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M176,1432 l-64,64 h288 l64,-64 z" fill="#e8822a" fill-opacity="0.18"
+        stroke="#cc4e00" stroke-width="2" stroke-linejoin="round"/>
+  <text x="96" y="1424" font-size="15.56" font-style="italic" fill="#6f7681"
+        text-anchor="end" dominant-baseline="central">control</text>
+  <text x="96" y="1460" font-size="15.56" font-style="italic" fill="#6f7681"
+        text-anchor="end" dominant-baseline="central">storage</text>
+  <text x="96" y="1496" font-size="15.56" font-style="italic" fill="#6f7681"
+        text-anchor="end" dominant-baseline="central">public</text>
+
+  <!-- c-iso-cube, seated at y_plane_top + D/2 = 1480 + 24 -->
+  <path d="M620,1480 l-48,48 h200 l48,-48 z" fill="#eef0f3"
+        stroke="#b4bdc8" stroke-width="2" stroke-linejoin="round"/>
+  <use href="#c-iso-cube" x="650" y="1382" width="128" height="124"/>
+  <text x="696" y="1368" font-size="17.78" font-weight="700" fill="#000000"
+        text-anchor="middle">pod</text>
+
+  <!-- c-iso-cylinder. Not projected: the flat datastore glyph, ry/rx = 0.21,
+       standing upright and seated the same way. -->
+  <path d="M380,1660 l-40,40 h176 l40,-40 z" fill="#eef0f3"
+        stroke="#b4bdc8" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M392,1612 a56,12 0 0 1 112,0 v56 a56,12 0 0 1 -112,0 z" fill="#ffffff"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M392,1612 a56,12 0 0 0 112,0" fill="none"
+        stroke="#000000" stroke-width="2" stroke-linecap="round"/>
+  <text x="448" y="1592" font-size="17.78" font-weight="700" fill="#000000"
+        text-anchor="middle">volume</text>
+
+  <!-- c-iso-grid. Square ground cells, w = d = 16, back-left of cell (i,j) at
+       (X + 16i - 16j, Y + 16j) with X,Y = 704,1620 -->
+  <path d="M704,1620 l-16,16 h16 l16,-16 z" fill="#fff3d9"
+        stroke="#e8822a" stroke-width="1" stroke-linejoin="round"/>
+  <path d="M720,1620 l-16,16 h16 l16,-16 z" fill="#fff3d9"
+        stroke="#e8822a" stroke-width="1" stroke-linejoin="round"/>
+  <path d="M736,1620 l-16,16 h16 l16,-16 z" fill="#fff3d9"
+        stroke="#e8822a" stroke-width="1" stroke-linejoin="round"/>
+  <path d="M752,1620 l-16,16 h16 l16,-16 z" fill="#ffffff"
+        stroke="#b4bdc8" stroke-width="1" stroke-linejoin="round"/>
+  <path d="M688,1636 l-16,16 h16 l16,-16 z" fill="#fff3d9"
+        stroke="#e8822a" stroke-width="1" stroke-linejoin="round"/>
+  <path d="M704,1636 l-16,16 h16 l16,-16 z" fill="#fff3d9"
+        stroke="#e8822a" stroke-width="1" stroke-linejoin="round"/>
+  <path d="M720,1636 l-16,16 h16 l16,-16 z" fill="#ffffff"
+        stroke="#b4bdc8" stroke-width="1" stroke-linejoin="round"/>
+  <path d="M736,1636 l-16,16 h16 l16,-16 z" fill="#ffffff"
+        stroke="#b4bdc8" stroke-width="1" stroke-linejoin="round"/>
+  <path d="M672,1652 l-16,16 h16 l16,-16 z" fill="#ffffff"
+        stroke="#b4bdc8" stroke-width="1" stroke-linejoin="round"/>
+  <path d="M688,1652 l-16,16 h16 l16,-16 z" fill="#ffffff"
+        stroke="#b4bdc8" stroke-width="1" stroke-linejoin="round"/>
+  <path d="M704,1652 l-16,16 h16 l16,-16 z" fill="#ffffff"
+        stroke="#b4bdc8" stroke-width="1" stroke-linejoin="round"/>
+  <path d="M720,1652 l-16,16 h16 l16,-16 z" fill="#ffffff"
+        stroke="#b4bdc8" stroke-width="1" stroke-linejoin="round"/>
+  <path d="M656,1668 l-16,16 h16 l16,-16 z" fill="#ffffff"
+        stroke="#b4bdc8" stroke-width="1" stroke-linejoin="round"/>
+  <path d="M672,1668 l-16,16 h16 l16,-16 z" fill="#ffffff"
+        stroke="#b4bdc8" stroke-width="1" stroke-linejoin="round"/>
+  <path d="M688,1668 l-16,16 h16 l16,-16 z" fill="#ffffff"
+        stroke="#b4bdc8" stroke-width="1" stroke-linejoin="round"/>
+  <path d="M704,1668 l-16,16 h16 l16,-16 z" fill="#ffffff"
+        stroke="#b4bdc8" stroke-width="1" stroke-linejoin="round"/>
+  <text x="700" y="1706" font-size="15.56" font-style="italic" fill="#6f7681"
+        text-anchor="middle">six in use</text>
+
+  <!-- ================= state ================= -->
+
+  <!-- c-disabled -->
+  <rect x="40" y="1786" width="160" height="56" rx="6" fill="#f2f3f5"
+        stroke="#b4bdc8" stroke-width="2" stroke-dasharray="2 2"
+        stroke-linejoin="round"/>
+  <text x="120" y="1814" font-size="17.78" font-weight="700" fill="#979ea8"
+        text-anchor="middle" dominant-baseline="central">legacy path</text>
+
+  <!-- c-strikethrough -->
+  <rect x="240" y="1786" width="160" height="56" rx="6" fill="#ffffff"
+        stroke="#979ea8" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M278,1814 H362" fill="none" stroke="#7d8998" stroke-width="1"/>
+  <text x="320" y="1814" font-size="17.78" font-weight="700" fill="#7d8998"
+        text-anchor="middle" dominant-baseline="central">old queue</text>
+
+  <!-- c-ellipsis-h -->
+  <rect x="440" y="1786" width="88" height="56" rx="6" fill="#ffffff"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+  <rect x="544" y="1786" width="88" height="56" rx="6" fill="#ffffff"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+  <text x="676" y="1814" font-size="26.67" font-weight="700" fill="#000000"
+        text-anchor="middle" dominant-baseline="central">…</text>
+
+  <!-- c-ellipsis-v -->
+  <rect x="760" y="1766" width="88" height="40" rx="6" fill="#ffffff"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+  <rect x="760" y="1842" width="88" height="40" rx="6" fill="#ffffff"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+  <text x="804" y="1824" font-size="26.67" font-weight="700" fill="#000000"
+        text-anchor="middle" dominant-baseline="central">⋮</text>
+
+  <!-- ================= registers ================= -->
+
+  <!-- c-box-sharp -->
+  <rect x="40" y="1958" width="160" height="56" fill="#ffffff"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+  <text x="120" y="1986" font-size="17.78" font-weight="700" fill="#000000"
+        text-anchor="middle" dominant-baseline="central">scheduler</text>
+
+  <!-- c-cell -->
+  <rect x="280" y="1958" width="88" height="56" fill="#ffffff"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+  <rect x="368" y="1958" width="88" height="56" fill="#ffffff"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+  <rect x="456" y="1958" width="88" height="56" fill="#ffffff"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+  <text x="324" y="1986" font-size="17.78" font-weight="700" fill="#000000"
+        text-anchor="middle" dominant-baseline="central">hit</text>
+  <text x="412" y="1986" font-size="17.78" font-weight="700" fill="#000000"
+        text-anchor="middle" dominant-baseline="central">miss</text>
+  <text x="500" y="1986" font-size="17.78" font-weight="700" fill="#000000"
+        text-anchor="middle" dominant-baseline="central">hit</text>
+
+  <!-- ============ section headings and part ids, emitted last ============ -->
+
+  <text x="40" y="36" font-size="15.56" font-weight="700" fill="#4c535d">containers and grouping</text>
+  <text x="40" y="204" font-size="15.56" font-weight="700" fill="#4c535d">nodes</text>
+  <text x="40" y="476" font-size="15.56" font-weight="700" fill="#4c535d">connectors and annotation</text>
+  <text x="40" y="904" font-size="15.56" font-weight="700" fill="#4c535d">data display</text>
+  <text x="40" y="1300" font-size="15.56" font-weight="700" fill="#4c535d">isometric</text>
+  <text x="40" y="1750" font-size="15.56" font-weight="700" fill="#4c535d">state</text>
+  <text x="40" y="1922" font-size="15.56" font-weight="700" fill="#4c535d">registers</text>
+
+  <g font-size="13.33" fill="#5a6c86" font-family="ui-monospace, Menlo, monospace">
+    <text x="40" y="64">c-boundary</text>
+    <text x="360" y="64">c-band</text>
+    <text x="664" y="64">c-swimlane</text>
+
+    <text x="40" y="232">c-box</text>
+    <text x="240" y="232">c-stadium</text>
+    <text x="424" y="232">c-cylinder</text>
+    <text x="600" y="232">c-diamond</text>
+    <text x="816" y="232">c-note</text>
+
+    <text x="40" y="356">c-parallelogram</text>
+    <text x="280" y="356">c-cloud</text>
+    <text x="520" y="356">c-ghost-column</text>
+
+    <text x="40" y="504">c-card-stack</text>
+    <text x="320" y="504">c-elbow</text>
+    <text x="700" y="504">c-arrowhead</text>
+
+    <text x="40" y="632">c-leader</text>
+    <text x="240" y="632">c-block-arrow</text>
+    <text x="360" y="632">c-bracket</text>
+    <text x="700" y="632">c-port-stub</text>
+
+    <text x="40" y="796">c-ghost-route</text>
+    <text x="240" y="796">c-arrow-label</text>
+    <text x="460" y="796">c-panel-label</text>
+
+    <text x="40" y="932">c-axes</text>
+    <text x="400" y="932">c-threshold</text>
+    <text x="812" y="932">c-scale-strip</text>
+
+    <text x="40" y="1136">c-bus-bar</text>
+
+    <text x="112" y="1328">c-iso-plane</text>
+    <text x="572" y="1328">c-iso-cube</text>
+
+    <text x="340" y="1568">c-iso-cylinder</text>
+    <text x="640" y="1568">c-iso-grid</text>
+
+    <text x="40" y="1778">c-disabled</text>
+    <text x="240" y="1778">c-strikethrough</text>
+    <text x="440" y="1778">c-ellipsis-h</text>
+    <text x="860" y="1822">c-ellipsis-v</text>
+
+    <text x="40" y="1950">c-box-sharp</text>
+    <text x="280" y="1950">c-cell</text>
+  </g>
+
+</svg>

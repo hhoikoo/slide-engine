@@ -17,7 +17,7 @@ MERGED_THEME := $(OUTPUT_DIR)/.merged-theme.css
 
 .DEFAULT_GOAL := help
 
-.PHONY: help setup unlock unlock-help html pdf html-wl pdf-wl clean check-dir
+.PHONY: help setup unlock unlock-help html pdf html-wl pdf-wl lint clean check-dir
 
 help:
 	@echo ""
@@ -31,6 +31,7 @@ help:
 	@echo "  pdf              Build PDF slides"
 	@echo "  html-wl          Build whitelabel HTML slides"
 	@echo "  pdf-wl           Build whitelabel PDF slides"
+	@echo "  lint             Check slide text against .claude/rules/ (exits non-zero on hits)"
 	@echo "  clean            Remove output/ and assembled slides.md"
 	@echo ""
 	@echo "Required:"
@@ -79,7 +80,11 @@ unlock-help:
 check-dir:
 	@test -d "$(DIR)/sections" || (echo "Error: $(DIR)/sections not found" && exit 1)
 
+lint:
+	@bash "$(SCRIPTS)/lint-text.sh" $(if $(DIR),"$(DIR)",presentations)
+
 html: check-dir
+	@bash "$(SCRIPTS)/lint-text.sh" -w -q "$(DIR)"
 	@bash "$(SCRIPTS)/assemble-sections.sh" "$(DIR)"
 	@node "$(SCRIPTS)/render-mermaid.js" "$(DIR)" || true
 	@mkdir -p "$(OUTPUT_DIR)"

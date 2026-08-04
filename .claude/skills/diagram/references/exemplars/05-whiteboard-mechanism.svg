@@ -1,0 +1,254 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 520" width="1000" height="520"
+     font-family="'Inter Display', Pretendard, sans-serif">
+
+  <!-- archetype: whiteboard mechanism. sequence rows of bucket state per tick,
+       over an inline plot of the same quantity against time.
+       register: WHITEBOARD. sharp corners (rx=0), white fills, #000 outlines.
+       encoding: colour = tokens. one amber mark is one available token; the same
+       amber draws the level line and its dashed capacity ceiling. one hue,
+       nothing else on the canvas is coloured. -->
+
+  <rect x="0" y="0" width="1000" height="520" fill="#ffffff"/>
+
+  <!-- bucket rows: 12 slots, pixel-identical geometry on every row -->
+  <g>
+    <rect x="96" y="12" width="48" height="40" fill="#ffffff"
+          stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+    <rect x="152" y="12" width="48" height="40" fill="#ffffff"
+          stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+    <rect x="208" y="12" width="48" height="40" fill="#ffffff"
+          stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+    <rect x="264" y="12" width="48" height="40" fill="#ffffff"
+          stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+    <rect x="320" y="12" width="48" height="40" fill="#ffffff"
+          stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+    <rect x="376" y="12" width="48" height="40" fill="#ffffff"
+          stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+    <rect x="432" y="12" width="48" height="40" fill="#ffffff"
+          stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+    <rect x="488" y="12" width="48" height="40" fill="#ffffff"
+          stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+    <rect x="544" y="12" width="48" height="40" fill="#ffffff"
+          stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+    <rect x="600" y="12" width="48" height="40" fill="#ffffff"
+          stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+    <rect x="656" y="12" width="48" height="40" fill="#ffffff"
+          stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+    <rect x="712" y="12" width="48" height="40" fill="#ffffff"
+          stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+  </g>
+  <g>
+    <rect x="96" y="60" width="48" height="40" fill="#ffffff"
+          stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+    <rect x="152" y="60" width="48" height="40" fill="#ffffff"
+          stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+    <rect x="208" y="60" width="48" height="40" fill="#ffffff"
+          stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+    <rect x="264" y="60" width="48" height="40" fill="#ffffff"
+          stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+    <rect x="320" y="60" width="48" height="40" fill="#ffffff"
+          stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+    <rect x="376" y="60" width="48" height="40" fill="#ffffff"
+          stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+    <rect x="432" y="60" width="48" height="40" fill="#ffffff"
+          stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+    <rect x="488" y="60" width="48" height="40" fill="#ffffff"
+          stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+    <rect x="544" y="60" width="48" height="40" fill="#ffffff"
+          stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+    <rect x="600" y="60" width="48" height="40" fill="#ffffff"
+          stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+    <rect x="656" y="60" width="48" height="40" fill="#ffffff"
+          stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+    <rect x="712" y="60" width="48" height="40" fill="#ffffff"
+          stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+  </g>
+  <g>
+    <rect x="96" y="108" width="48" height="40" fill="#ffffff"
+          stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+    <rect x="152" y="108" width="48" height="40" fill="#ffffff"
+          stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+    <rect x="208" y="108" width="48" height="40" fill="#ffffff"
+          stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+    <rect x="264" y="108" width="48" height="40" fill="#ffffff"
+          stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+    <rect x="320" y="108" width="48" height="40" fill="#ffffff"
+          stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+    <rect x="376" y="108" width="48" height="40" fill="#ffffff"
+          stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+    <rect x="432" y="108" width="48" height="40" fill="#ffffff"
+          stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+    <rect x="488" y="108" width="48" height="40" fill="#ffffff"
+          stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+    <rect x="544" y="108" width="48" height="40" fill="#ffffff"
+          stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+    <rect x="600" y="108" width="48" height="40" fill="#ffffff"
+          stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+    <rect x="656" y="108" width="48" height="40" fill="#ffffff"
+          stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+    <rect x="712" y="108" width="48" height="40" fill="#ffffff"
+          stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+  </g>
+  <g>
+    <rect x="96" y="204" width="48" height="40" fill="#ffffff"
+          stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+    <rect x="152" y="204" width="48" height="40" fill="#ffffff"
+          stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+    <rect x="208" y="204" width="48" height="40" fill="#ffffff"
+          stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+    <rect x="264" y="204" width="48" height="40" fill="#ffffff"
+          stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+    <rect x="320" y="204" width="48" height="40" fill="#ffffff"
+          stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+    <rect x="376" y="204" width="48" height="40" fill="#ffffff"
+          stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+    <rect x="432" y="204" width="48" height="40" fill="#ffffff"
+          stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+    <rect x="488" y="204" width="48" height="40" fill="#ffffff"
+          stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+    <rect x="544" y="204" width="48" height="40" fill="#ffffff"
+          stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+    <rect x="600" y="204" width="48" height="40" fill="#ffffff"
+          stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+    <rect x="656" y="204" width="48" height="40" fill="#ffffff"
+          stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+    <rect x="712" y="204" width="48" height="40" fill="#ffffff"
+          stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+  </g>
+  <g>
+    <rect x="96" y="252" width="48" height="40" fill="#ffffff"
+          stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+    <rect x="152" y="252" width="48" height="40" fill="#ffffff"
+          stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+    <rect x="208" y="252" width="48" height="40" fill="#ffffff"
+          stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+    <rect x="264" y="252" width="48" height="40" fill="#ffffff"
+          stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+    <rect x="320" y="252" width="48" height="40" fill="#ffffff"
+          stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+    <rect x="376" y="252" width="48" height="40" fill="#ffffff"
+          stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+    <rect x="432" y="252" width="48" height="40" fill="#ffffff"
+          stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+    <rect x="488" y="252" width="48" height="40" fill="#ffffff"
+          stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+    <rect x="544" y="252" width="48" height="40" fill="#ffffff"
+          stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+    <rect x="600" y="252" width="48" height="40" fill="#ffffff"
+          stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+    <rect x="656" y="252" width="48" height="40" fill="#ffffff"
+          stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+    <rect x="712" y="252" width="48" height="40" fill="#ffffff"
+          stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+  </g>
+
+  <!-- an amber mark inside a slot = one token still available -->
+  <g>
+    <rect x="106" y="22" width="28" height="20" fill="#e8822a"/>
+    <rect x="162" y="22" width="28" height="20" fill="#e8822a"/>
+    <rect x="218" y="22" width="28" height="20" fill="#e8822a"/>
+    <rect x="274" y="22" width="28" height="20" fill="#e8822a"/>
+    <rect x="330" y="22" width="28" height="20" fill="#e8822a"/>
+    <rect x="386" y="22" width="28" height="20" fill="#e8822a"/>
+    <rect x="442" y="22" width="28" height="20" fill="#e8822a"/>
+    <rect x="498" y="22" width="28" height="20" fill="#e8822a"/>
+    <rect x="554" y="22" width="28" height="20" fill="#e8822a"/>
+    <rect x="610" y="22" width="28" height="20" fill="#e8822a"/>
+    <rect x="666" y="22" width="28" height="20" fill="#e8822a"/>
+    <rect x="722" y="22" width="28" height="20" fill="#e8822a"/>
+  </g>
+  <g>
+    <rect x="106" y="70" width="28" height="20" fill="#e8822a"/>
+    <rect x="162" y="70" width="28" height="20" fill="#e8822a"/>
+    <rect x="218" y="70" width="28" height="20" fill="#e8822a"/>
+    <rect x="274" y="70" width="28" height="20" fill="#e8822a"/>
+    <rect x="330" y="70" width="28" height="20" fill="#e8822a"/>
+    <rect x="386" y="70" width="28" height="20" fill="#e8822a"/>
+    <rect x="442" y="70" width="28" height="20" fill="#e8822a"/>
+    <rect x="498" y="70" width="28" height="20" fill="#e8822a"/>
+    <rect x="554" y="70" width="28" height="20" fill="#e8822a"/>
+    <rect x="610" y="70" width="28" height="20" fill="#e8822a"/>
+    <rect x="666" y="70" width="28" height="20" fill="#e8822a"/>
+  </g>
+  <g>
+    <rect x="106" y="118" width="28" height="20" fill="#e8822a"/>
+    <rect x="162" y="118" width="28" height="20" fill="#e8822a"/>
+    <rect x="218" y="118" width="28" height="20" fill="#e8822a"/>
+    <rect x="274" y="118" width="28" height="20" fill="#e8822a"/>
+    <rect x="330" y="118" width="28" height="20" fill="#e8822a"/>
+    <rect x="386" y="118" width="28" height="20" fill="#e8822a"/>
+    <rect x="442" y="118" width="28" height="20" fill="#e8822a"/>
+    <rect x="498" y="118" width="28" height="20" fill="#e8822a"/>
+    <rect x="554" y="118" width="28" height="20" fill="#e8822a"/>
+    <rect x="610" y="118" width="28" height="20" fill="#e8822a"/>
+  </g>
+  <g>
+    <rect x="106" y="214" width="28" height="20" fill="#e8822a"/>
+    <rect x="162" y="214" width="28" height="20" fill="#e8822a"/>
+    <rect x="218" y="214" width="28" height="20" fill="#e8822a"/>
+    <rect x="274" y="214" width="28" height="20" fill="#e8822a"/>
+  </g>
+  <g>
+    <rect x="106" y="262" width="28" height="20" fill="#e8822a"/>
+    <rect x="162" y="262" width="28" height="20" fill="#e8822a"/>
+    <rect x="218" y="262" width="28" height="20" fill="#e8822a"/>
+  </g>
+
+  <!-- what one request costs, bracketed under the row that cannot pay it -->
+  <path d="M96,300 V306 H312 V300" fill="none"
+        stroke="#3a414a" stroke-width="1" stroke-linejoin="round"/>
+
+  <!-- inline plot: two axis lines, no frame, no gridlines, no ticks -->
+  <path d="M96,356 V484" fill="none" stroke="#3a414a" stroke-width="2"/>
+  <path d="M96,484 H880" fill="none" stroke="#3a414a" stroke-width="2"/>
+  <path d="M96,364 H880" fill="none" stroke="#e8822a" stroke-width="2"
+        stroke-dasharray="6 4" stroke-linecap="round"/>
+  <path d="M96,364 L180,374 L264,384 L348,394 L432,404 L516,414 L600,424 L684,434 L768,444 L852,454" fill="none"
+        stroke="#e8822a" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+
+  <!-- text, last -->
+  <text x="32" y="32" font-size="15.56" font-style="italic" fill="#6f7681"
+        dominant-baseline="central">t=0</text>
+  <text x="32" y="80" font-size="15.56" font-style="italic" fill="#6f7681"
+        dominant-baseline="central">t=1</text>
+  <text x="32" y="128" font-size="15.56" font-style="italic" fill="#6f7681"
+        dominant-baseline="central">t=2</text>
+  <text x="32" y="224" font-size="15.56" font-style="italic" fill="#6f7681"
+        dominant-baseline="central">t=8</text>
+  <text x="32" y="272" font-size="15.56" font-style="italic" fill="#6f7681"
+        dominant-baseline="central">t=9</text>
+  <text x="45" y="176" font-size="26.67" font-weight="700" fill="#000000"
+        text-anchor="middle" dominant-baseline="central">⋮</text>
+  <text x="428" y="176" font-size="26.67" font-weight="700" fill="#000000"
+        text-anchor="middle" dominant-baseline="central">⋮</text>
+  <text x="826" y="176" font-size="26.67" font-weight="700" fill="#000000"
+        text-anchor="middle" dominant-baseline="central">⋮</text>
+
+  <text x="792" y="32" font-size="17.78" font-weight="700" fill="#000000"
+        dominant-baseline="central">allowed</text>
+  <text x="792" y="80" font-size="17.78" font-weight="700" fill="#000000"
+        dominant-baseline="central">allowed</text>
+  <text x="792" y="128" font-size="17.78" font-weight="700" fill="#000000"
+        dominant-baseline="central">allowed</text>
+  <text x="792" y="224" font-size="17.78" font-weight="700" fill="#000000"
+        dominant-baseline="central">allowed</text>
+  <text x="792" y="272" font-size="17.78" font-weight="700" fill="#000000"
+        dominant-baseline="central">throttled</text>
+
+  <text x="798" y="56" font-size="15.56" fill="#6f7681"
+        text-anchor="middle" dominant-baseline="central">↺</text>
+  <text x="814" y="56" font-size="15.56" font-style="italic" fill="#6f7681"
+        dominant-baseline="central">refill +3 per tick</text>
+  <text x="328" y="310" font-size="15.56" font-style="italic" fill="#6f7681"
+        dominant-baseline="central">request needs 4</text>
+
+  <text x="96" y="348" font-size="15.56" font-style="italic" fill="#6f7681"
+        dominant-baseline="central">tokens</text>
+  <text x="880" y="504" font-size="15.56" font-style="italic" fill="#6f7681"
+        text-anchor="end" dominant-baseline="central">time</text>
+  <text x="888" y="364" font-size="15.56" font-weight="700" fill="#cc4e00"
+        dominant-baseline="central">capacity</text>
+  <text x="864" y="464" font-size="15.56" font-weight="700" fill="#cc4e00"
+        dominant-baseline="central">level</text>
+
+</svg>

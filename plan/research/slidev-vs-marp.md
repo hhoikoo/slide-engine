@@ -335,8 +335,7 @@ Limitations:
 - Cannot inject logo as a persistent SVG across all slides programmatically
 - Variants are triggered by class names the LLM must know
 
-Works well for: simple branded decks with 2–3 layout variants.
-Breaks down for: complex multi-layout presentations with dynamic footer, chapter tracking, speaker cards.
+Works well for: simple branded decks with 2–3 layout variants. Breaks down for: complex multi-layout presentations with dynamic footer, chapter tracking, speaker cards.
 
 ### Slidev
 
@@ -348,8 +347,7 @@ A corporate Slidev theme can provide:
 - Chapter-aware section layouts
 - Speaker intro layout with headshot support
 
-Works well for: full corporate presentation systems with consistent identity.
-Requires: more upfront investment, Vue knowledge for maintenance.
+Works well for: full corporate presentation systems with consistent identity. Requires: more upfront investment, Vue knowledge for maintenance.
 
 **Winner for corporate template richness: Slidev** — once the theme is built, it provides a more complete, consistent, and configurable corporate identity than Marp can achieve.
 

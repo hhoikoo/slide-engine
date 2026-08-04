@@ -3,6 +3,89 @@
 @import "default";
 
 /* ──────────────────────────────────────────────
+   Bundled typefaces
+
+   All three families are SIL Open Font License 1.1 (SPDX: OFL-1.1).
+   Each project's licence text travels with the fonts in fonts/, as OFL
+   section 2 requires. Files are shipped verbatim from the upstream release
+   (D2Coding excepted: format-converted only, see below), so the OFL Reserved
+   Font Names stay usable and no rename is needed.
+
+     Inter 4.1        InterVariable.woff2, InterVariable-Italic.woff2
+                      https://github.com/rsms/inter/releases/tag/v4.1
+                      no Reserved Font Name declared in LICENSE.txt
+     Pretendard 1.3.9 PretendardVariable.woff2
+                      https://github.com/orioncactus/pretendard/releases/tag/v1.3.9
+                      Reserved Font Name: Pretendard
+     D2Coding 1.3.3   D2Coding-Regular.woff2, D2Coding-Bold.woff2
+                      https://github.com/naver/d2-coding-font/releases/tag/VER1.3.3
+                      Reserved Font Name: D2Coding, D2Coding-Bold
+                      upstream ships .ttf only; converted to woff2 with no
+                      subsetting and no table changes, which OFL-FAQ 2.2.1
+                      permits while keeping the name.
+
+   "Inter Display" is not a separate design here. Inter 4 exposes an optical
+   size axis (opsz 14 to 32) on InterVariable, and opsz 32 is the Display end.
+   Measured in headless Chrome, InterVariable at opsz 32 matches the static
+   InterDisplay-Regular advance width exactly at 13.33, 17.78, 24, 40 and
+   100px, so pinning the descriptor reproduces what the theme rendered before
+   from the system-installed Inter Display, at one file instead of ten.
+
+   Variable rather than static: the theme uses weights 400, 500, 600, 700 and
+   800. Inter variable is 740KB against 801KB for the seven statics that would
+   cover those, and Pretendard variable is 2.0MB against 3.9MB for five.
+
+   Deliberately not subsetted. OFL-FAQ 2.6 makes a subset a Modified Version,
+   which forfeits the Reserved Font Name, and Pretendard's full 11172-syllable
+   Hangul block is what keeps newly written Korean from breaking later.
+
+   No unicode-range split: "Inter Display" carries no Hangul, so the existing
+   font-family stack already falls through to Pretendard per character, which
+   is exactly the behaviour these declarations replace.
+   ────────────────────────────────────────────── */
+@font-face {
+    font-family: "Inter Display";
+    src: url("fonts/InterVariable.woff2") format("woff2");
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+    font-variation-settings: "opsz" 32;
+}
+
+@font-face {
+    font-family: "Inter Display";
+    src: url("fonts/InterVariable-Italic.woff2") format("woff2");
+    font-weight: 100 900;
+    font-style: italic;
+    font-display: swap;
+    font-variation-settings: "opsz" 32;
+}
+
+@font-face {
+    font-family: "Pretendard";
+    src: url("fonts/PretendardVariable.woff2") format("woff2");
+    font-weight: 45 920;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "D2Coding";
+    src: url("fonts/D2Coding-Regular.woff2") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "D2Coding";
+    src: url("fonts/D2Coding-Bold.woff2") format("woff2");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* ──────────────────────────────────────────────
    색상 및 기본 변수
    ────────────────────────────────────────────── */
 :root {
@@ -100,7 +183,6 @@
     --asset-logo-horizontal-black: url("assets/logo/lablup-horizontal-black.svg");
     --asset-logo-vertical: url("assets/logo/lablup-vertical.svg");
     --asset-logo-mark: url("assets/logo/lablup-logo.svg");
-    --asset-cover-illust: url("assets/common/cover-illust.jpg");
 
     font-family:
         "Inter Display", "Pretendard", "Pretendard JP", "Symbols Nerd Font",
@@ -517,8 +599,7 @@ section .progress-bar {
    흰 배경, h2 주황 바 제거, 페이지 번호 숨김
    ────────────────────────────────────────────── */
 section.title {
-    background: var(--color-bg) var(--asset-cover-illust) no-repeat right
-        center / auto 100%;
+    background: var(--color-bg);
     color: var(--color-fg);
     display: flex;
     flex-direction: column;

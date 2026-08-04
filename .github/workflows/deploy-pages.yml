@@ -3,7 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
-    paths: ['public/**']
+    paths: ['public/**', 'fonts/**']
 
 permissions:
   pages: write
@@ -21,6 +21,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      # The shared font directory is committed once at the repo root and copied in
+      # here, so it is not duplicated inside public/ as well.
+      - name: Stage shared fonts
+        run: cp -R fonts public/fonts
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

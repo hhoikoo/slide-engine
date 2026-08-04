@@ -36,6 +36,10 @@ Section files also use numeric names only: `00.md`, `01.md`, etc.
 5. Append the new entry to `presentations/index.md`.
 6. Report the directory path and suggest next steps: edit synopsis.md, then run `/generate-slides`.
 
+## Voice
+
+`synopsis.md` is authored prose under `presentations/`, so `.claude/rules/writing-core.md` applies to it. Write the audience, key messages, and structure as plain declarative sentences with real specifics. No placeholder puffery, no invented numbers, no em dashes.
+
 ## Note
 
 Do NOT create `slides.md` or `output/`. Both are build artifacts.

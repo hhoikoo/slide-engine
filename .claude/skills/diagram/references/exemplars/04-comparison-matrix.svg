@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 400" width="1000" height="400"
+     font-family="'Inter Display', Pretendard, sans-serif">
+
+  <!-- archetype: comparison matrix
+       encoding: colour = magnitude. one blue triple in three steps, pale = low,
+       mid = medium, dark = high. 1 hue. solid frames group the columns (options),
+       dashed frames group the rows (attributes); the crossing carries the grid, so
+       no cell needs a border, a header rule or a stripe. cells hold no text at all:
+       the fill is the value.
+       the swatches at top left are an inline scale, not a legend. a legend maps
+       arbitrary keys to names and makes the reader shuttle back per cell; this
+       strip states once which end of one ordinal ramp is "more", after which every
+       cell reads by relative darkness with nothing to look up. it also teaches
+       that the palest step is a value and not an empty cell. it sits in the matrix
+       corner, on the header line, as part of the grid. -->
+
+  <rect x="0" y="0" width="1000" height="400" fill="#ffffff"/>
+
+  <!-- column frames: solid, one per option, spanning all four attributes -->
+  <rect x="240" y="48" width="216" height="336" rx="6" fill="none"
+        stroke="#979ea8" stroke-width="2" stroke-linejoin="round"/>
+  <rect x="496" y="48" width="216" height="336" rx="6" fill="none"
+        stroke="#979ea8" stroke-width="2" stroke-linejoin="round"/>
+  <rect x="752" y="48" width="216" height="336" rx="6" fill="none"
+        stroke="#979ea8" stroke-width="2" stroke-linejoin="round"/>
+
+  <!-- row frames: dashed, one per attribute, crossing all three options -->
+  <rect x="224" y="64" width="760" height="64" rx="6" fill="none"
+        stroke="#b4bdc8" stroke-width="2" stroke-dasharray="6 4"
+        stroke-linejoin="round"/>
+  <rect x="224" y="144" width="760" height="64" rx="6" fill="none"
+        stroke="#b4bdc8" stroke-width="2" stroke-dasharray="6 4"
+        stroke-linejoin="round"/>
+  <rect x="224" y="224" width="760" height="64" rx="6" fill="none"
+        stroke="#b4bdc8" stroke-width="2" stroke-dasharray="6 4"
+        stroke-linejoin="round"/>
+  <rect x="224" y="304" width="760" height="64" rx="6" fill="none"
+        stroke="#b4bdc8" stroke-width="2" stroke-dasharray="6 4"
+        stroke-linejoin="round"/>
+
+  <!-- cells: fill only, no stroke. row 1, setup cost -->
+  <rect x="248" y="72" width="200" height="48" rx="6" fill="#edf5ff"/>
+  <rect x="504" y="72" width="200" height="48" rx="6" fill="#6db1ff"/>
+  <rect x="760" y="72" width="200" height="48" rx="6" fill="#1071e5"/>
+
+  <!-- row 2, read scaling -->
+  <rect x="248" y="152" width="200" height="48" rx="6" fill="#edf5ff"/>
+  <rect x="504" y="152" width="200" height="48" rx="6" fill="#1071e5"/>
+  <rect x="760" y="152" width="200" height="48" rx="6" fill="#6db1ff"/>
+
+  <!-- row 3, write scaling -->
+  <rect x="248" y="232" width="200" height="48" rx="6" fill="#edf5ff"/>
+  <rect x="504" y="232" width="200" height="48" rx="6" fill="#edf5ff"/>
+  <rect x="760" y="232" width="200" height="48" rx="6" fill="#1071e5"/>
+
+  <!-- row 4, failure blast radius -->
+  <rect x="248" y="312" width="200" height="48" rx="6" fill="#1071e5"/>
+  <rect x="504" y="312" width="200" height="48" rx="6" fill="#edf5ff"/>
+  <rect x="760" y="312" width="200" height="48" rx="6" fill="#6db1ff"/>
+
+  <!-- inline scale, in the matrix corner -->
+  <rect x="44" y="12" width="40" height="24" rx="6" fill="#edf5ff"/>
+  <rect x="88" y="12" width="40" height="24" rx="6" fill="#6db1ff"/>
+  <rect x="132" y="12" width="40" height="24" rx="6" fill="#1071e5"/>
+
+  <!-- text, last -->
+  <text x="16" y="24" font-size="13.33" font-style="italic" fill="#6f7681"
+        dominant-baseline="central">low</text>
+  <text x="184" y="24" font-size="13.33" font-style="italic" fill="#6f7681"
+        dominant-baseline="central">high</text>
+
+  <text x="348" y="32" font-size="20" font-weight="700" fill="#000000"
+        text-anchor="middle">single node</text>
+  <text x="604" y="32" font-size="20" font-weight="700" fill="#000000"
+        text-anchor="middle">replicated</text>
+  <text x="860" y="32" font-size="20" font-weight="700" fill="#000000"
+        text-anchor="middle">sharded</text>
+
+  <text x="16" y="96" font-size="17.78" font-style="italic" fill="#6f7681"
+        dominant-baseline="central">setup cost</text>
+  <text x="16" y="176" font-size="17.78" font-style="italic" fill="#6f7681"
+        dominant-baseline="central">read scaling</text>
+  <text x="16" y="256" font-size="17.78" font-style="italic" fill="#6f7681"
+        dominant-baseline="central">write scaling</text>
+  <text x="16" y="336" font-size="17.78" font-style="italic" fill="#6f7681"
+        dominant-baseline="central">failure blast radius</text>
+
+</svg>

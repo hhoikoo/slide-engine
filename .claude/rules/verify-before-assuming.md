@@ -15,6 +15,16 @@ If a claim is not trivially obvious, verify it before stating it or acting on it
 - **Standards and protocols**: Look up the spec or authoritative reference rather than paraphrasing from memory.
 - **Non-programming facts**: When the user asks about something outside of code, search the web or consult authoritative sources rather than generating an answer from training data alone. Flag uncertainty explicitly if verification is not possible.
 
+## Claude Code surface details
+
+Never guess frontmatter fields, hook events, settings keys, tool names, or permission syntax. They change between releases.
+
+1. `claude-code-guide` subagent (via Agent): preferred for a specific question.
+2. `WebFetch` against `https://code.claude.com/docs/en/<page>`. Common pages: `skills`, `sub-agents`, `hooks`, `mcp`, `plugins`, `memory`, `settings`, `permissions`, `cli-reference`, `output-styles`.
+3. `WebSearch` with `site:code.claude.com/docs/en/`.
+
+The fetched page is the source of truth. Do not paraphrase from training data.
+
 ## Project-Specific Sources of Truth
 
 | Information needed | Check this |
@@ -23,4 +33,6 @@ If a claim is not trivially obvious, verify it before stating it or acting on it
 | Theme CSS variables | `themes/*/theme.css` |
 | Build commands | `Makefile` |
 | Engine features | `engine/marp.config.js` |
-| Writing rules | `.claude/rules/writing-*.md` |
+| Writing rules | `.claude/rules/writing-core.md` first, then `writing-{en,ko,shortform}.md` |
+| Punctuation and dashes | `.claude/rules/text-syntax.md` |
+| What the linter checks | `engine/scripts/lint-text.sh` |

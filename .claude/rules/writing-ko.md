@@ -1,26 +1,33 @@
 ---
 paths:
   - "presentations/**/*.md"
-  - "**/*.md"
 ---
-# Korean Writing Rules
+# Korean writing rules
 
-Rules for Korean slide content.
+Korean long tail. Always-on rules: `writing-core.md`. Punctuation: `text-syntax.md`. Labels: `writing-shortform.md`.
 
-## Sentence Flow
+**[measured]** marks a published human-vs-AI ratio. Everything else is convention; no hard ban rests on an unmeasured item.
 
-- Connect clauses naturally within a single sentence using connective endings (~이고, ~인데, ~하는데).
-- Allow parenthetical insertions for context.
-- Avoid short, disconnected sentences (AI signature pattern).
+## Register: slide bullets
 
-## Paragraph Structure
+- **개조식.** Noun-final fragments, particles minimized: `자동 회수 적용`, `p99 90ms로 개선`, `검토 중`. A noun-final bullet has no 종결어미 to repeat, which dissolves the monotony problem structurally.
+- No 해요체, no 합니다체, no sentence-final verb unless the bullet is a full claim.
+- One idea per bullet. Split rather than comma-chaining.
+- The flow rules below do **not** apply here. Never write 3-4 sentence paragraphs on a slide.
 
-- Minimum 3-4 sentences per paragraph. One-sentence paragraphs only for intentional emphasis.
-- Do not fragment paragraphs excessively.
+## Register: speaker notes and prose
 
-## AVOID: Over-Translation of Technical Terms
+Speaker notes, `synopsis.md`, `research/`, and any connected Korean prose. The only place the flow rules apply.
 
-In technical presentations, keep English technical terms in English. Do not transliterate into Korean unless the Korean term is genuinely more natural in context (e.g., "배포" for deployment when not referring to K8s Deployments).
+- Connect clauses inside one sentence with connective endings (`~이고`, `~인데`, `~하는데`). Parenthetical asides welcome.
+- **[measured]** The tell is the **absence of long sentences**, not the presence of short ones: 100+ char sentences run AI 8.1 vs human 91.3 per 1000 (11x). Every paragraph carries at least one long sentence. Fix by joining adjacent sentences; add no content.
+- Opposite failure mode, also a tell: all-simple-sentence prose. Target roughly 60% simple, 30%+ complex.
+- 3-4 sentences per paragraph. One-sentence paragraphs for deliberate emphasis only.
+- **Human markers to include** (notes only, never a slide bullet): 제가 써보니까 / 해보면; 그래서요. / 이게 왜 중요하냐면요. / 근데 말이죠.; 진짜, 확, 완전; fragments like 당연하죠. / 이게 핵심.; 의태어 뚝딱, 술술, 쭉쭉.
+
+## AVOID: over-translation of technical terms
+
+Keep English technical terms in English unless the Korean is genuinely more natural (`배포` for deployment, when not a K8s Deployment).
 
 | Do not write | Write instead |
 |---|---|
@@ -40,159 +47,151 @@ In technical presentations, keep English technical terms in English. Do not tran
 | 오토스케일러 | Autoscaler |
 | 시나리오 | Scenario (or rephrase) |
 
-Exception: words that have become standard Korean IT vocabulary (e.g., 서버, 클러스터, 컨테이너, 스냅샷, 파이프라인, 리뷰) are fine.
+Exception: now-standard Korean IT vocabulary (서버, 클러스터, 컨테이너, 스냅샷, 파이프라인, 리뷰). Acronyms (API, SDK, CLI, GPU, LLM) always stay original; `prompt -> 지시문`, `token -> 표식` are wrong.
 
 ### Calqued concept phrases (개념어 음차)
 
-Single tech nouns are one thing; multi-word English concept phrases transliterated wholesale read as raw translation. Replace with the natural Korean idea, not the sound.
+Multi-word English concept phrases transliterated wholesale read as raw translation. Replace with the Korean idea, not the sound.
 
 | Do not write | Write instead |
 |---|---|
 | 멘탈 모델 | 큰 그림 / 머릿속 그림 / 사고 틀 |
-| 토이 예시 / 토이 example | 단순 예시 / 간단한 예시 |
+| 토이 예시 | 단순 예시 / 간단한 예시 |
 | 베이스라인 (as "baseline scenario") | 기본 그림 / 기준 (or keep `baseline` in English) |
 | 유즈 케이스 | 사용 사례 / 쓰임새 |
 
 ### Transliteration consistency
 
-If a term appears in English elsewhere in the same doc, do not transliterate it in one spot. Pick one and hold it. In English-heavy decks the default is English: `routing` not 라우팅, `telemetry` not 텔레메트리, `profile` not 프로파일 (verb -> 측정하다/재 보다). One-off 음차 next to the same word in Latin script is the tell.
+Pick one spelling and hold it across the document. English-heavy decks default to English: `routing` not 라우팅, `telemetry` not 텔레메트리. A one-off 음차 next to the same word in Latin script is the tell.
 
-## AVOID: 번역투 (Translation-ese)
+## AVOID: 번역투 (translation-ese)
 
-영어 구문을 한국어로 1대1 옮긴 흔적. AI 한글의 가장 결정적 시그니처. 슬라이드 본문과 speaker notes 모두에 적용.
+영어 구문을 한국어로 1대1 옮긴 흔적. 슬라이드 본문과 speaker notes 모두 적용.
 
 | Do not write | Write instead |
 |---|---|
-| "X에 대해(서) 논의한다" | "X를 논의한다" (목적격 직결) |
-| "분석을 통해 인사이트를 얻는다" | "분석해서 인사이트를 얻는다" (~로/~해서로 분산) |
-| "~에 있어(서)" | "~에서", "~할 때" |
-| "~를 기반으로 한", "~에 기반하여" | "~로 만든", "~위에 세운", "~로" |
-| "~함으로써" | "~하면", "~해서" |
-| "경쟁력을 가지고 있다" (have + N 직역) | "경쟁력이 강하다" (형용사로 환원) |
-| "판단되어진다" (이중 피동) | "판단된다" / "판단한다" |
-| "AI에 의해 생성된 이미지" (by-passive) | "AI가 만든 이미지" (행위자를 주어로) |
-| "AI 기술 발전 속도 가속화" (명사 나열) | "AI 기술의 발전 속도가 빨라진다" (조사 복원) |
+| X에 대해(서) 논의한다 | X를 논의한다 (목적격 직결) |
+| X에 있어(서) | X에서, X를 볼 때 |
+| X를 기반으로 한 / X에 기반하여 | X로 만든, X 위에 세운, X로 |
+| X함으로써 | X하면, X해서 |
+| 경쟁력을 가지고 있다 (have + N) | 경쟁력이 강하다 (형용사로 환원) |
+| 판단되어진다 (이중 피동) | 판단된다 / 판단한다 |
+| AI에 의해 생성된 이미지 (by-passive) | AI가 만든 이미지 (행위자를 주어로) |
+| 합의가 이루어졌다 | 합의했다 |
+| 마포구에 위치한다 | 마포구에 있다 |
+| AI 기술 발전 속도 가속화 (명사 나열) | AI 기술의 발전 속도가 빨라진다 (조사 복원) |
+| 저의 경우에는 | 저는 |
+| 한강으로부터 10km | 한강에서 10km |
+| 많은 학생들이 | 많은 학생이 (수량 표현이 이미 복수) |
+| 이러한 노력에도 불구하고 | 이러한 노력에도 |
+| 아무리 강조해도 지나치지 않는다 | 중요하다 |
+| 긴장으로부터의 해방 (조사 중첩 `-에서의 / -으로의 / -로부터의`) | 긴장에서 벗어남 |
 
-**영어 대명사 직역 (그/그녀/그것/그들):** 영어 he/she/it/they를 1대1로 옮기지 말 것. 한국어는 생략하거나 호칭으로 응결한다. "존은 피곤했다. 그는 앉았다. 그는 시계를 보았다" -> "존은 피곤했다. 자리에 앉아 시계를 보았다." "그의 손" -> "손". 한 문단에 인칭 대명사 3회 이상이면 다시 쓴다.
+**영어 대명사 직역 (그/그녀/그것/그들).** "존은 피곤했다. 그는 앉았다. 그는 시계를 보았다" -> "존은 피곤했다. 자리에 앉아 시계를 보았다." Scope guard: fires on **translated** text only. **[measured]** In natively written Korean humans use 그는/그의 *more* than AI (1.9 vs 0.0 per 1000 어절).
 
-## AVOID: Korean Slop Words
+### Two rules that measurement disproved
 
-- Adjectives/adverbs: 혁신적인, 획기적인, 선도적인, 차별화된, 탁월한, 원활한, 강력한
-- Connectors: 이를 통해, 이를 바탕으로, 이와 같이, 이러한 가운데
-- Transition words: limit "또한", "더불어", "나아가", "한편", "특히", "무엇보다" to max 2 per document
+Earlier versions of this file banned both. Both bans were wrong.
 
-## BANNED: AI Patterns
+- **`~를 통해` is not an AI tell.** 최희경 (2016): non-translated Korean **84.4** vs translated **42.1**. Natives use it twice as often. Only "universal connector, 3+ per paragraph" is a style problem, and the fix is variety (`X로`, `X해서`), not deletion.
+- **`것이다` is not an AI tell.** **[measured]** AI **20.4** vs human **43.0** per 1000. Only 3+ consecutive `~인 것이다 / ~할 것이다` closers read mechanical. Plain `~의` is fine too; 국립국어원 holds it native since the 15th century.
 
-- **Meta-framing**: "오해를 풀겠습니다", "흔한 오해 하나를 풀고 시작하겠습니다", "이건 오해. X 때문" -> just present the facts and let the audience draw the conclusion. Do not announce that you are correcting a misconception.
-- **Meta-commentary**: "핵심은 ~이다", "중요한 것은" -> state the content directly
-- **Negative contrast**: "A가 아니라 B" -> describe B directly
-- **Rigged comparisons**: no setting up scenarios where one side fails and the other succeeds. Present both sides' facts side by side.
-- **Summary endings**: no paragraphs that repeat what was already said. End with new insight.
-- **Equal distribution**: vary depth by importance. Don't give every point the same length.
+## AVOID: 연결어미 뒤 쉼표
 
-## AVOID: Punctuation Mistakes
+**[measured]** Strongest single Korean surface metric: KatFish, human **4.10%** vs AI **19.83%** (4.84x). No comma right after `-고 / -며 / -지만 / -면서 / -아서·어서 / -자 / -는데`. "발전하지만, 대응은 더디다" -> "발전하지만 대응은 더디다". The ending carries the breath. 6+ per document is decisive; 3-5 is strong.
 
-- **연결어미 뒤 쉼표**: strongest single AI tell in Korean (KatFish: human 4.10% vs AI 19.83%, 4.84x). Do not put a comma right after a connective ending (-고 / -며 / -지만 / -면서 / -아서·어서 / -는데). "발전하지만, 대응은 더디다" -> "발전하지만 대응은 더디다". The ending already carries the breath; drop the comma or split into a new sentence.
-- **Dashes**: do not use em dashes or double hyphens in Korean. Use commas, parentheses, colons, or just write a normal sentence.
-- **Bold markers**: `**text**` followed by Korean particles needs a space (`**text** 로`). Colons go inside bold (`**text:**`).
-- **Quotes**: single quotes for emphasis/concepts, double quotes only for direct quotes from real people.
+**[measured]** Comma density: keep the share of sentences containing a comma under 50% (human 26.31% vs AI 61.03%, 2.32x). Mean comma-segment length should stay under 7 어절 (human 4.35 vs AI 8.56).
 
-## AVOID: Formal Ending Monotony
+## AVOID: 대칭 대조 (A가 아니라 B)
 
-AI defaults to ~합니다/~입니다 for every sentence. Mix registers: ~해요, ~거든요, ~인데, sentence fragments.
+**[measured]** Strongest signal in the whole taxonomy: AI **5.8** vs human **0.6** per 1000 sentences (9.2x, G²=41.7, p<0.0001; 18x vs personal blogs). Model-independent. Also `A인가, B인가`. 3+ per document is decisive. Describe B directly.
 
-| AI-like (경직된 문체) | Human-like (자연스러운 문체) |
+## AVOID: AI signature endings
+
+LLM이 결산·종결 문장을 자동으로 이렇게 닫는다. Quotas are per document.
+
+- **결산 피벗** (max 3): 결론적으로 / 요약하면 / 종합하면 / 정리하자면 / ~라고 할 수 있다 / ~라고 볼 수 있다. Drop, state the conclusion.
+- **의미 부연 종결** (max 2): ~다는 뜻이다 / ~다는 의미다 / ~라는 점에 있다 -> 단언.
+- **권고형 결말** (max 5): ~해야 한다 / ~해야 합니다 as every closer -> 구체 동사 단언 또는 주체 명시 ("정부는 ~를 도입한다").
+- **완결 공식** (max 1): ~할 때입니다 / ~로 나아갈 시점입니다 / ~할 순간입니다.
+- **전환 공식** (max 1): `X에서 Y로` / `X을 넘어 Y로`. "'지식 전달자'에서 '학습 조력자'로" -> "교사는 더 이상 지식 전달자가 아니다. 학생 곁에서 학습을 돕는다."
+- **의미 인플레**: 매우 중요하다 / 시사하는 바가 크다 / 주목할 만하다 / 간과할 수 없다 / ~의 지평을 연다.
+- **추상 주어 의인화**: "기술이 묻는다", "시대가 부른다". Name a real agent.
+
+## AVOID: formal ending monotony
+
+AI defaults to ~합니다/~입니다 for every sentence. In notes, mix registers.
+
+| AI-like | Human-like |
 |---|---|
 | ~할 수 있습니다 (repeated) | ~돼요 / ~됩니다 / ~가능 |
-| ~것입니다 | ~거예요 / ~인 셈 |
 | ~하고 있습니다 | ~하는 중 / ~하고 있어요 |
+| ~고 있다 (English `be -ing` calque) | ~는다 ("읽고 있다" -> "읽는다") |
 
-Ban the ~할 수 있습니다 hammer. If more than two sentences in a section end this way, rewrite.
+Same 종결어미 four times consecutively is the threshold. Vary with ~었다 / ~ㄴ다 / ~는다 / ~기 마련이다.
 
-## AVOID: Intensifier/Connector Overuse
+## AVOID: intensifier and connector overuse
 
-**Intensifiers to avoid (with human alternatives):**
-- 매우 -> 정말, 진짜, 엄청
-- 굉장히 -> sounds like a news anchor, drop or replace with 진짜
-- 정말로 -> the -로 suffix makes it overly emphatic, use 정말 or 진짜
-- 실제로 -> translationese from "actually", drop or use 사실
+- **Intensifiers**: 매우 -> 정말/진짜/엄청; 굉장히 -> drop; 정말로 -> 정말; 실제로 -> drop or 사실. Cut degree adverbs ~90%, except where the source is spoken and the adverb is the speaker's voice.
+- **Connectors**: 따라서 / 그러므로 -> 그래서; 게다가 -> 거기다; 이에 따라 -> drop.
+- **Quotas, not bans.** 또한 / 더불어 / 나아가 / 한편 / 특히 / 무엇보다: max 2 each. 즉 (`i.e.` calque): max 2, or 곧 / 말하자면 / 다시 말해. Sentence-initial connectors stacked 5+ times: cut 70%.
+- 이를 통해 / 이를 바탕으로 / 이와 같이 / 이러한 가운데 as paragraph glue: restructure.
+- **메타 재진입**: 이는 ~ / 이 점에서 / 이 관점에서 보면, 3회 초과 시 삭제.
 
-**Connectors to avoid (with human alternatives):**
-- 따라서 -> 그래서
-- 그러므로 -> rarely used in casual Korean, use 그래서
-- 또한 -> ~도, 그리고
-- 게다가 -> 거기다, 그것도
-- 이에 따라 -> bureaucratic register, drop or restructure
-- 즉 (영어 i.e. 직역) -> 곧, 말하자면, 다시 말해, or drop and join with a comma. Max 1 per document.
+## AVOID: over-hedging (완곡 남발)
 
-**문두 접속사 남발:** "또한 / 따라서 / 즉 / 나아가 / 아울러" stacked at sentence and paragraph starts. Cut 70%+. Logic should show through the content, not the connector.
+단언할 수 있는 곳은 단언한다. Hedge only where the uncertainty is real, then say what is uncertain.
 
-## AVOID: AI Signature Endings
-
-LLM이 결산·종결 문장을 거의 자동으로 이렇게 닫는다. 발견 즉시 평서형으로.
-
-- 결산 피벗: "결론적으로 / 요약하면 / 종합하면 / 정리하자면" -> drop, just state the conclusion. (한 문서 3회 초과 시 강한 신호)
-- 형식명사 종결: "~인 것이다 / ~할 것이다" -> "~다" 직결 ("변화가 큰 것이다" -> "변화가 크다")
-- 의미 부연 종결: "~다는 뜻이다 / ~다는 의미다 / ~라는 점에 있다" -> 본문에 풀어 단언 ("핵심은 ~라는 점에 있다" -> "핵심은 ~다")
-- 권고형 결말: "~해야 한다 / ~해야 합니다"가 매 결말마다 -> 구체 동사 단언 또는 주체 명시 ("정부는 ~를 도입한다"). 한 문서 5회 초과 회피.
-- 완결 공식: "~할 때입니다 / ~로 나아갈 시점입니다" -> 구체 동사로. 한 문서 1회만.
-
-## AVOID: Over-hedging (완곡 남발)
-
-단언할 수 있는 곳은 단언한다. hedging은 정말 불확실한 지점에만.
-
-- 추측형 종결이 모든 문장 끝에: "~할 수 있을 것으로 보인다 / ~인 것으로 판단된다 / ~인 듯하다" -> 단언
-- 이중·삼중 완곡: "~할 가능성이 있을 수 있다 / ~로 보여질 수 있다" -> 하나만
-- 안전 균형 어휘: "양쪽 모두 / 장점도 있지만 / 신중하게 / 균형 잡힌 시각" -> 한쪽을 단언하거나 조건부("X일 때는 A, Y일 때는 B")로
+- 추측형 종결: ~할 수 있을 것으로 보인다 / ~인 것으로 판단된다 / ~라고 여겨진다 / ~인 듯하다 -> 단언.
+- 이중·삼중 완곡: ~할 가능성이 있을 수 있다 / ~로 보여질 수 있다 -> 하나만.
+- 안전 균형 어휘 (합계 4회+): 양쪽 모두 / 장점도 있지만 / 신중하게 / 균형 잡힌 시각 -> 한쪽을 단언하거나 조건부로.
+- 습관적 "다만" after every mildly contestable claim.
 
 ## AVOID: 명사화 과다 (~적 N, ~성/~화)
 
-- "~적 N" 추상 체인: "전략적 함의", "기술적 토대", "구조적 변화"가 한 문서 3회+ -> 명사+명사("전략 함의") 또는 동사로 풀기("기술이 얼마나 안정적인가")
-- 한자어 명사화 "-성 / -적 / -화" 밀도가 높으면 동사·형용사 어근으로 해체. "근본적 관점에서 구조적 변화가 필연적이다" -> "구조가 근본부터 바뀐다"
-- "~능력" 추상명사 연쇄("사고 능력", "추론 능력")가 3회+ -> 동사형("잘 사고한다"). 한 문서 2회 이하.
+- `~적 N` 추상 체인 (전략적 함의, 기술적 토대, 구조적 변화) 3회+ -> 명사+명사 또는 동사로.
+- `-성 / -적 / -화` 밀도 한 문서 12회 초과면 어근으로 해체. "근본적 관점에서 구조적 변화가 필연적이다" -> "구조가 근본부터 바뀐다".
+- `~능력` 연쇄 (사고 능력, 추론 능력) 3회+ -> 동사형. 최대 2회.
+- Not an absolute ban: 공식적인 답변 / 공식 답변 differ by context. Overuse is the problem, not the suffix.
+- English `-tion / -ment / -ity` calques: "the implementation of the policy" -> "정책 시행".
 
 ## AVOID: 괄호 영어 병기 매번
 
-전문용어마다 영어 병기하지 말 것. "인공지능(AI)은 거대언어모델(LLM)과 다르다." 전문 독자 대상이면 첫 등장 1회만 병기, 이후 한국어만. 고유명사·업계 표준(Transformer, API, SDK)은 예외로 유지.
+전문용어마다 영어 병기하지 말 것. "인공지능(AI)은 거대언어모델(LLM)과 다르다." 첫 등장 1회만, 이후 한국어만. 고유명사·업계 표준 (Transformer, API, SDK)은 예외.
 
-## Human Markers to Include
+## AVOID: cliché lexicon
 
-Real Korean uses markers that AI consistently omits. Include these where tone allows:
+**Honest framing:** no Korean authority names these an *AI* tell. They are documented as corporate / 자기소개서 cliché. Avoid them as cliché; same advice, defensible justification.
 
-- **Personal experience:** 제가 써보니까, 해보면, 저는 매일 쓰는 방법이에요
-- **Conversational rhythm:** 그래서요. / 이게 왜 중요하냐면요. / 근데 말이죠.
-- **Casual emphasis:** 진짜, 확, 완전, 대박
-- **Sentence fragments:** 당연하죠. / 맞아요 이거. / 이게 핵심.
-- **Sound-symbolic words (의태어):** 뚝딱, 술술, 쭉쭉
+- Hype adjectives: 혁신적인, 획기적인, 선도적인, 차별화된, 탁월한, 원활한, 강력한, 압도적, 막강한, 폭발적, 파격적, 대대적.
+- Cliché openers: "급변하는 현대 사회에서...", "AI 기술은 ~에서 매우 중요한 역할을 한다".
+- 열거 예고: 크게 세 가지로 나눌 수 있다 / 다음과 같은 특징을 가진다 / 다음과 같이 요약할 수 있다.
+- 동의어 겹침: 중요하고 핵심적인 역할 / 새롭고 혁신적인 접근 / 지속적이고 꾸준한 노력.
+- 기능+역할 합성: ~로서의 역할과 기능 / ~의 의미와 가치.
+- ChatGPT tells, never write: "좋은 질문이네요!", "정말 흥미로운 관점이에요.", "~에 대해 자세히 알아보겠습니다.", "와... 너 정말, 핵심을 찔렀어."
 
-## BANNED: ChatGPT Korean Tells
+## AVOID: rigid enumeration
 
-These phrases are dead giveaways of AI-generated Korean. Never use them:
+첫째 / 둘째 / 셋째 is natural Korean rhetoric; a three-item list is not a defect. Dissolve only when 4+ land in one paragraph and it reads like a metronome. Same for `1) 2) 3)`.
 
-- 와... 너 정말, 핵심을 찔렀어.
-- 좋은 질문이네요!
-- 정말 흥미로운 관점이에요.
-- ~에 대해 자세히 알아보겠습니다.
-
-## AVOID: Rigid Enumeration
-
-Avoid rigid 첫째, 둘째, 셋째 structure. Human Korean uses varied transitions or no explicit numbering.
-
-Before (AI):
+Before:
 ```
-첫째, 운동은 건강에 좋습니다. 둘째, 스트레스를 줄여줍니다.
-셋째, 수면의 질을 높여줍니다.
+첫째, 운동은 건강에 좋습니다. 둘째, 스트레스를 줄여줍니다. 셋째, 수면의 질을 높여줍니다.
 ```
 
-After (human):
+After:
 ```
 운동하면 일단 건강해지잖아요. 스트레스도 확 줄고, 잠도 잘 오고요.
 ```
 
-## Before/After Example
+## Do not touch
+
+Leave alone when editing: proper nouns, product and model names, numbers, dates, units, quoted text, math notation, standard acronyms. Never raise formality (`-했-` -> `-하였-`). AI-ness is grammar and rhetoric, not formality.
+
+## Before/after
 
 Before (AI):
-```
+```markdown
 ## Backend.AI: 차별화 포인트
 
 - 소프트웨어 기반 GPU 가상화를 통해 **하드웨어에 의존하지 않는** 유연한 자원 관리 실현
@@ -200,10 +199,10 @@ Before (AI):
 - NVIDIA, AMD, Intel 등 **12종 이상**의 다양한 하드웨어를 지원하는 **애그노스틱** 설계
 ```
 
-Problems: "차별화 포인트" is AI vocabulary, excessive bold on every line, "유연한 자원 관리 실현" is inflated, "최적의 성능을 제공" is promotional.
+Problems: "차별화 포인트" AI vocabulary, bold on every line, "유연한 자원 관리 실현" inflated, "최적의 성능을 제공" promotional, `애그노스틱` a calque.
 
 After (human):
-```
+```markdown
 ## 시작부터 달랐던 Backend.AI
 
 ### fGPU (특허 기술)
@@ -222,8 +221,10 @@ After (human):
 - NVIDIA CUDA, AMD ROCm, Intel Gaudi, Google TPU 등 <b>12종+</b>
 ```
 
-Changes: title is plain Korean not AI vocabulary, bold only on the one key number, specific details instead of vague claims, no promotional adjectives, no dashes as separators.
+Changes: plain Korean title, bold only on the key number, concrete details, no promotional adjectives, noun-final 개조식 bullets.
 
 ## Sources
 
-Translation-ese, signature-ending, hedging, and 연결어미-쉼표 patterns adapted from the Korean AI-tell taxonomy in [epoko77-ai/im-not-ai](https://github.com/epoko77-ai/im-not-ai) (MIT). KatFish figures: Park et al.
+Taxonomy, thresholds, and the two rejected rules from [epoko77-ai/im-not-ai](https://github.com/epoko77-ai/im-not-ai) (MIT). KatFish baselines: Park et al., ACL 2025. 번역투 pairs also from 한빛+ 「흔한 번역투 TOP 12」 and 우리말 지킴이; `~를 통해` counts from 최희경 (2016).
+
+Caution: 국립국어원 publishes no official 번역투 list, no Korean equivalent of Wikipedia's "Signs of AI writing" exists, and most Korean pattern claims rest on typology rather than measurement. Only **[measured]** items have a human control corpus behind them.

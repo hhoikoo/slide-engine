@@ -1,0 +1,154 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 308" width="1000" height="308"
+     font-family="'Inter Display', Pretendard, sans-serif">
+
+  <!-- archetype: phase progression (three panels, the N-panel generalisation of before/after)
+       encoding: colour = novelty. blue marks exactly what THIS phase adds; anything carried
+       over from the previous phase reverts to neutral, so the blue is the one moving part the
+       reader tracks. 1 hue. shape: stadium = external client, rounded rect = component,
+       cylinder = datastore. Panel geometry is pixel-identical: panel 2 is panel 1 + 348 on x,
+       panel 3 is panel 1 + 696.
+
+       korean typography, the second lesson this file carries:
+       one superfamily for both scripts ('Inter Display', Pretendard). Pretendard covers latin
+       and hangul, so a mixed run like "API 서버" is one font, one size, one weight, one
+       baseline, with no fallback list and no per-script switching. Korean is set at the SAME
+       size as english in the same role, never bumped. Hangul advance is 0.864 em, not 1.0;
+       width budget is font-size * (0.55*latin + 0.88*hangul), which is why the boxes here need
+       no localisation change from their english equivalents.
+       ITALIC IS AVOIDED ENTIRELY. Pretendard ships no italic, so an italic run falls back to
+       Inter Italic and hangul set in it looks slanted-wrong. The house style would set the grey
+       annotation under panel 2 in italic; because its text is korean it is set UPRIGHT in the
+       same grey (#6f7681) instead. Use italic only where the text is latin-only. -->
+
+  <rect x="0" y="0" width="1000" height="308" fill="#ffffff"/>
+
+  <defs>
+    <marker id="ah-ink" viewBox="0 0 10 10" refX="10" refY="5"
+            markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#3a414a"/>
+    </marker>
+    <marker id="ah-blue" viewBox="0 0 10 10" refX="10" refY="5"
+            markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#6db1ff"/>
+    </marker>
+    <marker id="ah-hair" viewBox="0 0 10 10" refX="10" refY="5"
+            markerWidth="4" markerHeight="4" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#979ea8"/>
+    </marker>
+  </defs>
+
+  <!-- boxes, panel 1 -->
+  <rect x="12" y="48" width="128" height="56" rx="28" fill="#ffffff"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+  <rect x="12" y="144" width="128" height="56" rx="6" fill="#ffffff"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M12,248 a64,8 0 0 1 128,0 v40 a64,8 0 0 1 -128,0 z" fill="#ffffff"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M12,248 a64,8 0 0 0 128,0" fill="none"
+        stroke="#000000" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- boxes, panel 2: same shapes, x + 348 -->
+  <rect x="360" y="48" width="128" height="56" rx="28" fill="#ffffff"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+  <rect x="360" y="144" width="128" height="56" rx="6" fill="#ffffff"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M360,248 a64,8 0 0 1 128,0 v40 a64,8 0 0 1 -128,0 z" fill="#ffffff"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M360,248 a64,8 0 0 0 128,0" fill="none"
+        stroke="#000000" stroke-width="2" stroke-linecap="round"/>
+  <!-- what phase 2 adds -->
+  <rect x="528" y="144" width="112" height="56" rx="6" fill="#edf5ff"
+        stroke="#6db1ff" stroke-width="2" stroke-linejoin="round"/>
+
+  <!-- boxes, panel 3: same shapes, x + 696. the cache is carried over, so it goes neutral -->
+  <rect x="708" y="48" width="128" height="56" rx="28" fill="#ffffff"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+  <rect x="708" y="144" width="128" height="56" rx="6" fill="#ffffff"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M708,248 a64,8 0 0 1 128,0 v40 a64,8 0 0 1 -128,0 z" fill="#ffffff"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M708,248 a64,8 0 0 0 128,0" fill="none"
+        stroke="#000000" stroke-width="2" stroke-linecap="round"/>
+  <rect x="876" y="144" width="112" height="56" rx="6" fill="#ffffff"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+  <!-- what phase 3 adds -->
+  <rect x="876" y="240" width="112" height="56" rx="6" fill="#edf5ff"
+        stroke="#6db1ff" stroke-width="2" stroke-linejoin="round"/>
+
+  <!-- connectors, panel 1 -->
+  <path d="M76,104 V138" fill="none"
+        stroke="#3a414a" stroke-width="2" stroke-linecap="round" marker-end="url(#ah-ink)"/>
+  <path d="M76,200 V234" fill="none"
+        stroke="#3a414a" stroke-width="2" stroke-linecap="round" marker-end="url(#ah-ink)"/>
+
+  <!-- connectors, panel 2 -->
+  <path d="M424,104 V138" fill="none"
+        stroke="#3a414a" stroke-width="2" stroke-linecap="round" marker-end="url(#ah-ink)"/>
+  <path d="M424,200 V234" fill="none"
+        stroke="#3a414a" stroke-width="2" stroke-linecap="round" marker-end="url(#ah-ink)"/>
+  <path d="M488,172 H522" fill="none"
+        stroke="#6db1ff" stroke-width="2" stroke-linecap="round" marker-end="url(#ah-blue)"/>
+
+  <!-- connectors, panel 3 -->
+  <path d="M772,104 V138" fill="none"
+        stroke="#3a414a" stroke-width="2" stroke-linecap="round" marker-end="url(#ah-ink)"/>
+  <path d="M772,200 V234" fill="none"
+        stroke="#3a414a" stroke-width="2" stroke-linecap="round" marker-end="url(#ah-ink)"/>
+  <path d="M836,172 H870" fill="none"
+        stroke="#3a414a" stroke-width="2" stroke-linecap="round" marker-end="url(#ah-ink)"/>
+  <path d="M836,272 H870" fill="none"
+        stroke="#6db1ff" stroke-width="2" stroke-linecap="round" marker-end="url(#ah-blue)"/>
+  <path d="M932,240 V206" fill="none"
+        stroke="#6db1ff" stroke-width="2" stroke-linecap="round" marker-end="url(#ah-blue)"/>
+
+  <!-- leader -->
+  <path d="M560,264 Q548,236 546,208" fill="none"
+        stroke="#979ea8" stroke-width="1" stroke-linecap="round" marker-end="url(#ah-hair)"/>
+
+  <!-- text, last -->
+  <text x="12" y="26" font-size="15.56" font-weight="700" fill="#4c535d">1단계</text>
+  <text x="360" y="26" font-size="15.56" font-weight="700" fill="#4c535d">2단계</text>
+  <text x="708" y="26" font-size="15.56" font-weight="700" fill="#4c535d">3단계</text>
+
+  <text x="76" y="76" font-size="17.78" font-weight="700" fill="#000000"
+        text-anchor="middle" dominant-baseline="central">클라이언트</text>
+  <text x="76" y="172" font-size="17.78" font-weight="700" fill="#000000"
+        text-anchor="middle" dominant-baseline="central">API 서버</text>
+  <text x="76" y="272" font-size="17.78" font-weight="700" fill="#000000"
+        text-anchor="middle" dominant-baseline="central">데이터베이스</text>
+
+  <text x="424" y="76" font-size="17.78" font-weight="700" fill="#000000"
+        text-anchor="middle" dominant-baseline="central">클라이언트</text>
+  <text x="424" y="172" font-size="17.78" font-weight="700" fill="#000000"
+        text-anchor="middle" dominant-baseline="central">API 서버</text>
+  <text x="424" y="272" font-size="17.78" font-weight="700" fill="#000000"
+        text-anchor="middle" dominant-baseline="central">데이터베이스</text>
+  <text x="584" y="172" font-size="17.78" font-weight="700" fill="#1071e5"
+        text-anchor="middle" dominant-baseline="central">읽기 캐시</text>
+
+  <text x="772" y="76" font-size="17.78" font-weight="700" fill="#000000"
+        text-anchor="middle" dominant-baseline="central">클라이언트</text>
+  <text x="772" y="172" font-size="17.78" font-weight="700" fill="#000000"
+        text-anchor="middle" dominant-baseline="central">API 서버</text>
+  <text x="772" y="272" font-size="17.78" font-weight="700" fill="#000000"
+        text-anchor="middle" dominant-baseline="central">데이터베이스</text>
+  <text x="932" y="172" font-size="17.78" font-weight="700" fill="#000000"
+        text-anchor="middle" dominant-baseline="central">읽기 캐시</text>
+  <text x="932" y="268" font-size="17.78" font-weight="700" fill="#1071e5"
+        text-anchor="middle" dominant-baseline="central">캐시 무효화</text>
+
+  <text x="88" y="126" font-size="15.56" font-weight="700" fill="#000000">요청</text>
+  <text x="88" y="222" font-size="15.56" font-weight="700" fill="#000000">질의</text>
+  <text x="436" y="126" font-size="15.56" font-weight="700" fill="#000000">요청</text>
+  <text x="436" y="222" font-size="15.56" font-weight="700" fill="#000000">질의</text>
+  <text x="508" y="162" font-size="15.56" font-weight="700" fill="#1071e5"
+        text-anchor="middle">조회</text>
+  <text x="784" y="126" font-size="15.56" font-weight="700" fill="#000000">요청</text>
+  <text x="784" y="222" font-size="15.56" font-weight="700" fill="#000000">질의</text>
+  <text x="856" y="162" font-size="15.56" font-weight="700" fill="#000000"
+        text-anchor="middle">조회</text>
+
+  <text x="584" y="280" font-size="13.33" fill="#6f7681"
+        text-anchor="middle">읽기 경로만 변경</text>
+
+</svg>

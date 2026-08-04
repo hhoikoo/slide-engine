@@ -1,0 +1,120 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 520" width="1000" height="520"
+     font-family="'Inter Display', Pretendard, sans-serif">
+
+  <!-- archetype: network topology
+       encoding: colour = network fabric. one hue per fabric, blue management,
+       teal storage, amber interconnect, pink public. the set membership is the
+       variable, so the hue count is the size of the set, not a palette choice.
+       4 hues declared categorical below.
+       7px vertical bar = fabric. 2px line in the same hue = a group attached to
+       it. a line that ends on a bar is a tap; a line that runs past one is a
+       crossing, and no line ever crosses a bar of its own hue, so the two cases
+       never look alike. dashed grey rect = node group. hexagon glyph =
+       accelerated, hung outside the box it qualifies. -->
+  <!-- categorical: 4 -->
+
+  <rect x="0" y="0" width="1000" height="520" fill="#ffffff"/>
+
+  <!-- node groups -->
+  <rect x="16" y="40" width="424" height="104" rx="6" fill="none"
+        stroke="#979ea8" stroke-width="2" stroke-dasharray="6 4"
+        stroke-linejoin="round"/>
+  <rect x="16" y="200" width="424" height="104" rx="6" fill="none"
+        stroke="#979ea8" stroke-width="2" stroke-dasharray="6 4"
+        stroke-linejoin="round"/>
+  <rect x="16" y="360" width="424" height="144" rx="6" fill="none"
+        stroke="#979ea8" stroke-width="2" stroke-dasharray="6 4"
+        stroke-linejoin="round"/>
+
+  <!-- nodes -->
+  <rect x="32" y="76" width="120" height="52" rx="6" fill="#ffffff"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+  <rect x="168" y="76" width="120" height="52" rx="6" fill="#ffffff"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+  <rect x="304" y="76" width="120" height="52" rx="6" fill="#ffffff"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+
+  <rect x="32" y="236" width="92" height="52" rx="6" fill="#ffffff"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+  <rect x="132" y="236" width="92" height="52" rx="6" fill="#ffffff"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+  <rect x="232" y="236" width="92" height="52" rx="6" fill="#ffffff"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+  <rect x="332" y="236" width="92" height="52" rx="6" fill="#ffffff"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+
+  <path d="M32,412 a88,16 0 0 1 176,0 v60 a88,16 0 0 1 -176,0 z" fill="#ffffff"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M32,412 a88,16 0 0 0 176,0" fill="none"
+        stroke="#000000" stroke-width="2"/>
+  <path d="M248,412 a88,16 0 0 1 176,0 v60 a88,16 0 0 1 -176,0 z" fill="#ffffff"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M248,412 a88,16 0 0 0 176,0" fill="none"
+        stroke="#000000" stroke-width="2"/>
+
+  <!-- qualifier glyph, outside the group it marks -->
+  <path d="M32,164 L48,173 L48,191 L32,200 L16,191 L16,173 Z" fill="none"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M26,174 L38,182 L26,190" fill="none"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"
+        stroke-linecap="round"/>
+
+  <!-- attachments -->
+  <path d="M440,88 H520" fill="none" stroke="#6db1ff" stroke-width="2"/>
+  <path d="M440,120 H952" fill="none" stroke="#ff80df" stroke-width="2"/>
+
+  <path d="M440,240 H520" fill="none" stroke="#6db1ff" stroke-width="2"/>
+  <path d="M440,264 H664" fill="none" stroke="#00c2a8" stroke-width="2"/>
+  <path d="M440,288 H808" fill="none" stroke="#e8822a" stroke-width="2"/>
+
+  <path d="M440,424 H520" fill="none" stroke="#6db1ff" stroke-width="2"/>
+  <path d="M440,456 H664" fill="none" stroke="#00c2a8" stroke-width="2"/>
+
+  <!-- fabrics -->
+  <path d="M520,40 V504" fill="none" stroke="#6db1ff" stroke-width="7"
+        stroke-linecap="round"/>
+  <path d="M664,40 V504" fill="none" stroke="#00c2a8" stroke-width="7"
+        stroke-linecap="round"/>
+  <path d="M808,40 V504" fill="none" stroke="#e8822a" stroke-width="7"
+        stroke-linecap="round"/>
+  <path d="M952,40 V504" fill="none" stroke="#ff80df" stroke-width="7"
+        stroke-linecap="round"/>
+
+  <!-- text, last -->
+  <text x="520" y="28" font-size="15.56" font-style="italic" fill="#6f7681"
+        text-anchor="middle">management</text>
+  <text x="664" y="28" font-size="15.56" font-style="italic" fill="#6f7681"
+        text-anchor="middle">storage</text>
+  <text x="808" y="28" font-size="15.56" font-style="italic" fill="#6f7681"
+        text-anchor="middle">interconnect</text>
+  <text x="952" y="28" font-size="15.56" font-style="italic" fill="#6f7681"
+        text-anchor="middle">public</text>
+
+  <text x="32" y="66" font-size="15.56" font-style="italic" fill="#6f7681">control</text>
+  <text x="32" y="226" font-size="15.56" font-style="italic" fill="#6f7681">compute</text>
+  <text x="32" y="386" font-size="15.56" font-style="italic" fill="#6f7681">storage</text>
+
+  <text x="92" y="102" font-size="17.78" font-weight="700" fill="#000000"
+        text-anchor="middle" dominant-baseline="central">node</text>
+  <text x="228" y="102" font-size="17.78" font-weight="700" fill="#000000"
+        text-anchor="middle" dominant-baseline="central">node</text>
+  <text x="364" y="102" font-size="17.78" font-weight="700" fill="#000000"
+        text-anchor="middle" dominant-baseline="central">node</text>
+
+  <text x="78" y="262" font-size="17.78" font-weight="700" fill="#000000"
+        text-anchor="middle" dominant-baseline="central">node</text>
+  <text x="178" y="262" font-size="17.78" font-weight="700" fill="#000000"
+        text-anchor="middle" dominant-baseline="central">node</text>
+  <text x="278" y="262" font-size="17.78" font-weight="700" fill="#000000"
+        text-anchor="middle" dominant-baseline="central">node</text>
+  <text x="378" y="262" font-size="17.78" font-weight="700" fill="#000000"
+        text-anchor="middle" dominant-baseline="central">node</text>
+
+  <text x="120" y="448" font-size="17.78" font-weight="700" fill="#000000"
+        text-anchor="middle" dominant-baseline="central">volume</text>
+  <text x="336" y="448" font-size="17.78" font-weight="700" fill="#000000"
+        text-anchor="middle" dominant-baseline="central">volume</text>
+
+  <text x="58" y="188" font-size="13.33" font-style="italic" fill="#6f7681">accelerated</text>
+
+</svg>

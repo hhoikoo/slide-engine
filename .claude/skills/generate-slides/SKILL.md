@@ -24,7 +24,7 @@ Generate a complete Marp presentation as sectioned markdown files.
 
 ## Workflow
 
-1. **Read context**: Read `docs/guide.md` for available layout classes. Read the writing rules from `.claude/rules/writing-*.md`.
+1. **Read context**: Read `docs/guide.md` for available layout classes. Read `.claude/rules/writing-core.md`, then `writing-ko.md` or `writing-en.md` for the deck's language, then `writing-shortform.md` if the deck will carry figures or tables.
 2. **Read synopsis**: Read `synopsis.md` from the presentation directory. If none exists, use `$ARGUMENTS` as the topic.
 3. **Read research and plan docs** (if available): If a `research/` directory exists with `.md` files, read all research docs. Also look for existing plan or content documents and read them thoroughly.
 4. **Ask for event name**: The `header:` field in frontmatter should be the event name (e.g., "Lablup Seminar Day Q2 2026"), not the presentation topic. If the user hasn't provided an event name, ask.
@@ -38,8 +38,22 @@ Generate a complete Marp presentation as sectioned markdown files.
    - Insert `<!-- img-needed: "description" -->` markers where images would help
    - When using data from research docs, insert `<sup>[research:{id}]</sup>` citation markers
 6. **Run citation map** (if citations exist): Run `node engine/scripts/generate-citation-map.js presentations/{id}` to assign citation numbers and generate the references slide.
-7. **Build**: Run `/build html` to compile and verify.
-8. **Report**: List the section files generated and the output path.
+7. **Lint**: Run `engine/scripts/lint-text.sh presentations/{id}` and fix every hit. Provenance hits are defects, not style calls.
+8. **Build**: Run `/build html` to compile and verify.
+9. **Revise**: Run `/revise {id}` as a separate pass. Generation-time compliance and review-time compliance are different problems.
+10. **Report**: List the section files generated and the output path.
+
+## Voice
+
+The rules in `.claude/rules/` are active for every word on every slide and in every speaker note. Follow them; do not approximate them from memory. `writing-core.md` loads at launch, but read the language file and `writing-shortform.md` explicitly before writing.
+
+The register differs by surface, and getting this wrong is the most common failure:
+
+- **Slide bullets**: terse fragments, one idea each. Korean bullets are noun-final 개조식, never 해요체 or 합니다체.
+- **Speaker notes**: conversational connected prose, mixed endings.
+- **Figure labels, box headers, table cells**: noun phrases, sentence case, 1-4 words, no trailing period.
+
+The honesty bar in `writing-core.md` is not a style preference. No invented numbers, no unsourced benchmarks, no smoothing over a gap with confident generic prose. Uncertainty goes in the speaker notes in the speaker's voice.
 
 ## Section file rules
 

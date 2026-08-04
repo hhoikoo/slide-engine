@@ -1,0 +1,142 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 408" width="1000" height="408"
+     font-family="'Inter Display', Pretendard, sans-serif">
+
+  <!-- archetype: roll-up convergence, run in reverse. one document fans out to the
+       four runtime parts each of its keys governs, so the connectors carry the
+       mapping and never cross.
+       encoding: colour = mutability. amber = takes effect only at boot, teal =
+       picked up while running. 2 hues, held across the value text, the connector
+       and the verb on it. runtime wiring stays neutral #3a414a because it carries
+       no config meaning.
+       mono: D2Coding at 0.500 em per Latin character, weights 400 and 700 alike.
+       Chosen over a 0.6 em Menlo-class face for three reasons. It is the only
+       monospace bundled in themes/bai-flat/fonts, so the advance is identical on
+       the authoring machine, the CI runner and a Windows viewer of the deployed
+       page; an unbundled face resolves to Menlo, Liberation and Consolas on those
+       three, at 0.602, 0.600 and 0.550. It covers Hangul at exactly 1.000 em,
+       where Menlo has no Hangul at all and breaks a mixed run mid-word. And 0.500
+       is narrower than the 0.600 the reference corpus happened to render at, so
+       the error direction is a loose box rather than an overflowing one.
+       Every mono run below is sized as font-size * 0.500 * characters, measured
+       rather than estimated: `worker_count` is 12 * 8.89 = 106.7px wide.
+       Mono is literals only. Component names are proportional, and the two sit on
+       the same line and at the same size so the contrast is the point. -->
+
+  <rect x="0" y="0" width="1000" height="408" fill="#ffffff"/>
+
+  <defs>
+    <marker id="ah-amber" viewBox="0 0 10 10" refX="10" refY="5"
+            markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#e8822a"/>
+    </marker>
+    <marker id="ah-teal" viewBox="0 0 10 10" refX="10" refY="5"
+            markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#00c2a8"/>
+    </marker>
+    <marker id="ah-ink" viewBox="0 0 10 10" refX="10" refY="5"
+            markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#3a414a"/>
+    </marker>
+    <marker id="ah-hair" viewBox="0 0 10 10" refX="10" refY="5"
+            markerWidth="4" markerHeight="4" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#979ea8"/>
+    </marker>
+  </defs>
+
+  <!-- containers -->
+  <rect x="444" y="8" width="548" height="392" rx="6" fill="none"
+        stroke="#979ea8" stroke-width="2" stroke-dasharray="6 4"
+        stroke-linejoin="round"/>
+
+  <path d="M14,8 h236 a6,6 0 0 1 6,6 v370 q-31,20 -62,0 t-62,0 t-62,0 t-62,0 v-370 a6,6 0 0 1 6,-6 z"
+        fill="#ffffff" stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+
+  <!-- boxes -->
+  <rect x="480" y="52" width="300" height="56" rx="6" fill="#ffffff"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+  <rect x="480" y="144" width="300" height="56" rx="6" fill="#ffffff"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+  <rect x="480" y="236" width="300" height="56" rx="6" fill="#ffffff"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+  <rect x="480" y="328" width="300" height="56" rx="6" fill="#ffffff"
+        stroke="#000000" stroke-width="2" stroke-linejoin="round"/>
+
+  <!-- connectors: config to runtime -->
+  <path d="M256,80 H474" fill="none"
+        stroke="#e8822a" stroke-width="2" marker-end="url(#ah-amber)"/>
+  <path d="M256,172 H474" fill="none"
+        stroke="#e8822a" stroke-width="2" marker-end="url(#ah-amber)"/>
+  <path d="M256,264 H474" fill="none"
+        stroke="#00c2a8" stroke-width="2" marker-end="url(#ah-teal)"/>
+  <path d="M256,356 H474" fill="none"
+        stroke="#00c2a8" stroke-width="2" marker-end="url(#ah-teal)"/>
+
+  <!-- connectors: runtime wiring -->
+  <path d="M780,80 H842 Q848,80 848,86 V150 Q848,156 842,156 H786" fill="none"
+        stroke="#3a414a" stroke-width="2" stroke-linejoin="round"
+        marker-end="url(#ah-ink)"/>
+  <path d="M780,188 H842 Q848,188 848,194 V242 Q848,248 842,248 H786" fill="none"
+        stroke="#3a414a" stroke-width="2" stroke-linejoin="round"
+        marker-end="url(#ah-ink)"/>
+  <path d="M780,356 H842 Q848,356 848,350 V286 Q848,280 842,280 H786" fill="none"
+        stroke="#3a414a" stroke-width="2" stroke-linejoin="round"
+        marker-end="url(#ah-ink)"/>
+
+  <!-- leaders -->
+  <path d="M364,196 Q364,182 383,177" fill="none"
+        stroke="#979ea8" stroke-width="1" marker-end="url(#ah-hair)"/>
+  <path d="M364,288 Q364,274 383,269" fill="none"
+        stroke="#979ea8" stroke-width="1" marker-end="url(#ah-hair)"/>
+
+  <!-- text, last -->
+  <text x="28" y="38" font-size="15.56" font-style="italic" fill="#6f7681">config file</text>
+  <text x="460" y="38" font-size="15.56" font-style="italic" fill="#6f7681">server process</text>
+
+  <text x="28" y="80" font-size="17.78" font-weight="700" fill="#000000"
+        font-family="D2Coding, monospace" dominant-baseline="central">listen_port</text>
+  <text x="160" y="80" font-size="17.78" fill="#cc4e00"
+        font-family="D2Coding, monospace" dominant-baseline="central">:8443</text>
+
+  <text x="28" y="172" font-size="17.78" font-weight="700" fill="#000000"
+        font-family="D2Coding, monospace" dominant-baseline="central">tls_mode</text>
+  <text x="160" y="172" font-size="17.78" fill="#cc4e00"
+        font-family="D2Coding, monospace" dominant-baseline="central">strict</text>
+
+  <text x="28" y="264" font-size="17.78" font-weight="700" fill="#000000"
+        font-family="D2Coding, monospace" dominant-baseline="central">worker_count</text>
+  <text x="160" y="264" font-size="17.78" fill="#008573"
+        font-family="D2Coding, monospace" dominant-baseline="central">8</text>
+
+  <text x="28" y="356" font-size="17.78" font-weight="700" fill="#000000"
+        font-family="D2Coding, monospace" dominant-baseline="central">idle_timeout</text>
+  <text x="160" y="356" font-size="17.78" fill="#008573"
+        font-family="D2Coding, monospace" dominant-baseline="central">30s</text>
+
+  <text x="364" y="70" font-size="17.78" font-weight="700" fill="#cc4e00"
+        text-anchor="middle">binds</text>
+  <text x="364" y="162" font-size="17.78" font-weight="700" fill="#cc4e00"
+        text-anchor="middle">selects</text>
+  <text x="364" y="254" font-size="17.78" font-weight="700" fill="#008573"
+        text-anchor="middle">sizes</text>
+  <text x="364" y="346" font-size="17.78" font-weight="700" fill="#008573"
+        text-anchor="middle">expires</text>
+
+  <text x="630" y="80" font-size="17.78" font-weight="700" fill="#000000"
+        text-anchor="middle" dominant-baseline="central">listener</text>
+  <text x="630" y="172" font-size="17.78" font-weight="700" fill="#000000"
+        text-anchor="middle" dominant-baseline="central">TLS terminator</text>
+  <text x="630" y="264" font-size="17.78" font-weight="700" fill="#000000"
+        text-anchor="middle" dominant-baseline="central">worker pool</text>
+  <text x="630" y="356" font-size="17.78" font-weight="700" fill="#000000"
+        text-anchor="middle" dominant-baseline="central">idle reaper</text>
+
+  <text x="864" y="124" font-size="17.78" font-weight="700" fill="#000000">accepts</text>
+  <text x="864" y="224" font-size="17.78" font-weight="700" fill="#000000">hands off</text>
+  <text x="864" y="322" font-size="17.78" font-weight="700" fill="#000000">evicts</text>
+
+  <text x="364" y="212" font-size="13.33" font-style="italic" fill="#6f7681"
+        text-anchor="middle">restart to apply</text>
+  <text x="364" y="304" font-size="13.33" font-style="italic" fill="#6f7681"
+        text-anchor="middle">applied live</text>
+
+</svg>
