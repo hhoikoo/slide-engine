@@ -8,7 +8,8 @@ set -euo pipefail
 #
 # Usage: build-variant.sh <presentation-dir> <vendor|whitelabel>
 #
-# If no variants.yaml/json exists, the script is a no-op (copies slides.md unchanged).
+# Without variants.yaml/json the conditional blocks are still stripped; only the term
+# substitutions are skipped.
 
 PRES_DIR="${1:?Usage: build-variant.sh <presentation-dir> <vendor|whitelabel>}"
 VARIANT="${2:?Usage: build-variant.sh <presentation-dir> <vendor|whitelabel>}"
@@ -32,11 +33,9 @@ elif [ -f "${PRES_DIR}/variants.json" ]; then
   VARIANTS_CONFIG="${PRES_DIR}/variants.json"
 fi
 
-# If no config, no-op
-if [ -z "${VARIANTS_CONFIG}" ]; then
-  exit 0
-fi
-
+# Block stripping runs regardless of config. A whitelabel build with no
+# substitutions still must not carry vendor-only blocks: only the term
+# substitution below depends on variants.yaml.
 CONTENT=$(cat "${SLIDES}")
 
 if [ "${VARIANT}" = "vendor" ]; then

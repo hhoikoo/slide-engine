@@ -53,7 +53,7 @@ Rules:
 - **Emoji rendering:** Marp uses twemoji, which converts Unicode emoji to `<img>` elements that break inline layout. Avoid Unicode emoji in slides.
 - **CJK bold:** Handled by the `markdown-it-cjk-friendly` plugin (no `<b>` workaround needed).
 - **Diagrams: prefer hand-authored SVG over mermaid.** For any diagram that carries real weight (architecture, data flow, sequences, timelines), author a clean SVG under `images/figures/` using the theme palette and reference it as a normal image. Hand-built SVGs give deliberate layout, on-brand styling, and predictable rendering; mermaid auto-layout is a fallback for throwaway or quick-draft diagrams only. Mermaid is still supported: standard ```mermaid code blocks are rendered to SVG via `mmdc` (mermaid-cli) before marp, and left as-is if mmdc is missing.
-- **Build variants:** Use `<!-- vendor-start -->` / `<!-- vendor-end -->` and `<!-- whitelabel-start -->` / `<!-- whitelabel-end -->` markers in slide content. The `html-wl`/`pdf-wl` targets strip vendor blocks and apply term substitutions from `variants.yaml`.
+- **Build variants:** Use `<!-- vendor-start -->` / `<!-- vendor-end -->` and `<!-- whitelabel-start -->` / `<!-- whitelabel-end -->` markers in slide content. The `html-wl`/`pdf-wl` targets strip vendor blocks and apply term substitutions from a per-presentation `variants.yaml` (or `variants.json`). Block stripping always runs; only the substitutions need the file. Its schema is a `substitutions:` map of literal find-and-replace pairs, longest key first, applied to whitelabel builds only.
 
 ## Citation System
 
