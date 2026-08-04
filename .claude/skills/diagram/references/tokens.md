@@ -63,6 +63,7 @@ Pretendard ships no italic, so italic runs resolve to Inter Italic. Consequence 
 - **Mono is set at the same size as the proportional text beside it**, never larger. It sits at or below its neighbours on the ladder, so the contrast comes from the letterforms rather than from scale.
 - **Mono takes the colour its encoding assigns**, or inherits the default ink. It never gets a code-grey of its own: in the corpus 42 of 74 runs inherit black, 20 are `#333`, and the remaining 12 carry the figure's own accent.
 - **Arrow labels: 17.78px, bold, set directly on white.** Never a filled pill, never a plate.
+- **An arrow label needs a gutter wide enough to hold it.** The 12-16px-above-the-line rule assumes a long connector run. Between two boxes on the same row at the usual 28-48px inter-container gutter, a 2-4 word label at 17.78px is 100-160px wide, so placing it 12-16px above the line puts it inside the flanking boxes. Either widen that one gutter to fit the label, move the label clear of the boxes' vertical band entirely, or leave the arrow unlabelled and let the two box names carry it. Do not shrink the label to make it fit.
 
 Other metrics: `line-height` 1.20x Latin, ~1.45x Korean. `letter-spacing: 0`, every advance in the corpus is an exact integer font unit. No ALL-CAPS.
 
@@ -115,9 +116,9 @@ Each hue ships as three stops. **Pale = area fill. Mid = stroke. Dark = text.**
 | amber | `#fff3d9` | `#fc9432` | `#cc4e00` |
 | blue | `#edf5ff` | `#6db1ff` | `#1071e5` |
 | teal | `#d7faf5` | `#00c2a8` | `#008573` |
-| green | `#e3fae3` |: | `#008a0e` |
+| green | `#e3fae3` | (none) | `#008a0e` |
 | pink | `#fff0fb` | `#ff80df` | `#d916a8` |
-| red |: |: | `#e81313` |
+| red | (none) | (none) | `#e81313` |
 
 `#e81313` is for defect and error notes only. `#cfe4ff` is an available mid-blue area fill. `#f2f3f5` is the neutral container band.
 
@@ -140,7 +141,7 @@ Everything above is measured from the reference corpus. This subsection is a jud
 | `--color-fg-muted` | `#666666` | **conflicts: do not use in diagrams** |
 | `--color-fg-subtle` | `#999999` | **conflicts: do not use in diagrams** |
 
-**On the grey conflict**: the theme's muted and subtle text colours are true greys. Inside a diagram, true grey against a blue-tinted neutral ramp reads as the generated-output tell this whole spec exists to avoid. Use the blue-tinted ramp (`#6f7681`, `#979ea8`) for diagram text instead. This is defensible rather than arbitrary: the theme's own *non-text* neutrals, its borders: are already blue-tinted, so the ramp is consistent with the theme everywhere except two body-text tokens that were never intended for figure interiors.
+**On the grey conflict**: the theme's muted and subtle text colours are true greys. Inside a diagram, true grey against a blue-tinted neutral ramp reads as the generated-output tell this whole spec exists to avoid. Use the blue-tinted ramp (`#6f7681`, `#979ea8`) for diagram text instead. This is defensible rather than arbitrary. The theme's own *non-text* neutrals (its borders) are already blue-tinted, so the ramp is consistent with the theme everywhere except two body-text tokens that were never intended for figure interiors.
 
 Net effect on the accent table above: amber mid becomes `#e8822a`, green mid becomes `#39b176`, everything else stands. Blue, teal and pink have no theme equivalent and keep their corpus values.
 
@@ -185,7 +186,7 @@ Everything else in this file applies to both.
 - Absolute x/y need not snap to a grid, but **relative geometry must be exact**: repeated siblings share identical width and pitch to the pixel.
 - Box padding 16-18px horizontal. Leaf text centred both axes; container titles top-anchored.
 - Container inset ~12-16px on the sides, **~38px top band** reserved for the container's label.
-- Gutters 8-16px intra-container, 28-48px inter-container. Related boxes may stack flush at 0.
+- Gutters 8-16px intra-container, 28-48px inter-container. Related boxes may stack flush at 0. Three label-sized boxes plus two 28-48px gutters will not always fit inside a boundary's inner width; when they do not, widen the boundary or drop to two columns rather than squeezing the boxes below their label width.
 
 ## Connectors
 
@@ -296,7 +297,7 @@ all three stroked #000000 stroke-width 2
 
 **The slide headline is the title.** Do not put one in the canvas.
 
-Backed by AIAA: *"do not repeat all or part of the figure caption or subcaption within the figure itself"*: and by Nature, which puts the title in the caption. C4 requires in-canvas titles, but only because C4 diagrams are standalone artifacts read without surrounding prose; that is the opposite of a slide figure.
+Backed by AIAA (*"do not repeat all or part of the figure caption or subcaption within the figure itself"*) and by Nature, which puts the title in the caption. C4 requires in-canvas titles, but only because C4 diagrams are standalone artifacts read without surrounding prose; that is the opposite of a slide figure.
 
 **The one exception**: multi-panel comparisons get short *panel labels*: `AS-IS` / `TO-BE`, `<Native Setup>` / `<Phase 1>`. Text only, differentiating the panels, never restating the caption (Freshwater Science figure guidelines).
 
@@ -326,6 +327,8 @@ No gradients. No drop shadows. No filters. No glow. No left-border accent stripe
 ## Emission order (avoids a real, observed bug)
 
 SVG has no z-index; paint order is document order. A label emitted before a rect that overlaps it is painted over and **invisible in the deck**: this is a real defect in a shipped figure, and the LLM4SVG paper names mis-handled paint order as a known model failure mode.
+
+A label painted *last* can still be illegible if a line is drawn underneath it: a cylinder's cap arc running through its own label is the canonical case. Emission order does not fix that; move the label or resize the shape. `check-svg.js` reports it as `TEXT_ON_STROKE`.
 
 **Emit in this order, always:**
 1. background rect

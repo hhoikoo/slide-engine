@@ -22,6 +22,7 @@ Any unchecked box is a blocking defect.
 
 - [ ] No text overlaps other text
 - [ ] No text is painted over by a shape (check the source emission order if unsure; text must be emitted last)
+- [ ] No text sits **on** a line drawn underneath it. Emitting text last does not save a label that a cylinder's cap arc or a connector runs straight through
 - [ ] No text overflows its box
 - [ ] Nothing is clipped by the viewBox
 - [ ] All text is readable at slide size: remember 1 SVG unit = 1 CSS px, so a 13px label is 13px on screen, and 0.566 of that in a side-by-side layout
@@ -58,9 +59,9 @@ This is where AI-generated diagrams actually fail. Be strict.
 - [ ] **No in-canvas title.** The slide headline is the title. Exception: short panel labels on a genuine multi-panel comparison.
 - [ ] **No caption line restating the slide**
 - [ ] **No legend.** Labels belong in place, on hairline leaders.
-- [ ] **Sentence case**, not Title Case
+- [ ] **All-lowercase labels.** House style, and what every exemplar does: `api gateway`, `load balancer`, `data tier`. Capitalise only proper nouns, acronyms and literal identifiers that carry their own case (`CDN`, `PostgreSQL`, `RestartPolicy`). A label that merely capitalises its first word is **not** a defect worth reporting, but Title Case is
 - [ ] **No em dash, no en dash except numeric ranges, no middle dot, no emoji**
-- [ ] **No vague head-nouns** doing no work: Layer, Engine, Platform, Service, Manager, Handler, Framework, Solution, Ecosystem, Module, Core, Hub
+- [ ] **No vague head-nouns** doing no work: Layer, Engine, Platform, Service, Manager, Handler, Framework, Solution, Ecosystem, Module, Core, Hub. **Exception: none of these is a defect when it is part of the literal name of a real component or product** (`Redis Sentinel`, `systemd-resolved`, a Java `ServiceLoader`). Flag the word only where it is standing in for a name the author did not choose
 - [ ] Korean labels: 조사 dropped, no 종결어미 in a box, compounds kept closed
 
 ## Gate 5: the AI tells

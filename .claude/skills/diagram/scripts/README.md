@@ -36,6 +36,7 @@ Fail codes:
 | `PUNCTUATION` | em dash, middle dot, or emoji in a label. En dash passes only between digits |
 | `PROVENANCE` | a chat-window paste artifact anywhere in the file (`oaicite`, `citeturn`, `utm_source=chatgpt.com`, `[cite:`, `[Your Name]`, and the rest of the list in `.claude/rules/text-syntax.md`) |
 | `EFFECTS` | gradient, filter, blur, or drop shadow |
+| `ARROW_CAP` | a marker-terminated path also sets `stroke-linecap="round"`, so the cap protrudes past the arrowhead tip |
 
 Warn codes: `TYPE_LADDER` (size off 13.33/15.56/17.78/20/22.22/26.67), `TEXT_BUDGET` (a label over 4 words, or over 35 words on the canvas), `SATURATION` (saturated fills estimated over 20% of the canvas), `CORNER_REGISTER` (rounded corners at a radius other than 6), `IN_CANVAS_TITLE` (largest label is 1.3x the modal size and sits in the top 12%), `PAINT_ORDER` (a label emitted before an opaque shape whose box contains its anchor).
 
@@ -59,7 +60,9 @@ node .claude/skills/diagram/scripts/check-svg.js <a.svg> <b.svg> --png /tmp/shot
 | `--png <path>` | screenshot. One file: the path is the PNG. Several files: the path is a directory, one PNG per input |
 | `--json` | findings as JSON |
 
-Errors: `OUT_OF_VIEWBOX`, `TEXT_OVERFLOW`, `OCCLUDED_TEXT`, `FO_OVERFLOW`. Warnings: `TEXT_COLLIDE`, `TINY_TEXT`, `FONT_FALLBACK`.
+Errors: `OUT_OF_VIEWBOX`, `TEXT_OVERFLOW`, `OCCLUDED_TEXT`, `TEXT_ON_STROKE`, `FO_OVERFLOW`. Warnings: `TEXT_COLLIDE`, `TINY_TEXT`, `FONT_FALLBACK`.
+
+`TEXT_ON_STROKE` is the companion to `OCCLUDED_TEXT`: that one fires when a shape is painted *over* a label, this one when the label is painted last and a line drawn underneath still runs through the glyphs. A cylinder's cap arc crossing its own label is the canonical case, and emitting text last does not fix it.
 
 `FONT_FALLBACK` reports what *this machine* renders, so a missing family means the same substitution happens in the build. `D2Coding` is not installed here; every figure using it renders in the wider Menlo, which is what pushes monospace labels out of their boxes.
 

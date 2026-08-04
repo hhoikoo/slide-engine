@@ -77,33 +77,33 @@
 
   <!-- connectors, panel 1 -->
   <path d="M76,104 V138" fill="none"
-        stroke="#3a414a" stroke-width="2" stroke-linecap="round" marker-end="url(#ah-ink)"/>
+        stroke="#3a414a" stroke-width="2" marker-end="url(#ah-ink)"/>
   <path d="M76,200 V234" fill="none"
-        stroke="#3a414a" stroke-width="2" stroke-linecap="round" marker-end="url(#ah-ink)"/>
+        stroke="#3a414a" stroke-width="2" marker-end="url(#ah-ink)"/>
 
   <!-- connectors, panel 2 -->
   <path d="M424,104 V138" fill="none"
-        stroke="#3a414a" stroke-width="2" stroke-linecap="round" marker-end="url(#ah-ink)"/>
+        stroke="#3a414a" stroke-width="2" marker-end="url(#ah-ink)"/>
   <path d="M424,200 V234" fill="none"
-        stroke="#3a414a" stroke-width="2" stroke-linecap="round" marker-end="url(#ah-ink)"/>
+        stroke="#3a414a" stroke-width="2" marker-end="url(#ah-ink)"/>
   <path d="M488,172 H522" fill="none"
-        stroke="#6db1ff" stroke-width="2" stroke-linecap="round" marker-end="url(#ah-blue)"/>
+        stroke="#6db1ff" stroke-width="2" marker-end="url(#ah-blue)"/>
 
   <!-- connectors, panel 3 -->
   <path d="M772,104 V138" fill="none"
-        stroke="#3a414a" stroke-width="2" stroke-linecap="round" marker-end="url(#ah-ink)"/>
+        stroke="#3a414a" stroke-width="2" marker-end="url(#ah-ink)"/>
   <path d="M772,200 V234" fill="none"
-        stroke="#3a414a" stroke-width="2" stroke-linecap="round" marker-end="url(#ah-ink)"/>
+        stroke="#3a414a" stroke-width="2" marker-end="url(#ah-ink)"/>
   <path d="M836,172 H870" fill="none"
-        stroke="#3a414a" stroke-width="2" stroke-linecap="round" marker-end="url(#ah-ink)"/>
+        stroke="#3a414a" stroke-width="2" marker-end="url(#ah-ink)"/>
   <path d="M836,272 H870" fill="none"
-        stroke="#6db1ff" stroke-width="2" stroke-linecap="round" marker-end="url(#ah-blue)"/>
+        stroke="#6db1ff" stroke-width="2" marker-end="url(#ah-blue)"/>
   <path d="M932,240 V206" fill="none"
-        stroke="#6db1ff" stroke-width="2" stroke-linecap="round" marker-end="url(#ah-blue)"/>
+        stroke="#6db1ff" stroke-width="2" marker-end="url(#ah-blue)"/>
 
   <!-- leader -->
   <path d="M560,264 Q548,236 546,208" fill="none"
-        stroke="#979ea8" stroke-width="1" stroke-linecap="round" marker-end="url(#ah-hair)"/>
+        stroke="#979ea8" stroke-width="1" marker-end="url(#ah-hair)"/>
 
   <!-- text, last -->
   <text x="12" y="26" font-size="15.56" font-weight="700" fill="#4c535d">1단계</text>

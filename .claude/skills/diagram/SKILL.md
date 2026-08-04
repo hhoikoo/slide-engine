@@ -92,7 +92,7 @@ python3 .claude/skills/diagram/scripts/lint-svg.py <file.svg>
 node .claude/skills/diagram/scripts/check-svg.js <file.svg>
 ```
 
-`lint-svg.py` checks the countable rules: palette, font sizes, weights, word budget, banned punctuation, viewBox, and forbidden effects. `check-svg.js` loads the file in a real DOM and finds geometric failures: text overflow, occlusion, collision, clipping, font fallback.
+`lint-svg.py` checks the countable rules: palette, font sizes, weights, word budget, banned punctuation, viewBox, arrowhead caps, and forbidden effects. `check-svg.js` loads the file in a real DOM and finds geometric failures: text overflow, occlusion, text sitting on a stroke, collision, clipping, font fallback.
 
 Fix everything they report before going further. Do not proceed to grading with known failures; you will waste a round.
 

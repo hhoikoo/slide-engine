@@ -8,6 +8,7 @@
  *
  *   OUT_OF_VIEWBOX  error   element extends past the SVG viewport
  *   TEXT_OVERFLOW   error   text wider/taller than the shape that contains it
+ *   TEXT_ON_STROKE  error   glyphs cross a line drawn underneath them
  *   OCCLUDED_TEXT   error   text painted before an opaque shape that covers it
  *   FO_OVERFLOW     error   foreignObject content taller than its box
  *   TEXT_COLLIDE    warn    two text nodes overlap each other
@@ -149,9 +150,14 @@ const PROBE = function (cfg) {
   const containers = [...svg.querySelectorAll(SHAPES)]
     .map((el, order) => {
       const r = toUser(el.getBoundingClientRect());
-      return { el, r, area: r.w * r.h, tag: el.tagName, order };
+      return { el, r, area: r.w * r.h, tag: el.tagName, order,
+               filled: getComputedStyle(el).fill !== 'none' };
     })
-    .filter(c => c.area > 0 && c.area < vpArea * 0.9);
+    .filter(c => c.area > 0 && c.area < vpArea * 0.9)
+    // An unfilled <path> is a connector, never a label's box. Its bounding box
+    // is the rectangle spanned by an elbow, most of which is empty, so a label
+    // sitting in the concave corner would otherwise read as "inside" it.
+    .filter(c => c.filled || c.tag !== 'path');
 
   const desc = (el) => {
     const t = (el.textContent || '').trim().replace(/\s+/g, ' ');
@@ -244,6 +250,42 @@ const PROBE = function (cfg) {
           detail: `spills out of <${c.tag}> (${c.r.w}x${c.r.h} at ${c.r.x},${c.r.y}) past pad=${cfg.pad}: ${bad.join(', ')}`,
           box: `text w=${r.w} h=${r.h}` });
       }
+    }
+  }
+
+  // Text sitting ON a stroke. Distinct from OCCLUDED_TEXT, which only fires when
+  // a shape is painted *over* the label. Here the label is painted last and is
+  // still illegible, because a line drawn underneath runs straight through the
+  // glyphs. The cylinder cap arc crossing its own label is the canonical case.
+  const strokers = [...svg.querySelectorAll('path,line,polyline,circle,ellipse,rect')]
+    .filter(el => {
+      const cs = getComputedStyle(el);
+      return cs.stroke && cs.stroke !== 'none' && parseFloat(cs.strokeWidth) > 0
+             && typeof el.isPointInStroke === 'function';
+    });
+  for (const t of texts) {
+    const r = toUser(t.getBoundingClientRect());
+    if (r.w <= 0 || r.h <= 0) continue;
+    // Sample across the glyph band only, inset so neighbouring lines that merely
+    // run close to the label do not count.
+    const y0 = r.y + r.h * 0.30, y1 = r.y + r.h * 0.70;
+    const hitBy = [];
+    for (const el of strokers) {
+      if (t.contains(el) || el.contains(t)) continue;
+      let hit = false;
+      for (let i = 1; i <= 9 && !hit; i++) {
+        const px = r.x + (r.w * i) / 10;
+        for (const py of [y0, (y0 + y1) / 2, y1]) {
+          const p = svg.createSVGPoint(); p.x = px; p.y = py;
+          try { if (el.isPointInStroke(p)) { hit = true; break; } } catch (e) { /* skip */ }
+        }
+      }
+      if (hit) hitBy.push(el.tagName);
+    }
+    if (hitBy.length) {
+      findings.push({ level: 'error', code: 'TEXT_ON_STROKE', text: desc(t),
+        detail: `glyphs cross the stroke of <${hitBy[0]}>; move the label clear or resize the shape`,
+        box: `text w=${r.w} h=${r.h} at ${r.x},${r.y}` });
     }
   }
 

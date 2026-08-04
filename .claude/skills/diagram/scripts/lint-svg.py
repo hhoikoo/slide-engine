@@ -757,6 +757,25 @@ def check_provenance(report, data):
         report.fail("PROVENANCE", "generation artifact in the file: %s" % ", ".join(hits))
 
 
+def check_arrowheads(report, data):
+    """A round linecap is centred on the path endpoint, and refX=10 puts the
+    arrowhead's tip on that same point, so the cap protrudes past the tip as a
+    visible nub. Round caps belong on open-ended lines only."""
+    bad = []
+    for element in data["elements"]:
+        attrib = element.attrib
+        if not any(key.startswith("marker-") for key in attrib):
+            continue
+        if attrib.get("stroke-linecap") == "round":
+            bad.append(local(element.tag))
+    if bad:
+        report.fail("ARROW_CAP",
+                    "%d marker-terminated path(s) also set stroke-linecap=\"round\"; "
+                    "the cap protrudes past the arrowhead tip. Drop the linecap on any "
+                    "path carrying a marker (keep stroke-linejoin=\"round\" for elbows)"
+                    % len(bad))
+
+
 def check_paint_order(report, data):
     for node in data["texts"]:
         if node["x"] is None or node["y"] is None:
@@ -800,6 +819,7 @@ def analyze(path, palette):
         check_title(report, data, height)
         check_effects(report, data)
         check_provenance(report, data)
+        check_arrowheads(report, data)
         check_paint_order(report, data)
     except Exception as error:
         report.fail("LINTER", "%s while linting %s; the file may use SVG syntax the linter "

@@ -219,6 +219,8 @@ Fixed at 96 x 56. It is too small to hold a label, so label it beside, at 17.78 
 <text x="120" y="540" ...>worker</text>
 ```
 
+**Connect on the left or the top edge only.** The offset puts the back cards down and to the right of the front card, so a connector arriving at the front card's right or bottom edge lands on top of them and reads as pointing at the wrong card. If the flow reaches this element from the right, either re-plan the layout so it arrives from the left, or drop the stack and use a plain `c-box` with an italic count label beside it.
+
 **Emit back to front.** The back card is written first and the front card last, so the front one overpaints. Offset is `(+12, +8)` per card. `tokens.md` records the corpus measurement as `(+15, +8)`; the exemplars round it to `(+12, +8)` to stay on the multiple-of-4 grid, and that is what this part uses. Only the front card is labelled. Connectors attach to the front card.
 
 ### c-ghost-column
@@ -247,10 +249,12 @@ The orthogonal connector. 77% of corpus routing is orthogonal and 1091 of 1129 e
 ```xml
 <path d="M440,536 H474 Q480,536 480,542 V600 Q480,606 486,606 H514" fill="none"
       stroke="#3a414a" stroke-width="2" stroke-linejoin="round"
-      stroke-linecap="round" marker-end="url(#ah-ink)"/>
+      marker-end="url(#ah-ink)"/>
 ```
 
 **The control-point rule, which is the whole part.** At each corner, name the un-rounded vertex `V`. Then: stop 6 units short of `V` on the axis you arrived along, emit `Q{Vx},{Vy}` with the control point exactly on `V`, and land 6 units past `V` on the axis you leave along. So a corner at `(480,536)` turning from rightwards to downwards is `H474 Q480,536 480,542`. The control point is always the vertex itself, never an offset from it, and the two 6s are always the same 6 as the box `rx`.
+
+**No `stroke-linecap="round"` on a path that carries a marker.** A round cap is centred on the path's endpoint and `refX="10"` puts the arrowhead's tip on that same point, so the cap protrudes past the tip as a visible nub. Keep `stroke-linejoin="round"` for the elbows; drop the linecap. Round caps are for open-ended lines only: leaders, bus bars, span rules. `lint-svg.py` fails this as `ARROW_CAP`.
 
 Always `fill="none"`. **Inset the endpoint by `4 + stroke-width` from the target border**, so 6 at stroke-width 2; the arrowhead then lands on the border instead of over it. Dash the whole path `6 4` to mean logical rather than physical.
 
@@ -477,7 +481,7 @@ The unit of an isometric layer stack: a fabric, a zone, a tier, drawn as a surfa
 You set `X`, `Y`, `W`, `D` and the hue. Everything else is fixed:
 
 - **`W:D` between 4:1 and 5:1** for a slab that reads as a surface, 10:1 for a thin fabric sliver. Nothing squarer than 4:1; it stops looking like a plane and starts looking like a lid. Above, 288:64 is 4.5:1.
-- **Stack offset is pure vertical translation**, same `X`, `Y` stepped. **Pitch is 55 to 60% of the depth**, so adjacent slabs overlap by more than half. Above, pitch 36 on depth 64 is 56%. Less overlap and the group stops reading as one stack.
+- **Stack offset is pure vertical translation**, same `X`, `Y` stepped. Base case: **pitch is 40 to 45% of the depth**, so adjacent slabs overlap by 55 to 60%. Less overlap and the group stops reading as one stack. **When objects are seated on different slabs the seating inequality in `tokens.md` overrides this and forces a larger pitch**: `exemplars/08-isometric-layers.svg` runs pitch 36 on depth 48, a 75% pitch, because every base line has to clear every slab edge by 12px. Derive the pitch from the seating, never from the look, and expect a seated scene to overlap less than the base case.
 - **Paint the top slab first and the bottom slab last.** The lowest slab overpaints the ones above it. That is backwards for shelves and correct for what this actually looks like, a deck fanned toward the reader.
 - **`fill-opacity` scales against area**, 0.16 to 0.21 for a full-size plane and 0.54 to 0.55 for a narrow sliver. The saturated ink then stays roughly constant whatever the slab's size.
 - **The outline carries the identity, not the fill.** Same-hue-darker stroke, fully opaque. Where two translucent fills cross the blend is muddy, but the two outlines still trace two slabs. Drop the outlines and the stack collapses into a smear.
