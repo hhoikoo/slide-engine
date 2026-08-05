@@ -210,7 +210,24 @@
   결론은 상자가 아니라 윗선 하나로 가르고 굵은 활자로 무게를 줍니다.
   좌우 비율은 <style scoped>section { --cols: 1fr 1.4fr; }</style>.
 
-23. 자동 축소 (auto-shrink):
+23. 배경 사진 위 흰 글자 (bg-dark):
+  <!-- _class: title bg-dark -->  또는  <!-- _class: divider bg-dark -->
+  전면 배경 사진은 Marp의 ![bg] 가 이미 해 주므로 레이아웃 클래스가 없습니다.
+  bg-dark 는 글자만 흰색으로 돌립니다. 기본 본문색은 거의 검정이라 사진 위에서 사라집니다.
+  사진을 어둡게 까는 건 Marp의 brightness 필터로 합니다. 0.4~0.5 사이가 무난합니다.
+  작성 예:
+    <!-- _class: title bg-dark -->
+
+    ![bg brightness:0.45](images/figures/f00.jpg)
+
+    # 제목
+
+    ## 부제
+  사진이 이미 어두우면 필터를 빼고 bg-dark 만 씁니다.
+  가림막을 CSS로 깔지는 않습니다. marp-core 가 해당 section 에
+  background: transparent 를 !important 로 박아 테마가 낄 자리가 없습니다.
+
+24. 자동 축소 (auto-shrink):
   콘텐츠가 슬라이드 영역을 초과하면 자동으로 축소합니다 (최소 65%).
   - title, divider를 제외한 모든 레이아웃(two-col, swot, timeline 포함)에 적용됩니다.
   - two-col: 섹션 전체 오버플로우 및 그리드 셀 내부 오버플로우 모두 감지합니다.

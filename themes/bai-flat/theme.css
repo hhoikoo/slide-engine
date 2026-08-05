@@ -748,6 +748,30 @@ section.divider::after {
 }
 
 /* ──────────────────────────────────────────────
+   변형: 배경 사진 위 흰 글자 (bg-dark)
+   사용법: <!-- _class: title bg-dark --> 와 ![bg brightness:0.45](사진)
+   전면 배경은 Marp의 ![bg] 가 이미 처리하므로 레이아웃 클래스가 필요 없습니다.
+   이 변형은 글자색만 맡습니다. 기본 본문색은 거의 검정이라 사진 위에서 사라집니다.
+   사진을 어둡게 까는 일은 Marp의 brightness 필터가 합니다. CSS 가림막은
+   두지 않았습니다. marp-core 가 content section 에 background: transparent 를
+   !important 로 박고 그 pseudo-element 도 죽이므로, 테마가 낄 자리가 없습니다.
+   ────────────────────────────────────────────── */
+section.bg-dark h1,
+section.bg-dark h2,
+section.bg-dark p,
+section.bg-dark header {
+    color: #ffffff;
+}
+
+section.bg-dark h1 {
+    border-bottom-color: #ffffff;
+}
+
+section.bg-dark header::after {
+    background-image: var(--asset-logo-horizontal-white);
+}
+
+/* ──────────────────────────────────────────────
    레이아웃: 2단 분할 (two-col)
    사용법: <!-- _class: two-col -->
    명시적 <div>로 좌우 열을 구분합니다.
