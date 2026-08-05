@@ -127,14 +127,19 @@ scan_deck() {
   rows="$(figure_rows "${figures_md}")"
   while read -r fid kind; do
     [ -n "${fid:-}" ] || continue
+    local has_build=0
     fig_total=$((fig_total + 1))
     if compgen -G "${dir}/images/figures/${fid}.*" > /dev/null; then
-      built=$((built + 1))
+      built=$((built + 1)); has_build=1
     fi
     [ "${kind}" = "diagram" ] || continue
     dia_total=$((dia_total + 1))
-    if [ -f "${dir}/draft/mocks/${fid}.excalidraw" ] \
-      && [ -f "${dir}/images/mocks/${fid}.svg" ]; then
+    # A built figure satisfies phase 3 without a mock. /diagram runs standalone on
+    # a shipped deck and appends a registry row that never had one, and a mock is
+    # a means to a figure, so demanding one back would regress a finished deck.
+    if [ "${has_build}" -eq 1 ] \
+      || { [ -f "${dir}/draft/mocks/${fid}.excalidraw" ] \
+        && [ -f "${dir}/images/mocks/${fid}.svg" ]; }; then
       dia_done=$((dia_done + 1))
     fi
   done <<< "${rows}"

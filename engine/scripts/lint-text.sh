@@ -196,6 +196,12 @@ check ERROR KO-02 "연결어미 + comma, broad" '(며|지만|면서|는데|아�
 # purpose: "~지 않다" is ordinary negation, so an unbounded gap flags every
 # "보이지 않음" in the corpus.
 check ERROR KO-03 "A가 아니라 B (9.2x)" '아니라|아닌가, |인가, |이지 [^.]{0,25}(아니|아님)'
+# "A 대신 B" is the substitution form of the same antithesis. Ordinary substitution
+# dominates the corpus (`달러 대신 퍼센트`), so this warns on the bare noun-pair shape
+# only, where the tic lives, and takes 는/은/을/인 off the left to drop the clause
+# form. Adnominal endings that fuse into the syllable (`느린 대신`, `단순한 대신`) still
+# get through; they are honest tradeoffs and worth the glance a WARN asks for.
+check WARN  KO-03b "A 대신 B (check by hand)" '[가-힣]{1,5}[^는은을인ㄴ] 대신 [가-힣]{2,6}(을|를|이|가)'
 check ERROR KO-04 "meta-commentary" '핵심은|중요한 것은|주목할 점은'
 check ERROR KO-05 "wrap-up pivot" '결론적으로|요약하면|종합하면|정리하자면|정리하면'
 check WARN  KO-06 "~할 수 있습니다 hammer" '할 수 있습니다|할 수 있다'
