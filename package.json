@@ -3,6 +3,8 @@
   "devDependencies": {
     "@marp-team/marp-cli": "^4.x",
     "@mermaid-js/mermaid-cli": "^11.15.0",
+    "@moona3k/excalidraw-export": "^0.2.1",
+    "js-yaml": "^4.1.0",
     "markdown-it-cjk-friendly": "^1.x"
   }
 }

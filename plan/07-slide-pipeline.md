@@ -30,7 +30,7 @@ presentations/pNNN/
     outline.md                 # slide inventory, order and cue-level content
     decisions.md               # numbered settled choices, machine-readable frontmatter, live Open section
     figures.md                 # figure registry and sole fNN allocator
-    mocks/fNN.excalidraw       # mock source, committed
+    mocks/fNN.excalidraw       # mock source of truth, committed, hand-editable in VS Code
   research/rNN.md              # unchanged
   sections/NN.md               # slide markdown
   images/mocks/fNN.svg         # mock export, committed
@@ -40,7 +40,7 @@ presentations/pNNN/
 
 `draft/PLAN.md` is deliberately absent. The brief, the inventory and the decision log are three files with three jobs; a fourth document that summarizes all three is the thing that goes stale.
 
-No **intermediate** rasterization is committed. The figure author needs to see a mock, so phase 4 rasterizes `images/mocks/fNN.svg` to a temp PNG with the existing `.claude/skills/diagram/scripts/render-svg.sh`, and that PNG stays in the temp directory. Encrypted binaries do not delta-compress, so a render intermediate never enters a deck folder. Source assets are a different case and already tracked: `presentations/p002/images/figures/f00.png` is a fetched image, and the pre-rendered exemplar sheets under `.claude/skills/diagram/references/` are tooling.
+No **intermediate** rasterization is committed, and phase 4 rasterizes nothing at all: its payload is the text projection of the mock. Encrypted binaries do not delta-compress, so a render intermediate never enters a deck folder. Source assets are a different case and already tracked: `presentations/p002/images/figures/f00.png` is a fetched image, and the pre-rendered exemplar sheets under `.claude/skills/diagram/references/` are tooling.
 
 ## Identity
 
@@ -110,6 +110,12 @@ Arrows follow the same split. Between two solid boxes an arrow is literal; touch
 
 Briefs name components and archetypes from `.claude/skills/diagram/references/`, so a brief resolves to a known part instead of to free prose. A network spine becomes `c-bus-bar: three vertical spines, colour = tenant, left edge fans into the ingress stack`.
 
+**Write briefs loose and boxes sparse.** The live test ran two mocks through the same pipeline: the looser brief produced a 24-node figure that passed, the mock that pinned down four boxes produced a 9-node figure its grader called thin. Over-specifying leaves the figure author nothing to build, and it will not invent content to pad the result. A mock's job is to fix placement and name the object, never to enumerate the object's contents.
+
+Name the variable colour encodes, once, and make sure it covers every element. "colour = tenant" broke on a fourth spine that had no tenant, and the two agents resolved it differently: one went neutral, the other spent a fourth hue and quietly redefined the variable.
+
+Mocks are authored on the **house canvas** from `tokens.md`, 1000 wide and at most 560 tall. `mock-compile.js` enforces it. An 820x460 mock forces the figure author to rescale every coordinate, at which point "solid is binding" means nothing, and 460 scaled to house width lands at 561, one pixel over the cap.
+
 Output: `draft/mocks/fNN.excalidraw` plus `images/mocks/fNN.svg`. The deck now renders mocks in place, so placement is reviewed against real slide text, real neighbours and the real slot class.
 
 Done when: every `kind: diagram` row in `figures.md` has both files.
@@ -120,11 +126,23 @@ One thin agent per figure, whose instruction is to invoke `/diagram` with a grou
 
 Agent frontmatter carries `tools` including `Skill` and `Agent`. `Agent` is load-bearing: `/diagram` dispatches `diagram-grader` itself, so omitting it silently breaks the grading loop.
 
-Payload, one block per field: `deck`, `name` (the reserved `fNN`, with "do not allocate"), the one-sentence communicative goal, `archetype`, the slot class, the rasterized mock's temp path, each dashed brief verbatim, and the anti-instruction:
+**The payload is the text projection, not a rendered image.** `mock-project.js --payload` emits 684 bytes for a real mock, against roughly 1.1 to 1.6k tokens for a PNG, and it carries strictly more: exact coordinates instead of eyeballed placement, `dashed` versus `dotted` as explicit tokens rather than a visual discrimination that renders differently per exporter, and brief text verbatim. It is also more faithful to what a mock means. A picture is the most traceable thing you can hand someone, which fights the anti-instruction directly.
 
-> The mock is a spec, not a draft. Do not trace it and do not restyle it. Solid regions are binding placement. Dashed regions are briefs: read the brief, pick from the component library, draw the real object.
+Phase 4 therefore rasterizes nothing. On the live test, neither figure agent asked for an image.
 
-The main session rasterizes each mock once, so `render-svg.sh` runs once per figure rather than once per agent attempt.
+Payload: `deck`, `name` (the reserved `fNN`, with "do not allocate"), the one-sentence communicative goal, `archetype`, the slot class, the projection, and the anti-instruction:
+
+> The mock is a spec, not a draft. Do not trace it and do not restyle it. Solid binds position and relative order, not extent. Dashed regions are briefs: read the brief, pick from the component library, draw the real object. Dotted regions are author notes: read them and act on them, never draw them.
+
+Five rules in that header each answer something a figure agent got wrong or had to guess on the first live run, so `mock-project.js --payload` emits them rather than leaving them to the caller:
+
+- **Solid binds position, not extent.** A sketched region is routinely smaller than the real component. One agent's ingress stack needed roughly 200px of height for a label band plus three boxes where the mock allotted 94.
+- **Dotted is read but never drawn.** "Not drawn" is not "not read": authors write "keep this box neutral" into a dotted box and expect it honoured.
+- **The mock canvas is a proportion, not a viewBox.** Rescale to the house canvas.
+- **Label text is a brief, not binding copy.** Mock labels arrive in the author's register and need rewriting into house register.
+- **A free-floating label belongs to no stroke class**, so it is an author note.
+
+`--payload` also splits out any note phrased as a question or asking for a confirmation into an **UNRESOLVED, RAISE TO THE USER** block. A hedged note can otherwise instruct the agent to contradict the goal it is graded against, which happened live: "maybe add another ingress stack" conflicted with a goal naming a *shared* ingress stack, and the agent only declined because it happened to notice.
 
 Return opens with a machine-readable first line, mirroring `diagram-grader.md:61`, which already established that shape:
 
@@ -265,9 +283,10 @@ Rule 13's long-sentence tell survives the move. It was anchored to speaker notes
 | `lint-text.sh` scope | the SVG find at `lint-text.sh:62` gains the path exclusions `collect_dir` already applies to markdown, plus `! -path '*/images/mocks/*'`. `collect_dir` is markdown-only today, so the SVG list is collected with no exclusions at all and mocks would be graded as shipped figures, where a dashed brief is prose by design. `draft/outline.md` gains an explicit include; the rest of `draft/` stays excluded. |
 | `lint-text.sh` counters | advisory density counts: words per slide body, words per note block, note blocks per deck. Report only, never gate. |
 | `assemble-sections.sh` | strips `<!-- _slide: -->` lines while writing `slides.md`. |
+| `engine/scripts/mock-{compile,project}.js`, `mock-export.sh`, `make mocks` | the mock toolchain. Built and tested. `@moona3k/excalidraw-export` and `js-yaml` are in `package.json`. |
 | `themes/bai-flat/theme.css` | `figure-center` and `diagram-top` promoted into the theme and documented in `docs/guide.md`. They exist today only inside `presentations/p010/sections/00.md`'s `style:` block, so phase 2 cannot pick a slot class without authoring CSS. A per-deck `style:` block stays legal for a genuinely deck-specific look. |
 | `generate-citation-map.js` | keeps the `-references.md` suffix. The planned rename to plain `NN.md` would have broken idempotency: the script finds its prior output by the filename regex at `:67`, which drives three skip guards and the delete-the-stale-copy branch. The suffix leaks no topic, so the rename bought only uniformity. Separately, the script splits into multiple `_class: references` slides above roughly 12 entries; it writes one bullet per citation with no pagination today. |
-| `make watch` | fswatch or entr over `sections/` and `images/`. Scope matters: the build writes `slides.md` and `output/` inside the deck directory, so a naive watch on the whole folder retriggers itself forever. `theme.css` is dropped from the list; `Makefile:15` wires a per-deck `theme.css` that no deck has ever had, and real per-deck CSS lives in `sections/00.md`, already covered. marp's own `--watch` cannot serve this, because it would watch the generated `slides.md` and skipping `marp-postprocess.js` yields a different artifact than ships. |
+| `make watch` | fswatch or entr over `sections/`, `images/` and `draft/mocks/`. Without `draft/mocks/` a hand-edit in VS Code leaves the deck rendering a stale export. Scope matters: the build writes `slides.md` and `output/` inside the deck directory, so a naive watch on the whole folder retriggers itself forever. `theme.css` is dropped from the list; `Makefile:15` wires a per-deck `theme.css` that no deck has ever had, and real per-deck CSS lives in `sections/00.md`, already covered. marp's own `--watch` cannot serve this, because it would watch the generated `slides.md` and skipping `marp-postprocess.js` yields a different artifact than ships. |
 
 The citation path has never executed. No deck carries a `<sup>[research:N]</sup>` marker, no `research/citation-map.md` exists, and no section file carries `_class: references`. Phase 2 would be its first real run, so it gets verified against a throwaway fixture deck in a scratch directory before the pipeline depends on it. Citation coverage on a slide stays a `slop-grader` check, in line with judgement classes never hard-failing.
 
@@ -279,15 +298,37 @@ A figure currently costs a mandated read of roughly 626 lines before drawing, pl
 2. Pre-render the exemplar PNGs once and commit them, so the author reads an image instead of shelling out per figure.
 3. Grader converges in one exhaustive pass plus one verify, instead of dribbling defects across three rounds.
 
-## Excalidraw spike
+## Excalidraw: settled
 
-Blocks phase 3. Not decided in advance.
+The spike ran. Five candidates against one hand-built reference mock carrying all three stroke styles, container-bound labels, a bound arrow and a frame.
 
-Candidates: `@moona3k/excalidraw-export` (roughjs plus resvg, no browser, three deps), `Timmmm/excalidraw_export` (native canvas plus jsdom), `excalidraw-brute-export-cli` (Playwright Firefox), `excalidraw-to-svg` (jsdom), and the Python `excalidraw-cli`.
+| Candidate | Outcome |
+|---|---|
+| `@moona3k/excalidraw-export` | **chosen**. 4.3 MB, 8 packages, npm-only, no browser, offline, 0.054s. Matched real-Excalidraw ground truth on placement, bound-text centring and all three stroke states. |
+| `excalidraw-cli` (Python) | works, emits a 46x smaller SVG, but drops frames and adds a venv to an npm-only repo. |
+| `excalidraw-brute-export-cli` | Playwright driving excalidraw.com through real UI clicks. 4.67s per figure, needs network on every render, pins Excalidraw 0.15/0.17. Reference only. |
+| `excalidraw_export` | eliminated: node-canvas needs a Homebrew pangocairo chain outside npm. |
+| `excalidraw-to-svg` | eliminated: throws inside jsdom on modern Node; its `@excalidraw/utils@0.1.2` predates frames. |
 
 MCP servers were considered and rejected. They are built around a live canvas the agent mutates, which puts diagram state in a running process instead of in a committed file, and cannot work in a session that only reads disk.
 
-Test: one hand-made reference mock with solid, dashed and dotted boxes, container-bound labels, arrows and a frame. Compare install weight, whether bound text lands where Excalidraw puts it, whether the three stroke styles survive, and font handling. Same spike settles whether the model emits `.excalidraw` JSON directly or emits a compact YAML that a compiler expands.
+**Editing surface: the `pomdtr.excalidraw-editor` VS Code custom editor**, maintained under the excalidraw org. It opens `draft/mocks/fNN.excalidraw` straight from the repo, so hand-editing needs no container, no browser and no upload. Verified end to end: the file opened, all three stroke styles and the frame survived, and a hand edit round-tripped through the scripts below. Self-hosting Excalidraw was evaluated and rejected for this purpose: its boards live in browser localStorage rather than in files, so every mock would need a manual export and re-import.
+
+This inverts the earlier phase-3 line. Hand-editing is a **first-class step**, not an escape hatch.
+
+**Mock format: `.excalidraw` JSON is the single committed source.** A committed YAML source cannot survive bidirectional editing: the moment a human edits the drawing, the YAML it was generated from is stale and silently authoritative. YAML survives as an ephemeral projection, generated on read and never stored.
+
+Three scripts carry it:
+
+| Script | Job |
+|---|---|
+| `engine/scripts/mock-compile.js` | compact spec -> `.excalidraw`. Generates every boilerplate key and **both halves of every binding**, so a container/label or arrow/box pair cannot half-break. Enforces the house canvas and warns on out-of-canvas elements. |
+| `engine/scripts/mock-project.js` | `.excalidraw` -> semantic form, `--spec` (recompilable), `--payload` (for `/diagram`). Renames Excalidraw's random ids to readable ones and splits out notes needing a human. |
+| `engine/scripts/mock-export.sh` | deck-wide render to `images/mocks/`, skipping up-to-date files so it is watch-safe. `make mocks DIR=... [FORCE=1]`. |
+
+**Nobody hand-edits the JSON, not the author and not the model.** The author edits through the real editor, which maintains bindings. The model edits by re-deriving the spec from the *current* file with `--spec`, changing the spec, and recompiling. Editing coordinates directly leaves bound labels and arrows pointing at where things used to be, which was reproduced: an arrow overshot its moved target and a label fell onto its box border, and the round trip repaired both.
+
+Measured on the real loop: a hand edit produced **84 added lines of raw JSON, of which the semantic diff extracted 2**. Excalidraw rewrites `version`, `versionNonce` and `updated` on every element it touches, so the projection is what makes a mock reviewable at all.
 
 ## Documentation
 
@@ -303,7 +344,7 @@ Existing decks are frozen. p001 through p010 are not retrofitted, not migrated a
 
 ## Open items
 
-- The Excalidraw CLI and the mock authoring format, pending the spike.
+None. The Excalidraw spike is closed; see the section above.
 
 ## Implementation order
 
@@ -312,7 +353,7 @@ Existing decks are frozen. p001 through p010 are not retrofitted, not migrated a
 3. `/deck-plan`, `codebase-researcher`, the `web-researcher` upgrade. Retire `/new-presentation`.
 4. `deck-status.sh`, written against the real artifact set the first `/deck-plan` run produces rather than against a fixture, plus the `/list-presentations` change and the precondition preambles.
 5. `/deck-draft`, `slop-grader`, the `/revise` rewrite, the citation step and its fixture check. Retire `/generate-slides` and `/export-notes`.
-6. The Excalidraw spike, then `/deck-mock`.
+6. `/deck-mock`. The exporter and the mock toolchain already exist, so this is the skill and its authoring guidance only.
 7. `/deck-figures`, the per-figure agent, the `/diagram` and `/fetch-image` contract change, the reference split, the exemplar PNGs, the grader convergence change.
 8. `/deck-polish` and `make watch`.
 9. `CLAUDE.md` pipeline table.

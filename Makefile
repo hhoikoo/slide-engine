@@ -17,7 +17,7 @@ MERGED_THEME := $(OUTPUT_DIR)/.merged-theme.css
 
 .DEFAULT_GOAL := help
 
-.PHONY: help setup unlock unlock-help html pdf html-wl pdf-wl lint clean check-dir
+.PHONY: help setup unlock unlock-help html pdf html-wl pdf-wl lint mocks clean check-dir
 
 help:
 	@echo ""
@@ -32,6 +32,7 @@ help:
 	@echo "  html-wl          Build whitelabel HTML slides"
 	@echo "  pdf-wl           Build whitelabel PDF slides"
 	@echo "  lint             Check slide text against .claude/rules/ (exits non-zero on hits)"
+	@echo "  mocks            Render draft/mocks/*.excalidraw to images/mocks/*.svg"
 	@echo "  clean            Remove output/ and assembled slides.md"
 	@echo ""
 	@echo "Required:"
@@ -82,6 +83,10 @@ check-dir:
 
 lint:
 	@bash "$(SCRIPTS)/lint-text.sh" $(if $(DIR),"$(DIR)",presentations)
+
+mocks:
+	@test -n "$(DIR)" || (echo "Error: DIR is required" && exit 1)
+	@bash "$(SCRIPTS)/mock-export.sh" "$(DIR)" $(if $(FORCE),--force,)
 
 html: check-dir
 	@bash "$(SCRIPTS)/lint-text.sh" -w -q "$(DIR)"
