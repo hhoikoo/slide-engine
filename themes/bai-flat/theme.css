@@ -326,7 +326,6 @@ section h2 code {
    tint the chip as a slightly lighter shade of the band itself (translucent white
    overlay) and inherit the band's text color. */
 section.highlight-boxes h3 code,
-section.numbered-dev-items h3 code,
 section.divider h1 code,
 section.divider h2 code,
 section.divider h3 code {
@@ -557,7 +556,6 @@ section .decoration-box {
     padding: 10px 20px;
     font-size: 20px;
     line-height: 1.6;
-    border-top: 4px solid var(--accent-color, var(--color-brand));
 }
 
 /* ──────────────────────────────────────────────
@@ -768,72 +766,82 @@ section.two-col {
 /* ──────────────────────────────────────────────
    레이아웃: SWOT 분석 (swot)
    사용법: <!-- _class: swot -->
+   3x3 마크다운 표. 첫 행은 빈칸 | 강점 | 약점, 이후 행은 기회 / 위협.
+   사분면 색은 셀 위치로 칠합니다. 마크다운 표는 클래스를 만들지 않으므로
+   .strg / .wkns 류 선택자는 절대 걸리지 않습니다.
    ────────────────────────────────────────────── */
+section.swot {
+    justify-content: center;
+}
+
 section.swot > table {
     width: 100%;
+    height: calc(var(--content-h) - 16px);
     border-collapse: separate;
-    border-spacing: 4px;
+    border-spacing: 8px;
     table-layout: fixed;
     border: none;
     margin: 0;
-}
-
-section.swot table th:first-child {
-    width: 160px;
-}
-section.swot table tr:first-child th {
-    height: 40px;
-    padding: 2px;
 }
 
 section.swot table th,
 section.swot table td {
     border: none;
     border-radius: 6px;
-    padding: 14px 16px;
-    font-size: 22px;
-    line-height: 1.55;
+    padding: 16px 20px;
+    font-size: 21px;
+    line-height: 1.5;
     vertical-align: top;
+    background: none;
 }
 
-/* 행/열 레이블 셀 공통 */
-section.swot table .corner,
-section.swot table .strg,
-section.swot table .wkns,
-section.swot table .oppt,
-section.swot table .thrt {
-    font-weight: 700;
-    text-align: center;
-    vertical-align: middle;
+/* 열 머리: 강점 / 약점 */
+section.swot table thead th {
+    height: 44px;
+    padding: 4px 20px;
     font-size: 20px;
-    padding: 2px 5px;
+    font-weight: 700;
+    text-align: left;
+    vertical-align: middle;
+    background: none;
+    color: var(--color-fg);
+}
+section.swot table thead th:first-child {
+    width: 116px;
 }
 
-section.swot {
-    .strg strong {
-        background: rgb(from var(--color-swot-strg) r g b / 0.2);
-        color: var(--color-swot-strg);
-        padding: 2px 5px;
-        border-radius: 5px;
-    }
-    .wkns strong {
-        background: rgb(from var(--color-swot-wkns) r g b / 0.2);
-        color: var(--color-swot-wkns);
-        padding: 2px 5px;
-        border-radius: 5px;
-    }
-    .oppt strong {
-        background: rgb(from var(--color-swot-oppt) r g b / 0.2);
-        color: var(--color-swot-oppt);
-        padding: 2px 5px;
-        border-radius: 5px;
-    }
-    .thrt strong {
-        background: rgb(from var(--color-swot-thrt) r g b / 0.2);
-        color: var(--color-swot-thrt);
-        padding: 2px 5px;
-        border-radius: 5px;
-    }
+/* 행 머리: 기회 / 위협 */
+section.swot table tbody th,
+section.swot table tbody td:first-child {
+    font-size: 20px;
+    font-weight: 700;
+    text-align: right;
+    vertical-align: middle;
+    color: var(--color-fg);
+    background: none;
+}
+
+/* 기본 표 스타일의 짝수 행 회색이 행 머리 칸으로 새어 나옵니다 */
+section.swot table tbody tr:nth-child(even) td:first-child {
+    background: none;
+}
+
+/* 사분면 네 칸. 색은 옅은 배경으로만 씁니다 */
+section.swot table tbody tr:nth-child(1) td:nth-child(2) {
+    background: rgb(from var(--color-swot-strg) r g b / 0.10);
+}
+section.swot table tbody tr:nth-child(1) td:nth-child(3) {
+    background: rgb(from var(--color-swot-wkns) r g b / 0.10);
+}
+section.swot table tbody tr:nth-child(2) td:nth-child(2) {
+    background: rgb(from var(--color-swot-oppt) r g b / 0.10);
+}
+section.swot table tbody tr:nth-child(2) td:nth-child(3) {
+    background: rgb(from var(--color-swot-thrt) r g b / 0.10);
+}
+
+section.swot table tbody td strong {
+    font-weight: 700;
 }
 
 section.swot table .corner {
@@ -1026,9 +1034,9 @@ section.timeline > ul > li > ul > li:first-child::before {
    ────────────────────────────────────────────── */
 section.toc {
     display: grid;
-    grid-template-columns: 1fr 2.2fr 1fr 2.2fr;
+    grid-template-columns: auto minmax(0, 1fr) auto minmax(0, 1fr);
     grid-auto-flow: column;
-    column-gap: 25px;
+    column-gap: 22px;
     align-content: start;
 }
 
@@ -1047,7 +1055,7 @@ section.toc > h3 {
 
 section.toc > ul {
     list-style: none;
-    padding: 0 0 0 25px;
+    padding: 0 0 0 18px;
     margin: 0;
     align-self: start;
     border-left: 2px solid var(--color-border-strong);
@@ -1250,34 +1258,41 @@ section.quote {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    /* 위 padding 83px(헤더 63 + 20), 아래 58px 로 비대칭이라 그냥 가운데 정렬하면
+       글이 아래로 처집니다. 차이를 메우고 조금 더 끌어올립니다. 광학 중심을
+       몇 퍼센트로 못박는 규칙은 출처가 없어서 쓰지 않았고, 이 값은 이 테마의
+       실제 padding 차이에서 나온 것입니다. */
+    padding-bottom: calc(var(--pad-bottom) + 32px);
 }
 
+/* 상자도 큰 따옴표 글리프도 쓰지 않습니다. 둘 다 정당한 선택지지만
+   (Strizver, CreativePro 2015) 과장된 따옴표는 같은 글이 꼽는 첫 번째
+   촌스러움이고, 상자는 이 저장소가 다른 곳에서 걷어낸 둥근 강조 카드와 같은 모양입니다. */
 section.quote > blockquote {
-    border-left: none;
-    border: 2px solid var(--color-border);
-    border-radius: 10px;
-    background: transparent;
-    padding: 44px 56px;
-    text-align: center;
-    font-size: 28px;
-    line-height: 1.55;
-    color: var(--color-fg);
+    border: none;
+    border-radius: 0;
+    background: none;
+    padding: 0;
     margin: 0 auto;
-    max-width: 82%;
+    max-width: 78%;
+    text-align: center;
+    font-size: 34px;
+    line-height: 1.45;
+    color: var(--color-fg);
 }
 
 section.quote > blockquote p {
-    margin: 0.45em 0;
+    margin: 0;
 }
 
-section.quote > blockquote p:first-child {
-    margin-top: 0;
-    font-size: 32px;
+/* 출처 줄: 인용문 아래, 작고 옅게. 책 조판의 epigraph 관례를 따릅니다
+   (Chicago 계열 지침, SBL Handbook of Style). 앞의 줄표는 이 저장소가
+   금지하므로 붙이지 않습니다. */
+section.quote > blockquote p:last-child:not(:first-child) {
+    margin-top: 30px;
+    font-size: 20px;
     line-height: 1.4;
-}
-
-section.quote > blockquote p:last-child {
-    margin-bottom: 0;
+    color: #5a6c86;
 }
 
 section.quote > blockquote strong {
@@ -1306,16 +1321,20 @@ section.split-statement > div {
     min-width: 0;
 }
 
+/* 결론 줄. 상자 대신 윗선 하나로 두 열과 갈라놓고, 무게는 활자로 줍니다.
+   결론을 가장 눈에 띄는 자리에 둔다는 근거는 Minto 의 Pyramid Principle 이고,
+   이 배치 자체에 붙은 이름이나 published 비판은 찾지 못했습니다. */
 section.split-statement > blockquote {
     grid-column: 1 / -1;
-    border-left: none;
-    border: 2px solid var(--color-border);
-    border-radius: 8px;
-    background: transparent;
-    padding: 16px 28px;
+    border: none;
+    border-top: 2px solid var(--color-border);
+    border-radius: 0;
+    background: none;
+    padding: 22px 0 0;
     text-align: center;
-    font-size: 22px;
-    line-height: 1.5;
+    font-size: 25px;
+    font-weight: 700;
+    line-height: 1.45;
     color: var(--color-fg);
     margin: 0;
 }
@@ -1344,7 +1363,6 @@ section.end-product-list > ol > li {
     border-radius: 6px;
     font-size: 20px;
     line-height: 1.55;
-    border-left: 5px solid var(--color-primary);
     background: var(--color-bg-muted);
 }
 
@@ -1406,76 +1424,10 @@ section.end-product-list > ol > li:nth-child(5)::before {
    레이아웃: 인물/기관 프로필 (profile)
    사용법: <!-- _class: profile -->
    ────────────────────────────────────────────── */
-section.profile {
-    display: grid;
-    grid-template-columns: 210px 1fr;
-    column-gap: 32px;
-    align-content: start;
-}
-
-section.profile > h1 {
-    grid-column: 1 / -1;
-}
-
-section.profile > p:has(> img) {
-    grid-column: 1;
-    grid-row: 2 / span 20;
-    align-self: start;
-}
-
-section.profile > p:has(> img) img {
-    width: 100%;
-    height: auto;
-    border-radius: 8px;
-    object-fit: cover;
-}
-
-section.profile > h3 {
-    grid-column: 2;
-    color: var(--color-primary);
-    font-size: 19px;
-    border-bottom: 1px solid var(--color-border-light);
-    padding-bottom: 4px;
-    margin-top: 10px;
-    margin-bottom: 4px;
-}
-
-section.profile > ul,
-section.profile > ol,
-section.profile > p:not(:has(> img)) {
-    grid-column: 2;
-    align-self: start;
-    margin-top: 0;
-    font-size: 19px;
-}
-
 /* ──────────────────────────────────────────────
    레이아웃: 조견표 (eval-comparison)
    사용법: <!-- _class: eval-comparison -->
    ────────────────────────────────────────────── */
-
-section.eval-comparison {
-    table {
-        th {
-            background: #37474f;
-            &:first-child {
-                text-align: center;
-            }
-        }
-        td {
-            &:first-child {
-                text-align: center;
-                font-weight: bold;
-            }
-        }
-    }
-    table:nth-of-type(1) {
-        th:last-child,
-        td:last-child {
-            text-align: center;
-        }
-    }
-}
 
 /* ──────────────────────────────────────────────
    레이아웃: 참고자료/부록 (appendix)
@@ -1507,273 +1459,23 @@ section.appendix {
    레이아웃: 간트 차트 / 개발 추진일정 (gantt)
    사용법: <!-- _class: gantt -->
    ────────────────────────────────────────────── */
-section.gantt {
-    padding: var(--header-h) var(--pad-x) 50px;
-}
-
-section.gantt table {
-    font-size: 16px;
-}
-
-section.gantt table th {
-    background: var(--color-primary);
-    padding: 6px 4px;
-    text-align: center;
-    font-size: 14px;
-}
-
-section.gantt table td {
-    padding: 6px 4px;
-    text-align: center;
-    font-size: 14px;
-}
-
-section.gantt table td:first-child,
-section.gantt table td:nth-child(2) {
-    text-align: left;
-    padding-left: 8px;
-    font-size: 15px;
-}
-
-section.gantt table tr:last-child td {
-    background: var(--color-bg-muted);
-    font-weight: 700;
-}
-
 /* ──────────────────────────────────────────────
    레이아웃: 래블업 한쪽 소개 (lablup-onepager)
    사용법: <!-- _class: lablup-onepager -->
    2단 컬럼으로 래블업 소개 요약 제시
    ────────────────────────────────────────────── */
 
-section.lablup-onepager {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    column-gap: 24px;
-    align-items: start;
-}
-
 /* ── .lablup-card (로고 + 개요 테이블) ── */
-section.lablup-onepager .lablup-card {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-    padding: 14px 0 14px;
-
-    p:has(svg),
-    p:has(img) {
-        margin: 0;
-        flex-shrink: 0;
-    }
-    svg {
-        height: 44px;
-        width: auto;
-    }
-    table {
-        font-size: 15px;
-        width: fit-content;
-        min-width: 50%;
-        margin: 0;
-        border: 1px solid var(--color-border);
-        border-collapse: collapse;
-        th {
-            display: none;
-        }
-        td {
-            padding: 3px 10px;
-            border: none;
-            background: transparent !important;
-        }
-        td:first-child {
-            font-weight: 700;
-            white-space: nowrap;
-        }
-        tr {
-            border-top: 1px solid var(--color-border-light);
-            border-bottom: 1px solid var(--color-border-light);
-        }
-    }
-}
-
 /* ── 카드 헤더 (h3) ── */
-section.lablup-onepager h3 {
-    font-size: 17px;
-    font-weight: 700;
-    color: var(--color-primary);
-    background-color: var(--color-bg-emphasis);
-    margin: 10px 0 10px;
-    height: 30px;
-    line-height: 30px;
-    padding: 2px 0 2px 10px;
-    border-left: 3px solid var(--color-brand);
-}
-
 /* ── 카드 바디 (ul) ── */
-section.lablup-onepager ul {
-    font-size: 15px;
-}
-
 /* ── logo-cloud (파트너/고객사 등) ── */
-section.lablup-onepager .logo-cloud {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 15px 15px;
-    min-height: 40px;
-    margin: 10px 0;
-    padding: 0 20px;
-
-    p {
-        margin: 0;
-        line-height: 9px;
-        font-size: 8px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        br:nth-of-type(1) {
-            display: none;
-        }
-    }
-    img,
-    svg {
-        display: block;
-        width: auto;
-        height: auto;
-        max-width: 70px;
-        max-height: 26px;
-        margin: 2px 0;
-    }
-}
-
 /* ──────────────────────────────────────────────
    레이아웃: 연구개발팀 소개 (team-intro)
    사용법: <!-- _class: team-intro -->
    4단 컬럼으로 기관별 팀 편성, 전문성, 담당 내용을 표시
    h3 = 기관명 컬러 헤더, ul = 세부 내용
    ────────────────────────────────────────────── */
-section.team-intro {
-    display: grid;
-    grid-template-rows: auto auto 1fr;
-    grid-auto-flow: column;
-    grid-auto-columns: 1fr;
-    column-gap: 14px;
-    row-gap: 0;
-}
-
-section.team-intro > h3 {
-    color: #fff;
-    padding: 8px 10px;
-    margin: 0;
-    border-radius: 5px 5px 0 0;
-    font-weight: 700;
-    line-height: 1.4;
-    align-self: end;
-}
-
-section.team-intro > h3 code {
-    background: rgba(255, 255, 255, 0.25);
-    border: none;
-    color: #fff;
-    font-family: inherit;
-    font-size: 1em;
-    font-weight: 800;
-    padding: 1px 5px;
-    border-radius: 3px;
-}
-
 /* 기관 유형별 색상: <h3 data-org="주관|공동|위탁|수요|수혜"> */
-section.team-intro > h3 {
-    background: var(--color-secondary); /* 기본 fallback */
-}
-section.team-intro > h3[data-org="주관"] {
-    background: var(--color-lablup);
-}
-section.team-intro > h3[data-org="공동"] {
-    background: #11266b;
-}
-section.team-intro > h3[data-org="위탁"] {
-    background: #5e35b1;
-}
-section.team-intro > h3[data-org="수요"] {
-    background: #63100c;
-}
-section.team-intro > h3[data-org="수혜"] {
-    background: #1565c0;
-}
-
-section.team-intro > .org-logo {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 30px 8px;
-    margin: 0;
-    background: #fff;
-    border-left: 2px solid var(--color-border-strong);
-    border-right: 2px solid var(--color-border-strong);
-    border-bottom: 1px solid var(--color-border-strong);
-    height: 210px;
-    box-sizing: border-box;
-    img,
-    svg {
-        height: 100%;
-        width: auto;
-        max-width: 70%;
-        object-fit: contain;
-        display: block;
-        margin: 0;
-    }
-}
-
-section.team-intro > ul {
-    align-self: stretch;
-    margin-top: 0;
-    padding-left: 0;
-    list-style: none;
-    line-height: 1.4;
-    background: var(--color-bg-muted);
-    border: 2px solid var(--color-border-strong);
-    border-top: none;
-    border-radius: 0 0 5px 5px;
-    padding: 6px 20px 10px;
-}
-
-section.team-intro > ul > li {
-    margin-top: 16px;
-    font-weight: 600;
-    color: var(--color-primary);
-    border-top: 1px solid var(--color-border-light);
-    padding-top: 14px;
-}
-
-section.team-intro > ul > li:first-child {
-    margin-top: 5px;
-    border-top: none;
-    padding-top: 0;
-}
-
-section.team-intro > ul > li > ul {
-    margin: 5px 10px;
-    padding-left: 0;
-    list-style: none;
-    font-weight: 400;
-    font-size: 0.85;
-    color: var(--color-fg);
-}
-
-section.team-intro > ul > li > ul > li {
-    position: relative;
-    padding-left: 0.85em;
-}
-
-section.team-intro > ul > li > ul > li::before {
-    content: "–";
-    position: absolute;
-    left: 0;
-    color: var(--color-fg-muted);
-}
-
 /* ──────────────────────────────────────────────
    레이아웃: side-by-side (이미지 + 텍스트 2열)
    사용법: <!-- _class: side-by-side right-image -->
@@ -1892,46 +1594,6 @@ section.left-image {
    ────────────────────────────────────────────── */
 /* scoped style에서 h3별로 --key-color와 --number를 지정:
    section h3:nth-of-type(1) { --key-color: var(--color-ep1); --number: "1"; } */
-section.numbered-dev-items h3 {
-    position: relative;
-    color: var(--color-primary);
-    padding: 10px 16px 10px 56px;
-    margin: 12px 0 4px;
-    border-radius: 6px;
-    font-size: 20px;
-    font-weight: 700;
-    line-height: 1.55;
-    border-left: 5px solid var(--key-color, var(--color-primary));
-    background: rgb(from var(--key-color, var(--color-primary)) r g b / 0.15);
-    &:first-of-type {
-        margin-top: 0;
-    }
-    &::before {
-        content: var(--number, "");
-        position: absolute;
-        left: 10px;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 32px;
-        height: 32px;
-        border-radius: 50%;
-        background: var(--key-color, var(--color-primary));
-        color: #fff;
-        font-weight: 700;
-        font-size: 17px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-}
-
-section.numbered-dev-items ul,
-section.numbered-dev-items ol {
-    margin-top: 2px;
-    margin-bottom: 0;
-    font-size: 20px;
-}
-
 /* ──────────────────────────────────────────────
    End Product 강조색 유틸리티
    사용법: <span class="ep1-text">텍스트</span>
@@ -1969,34 +1631,24 @@ section .ep3-bg {
    사용법: <!-- _class: references -->
    ────────────────────────────────────────────── */
 section.references {
-    font-size: 0.65em;
-    line-height: 1.5;
+    font-size: 0.8em;
+    line-height: 1.6;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-
-    /* 페이지 번호 배지를 숨기므로 h2 왼쪽에 배지 자리를 비워둘 이유가 없다.
-       본문 왼쪽 끝(--pad-x)에 맞춘다. */
-    h2 {
-        font-size: 1.4em;
-        padding-left: var(--pad-x);
-    }
 
     ul {
         list-style: none;
         padding-left: 0;
         columns: 1;
+        margin: 0;
     }
 
     li {
-        margin-bottom: 0.3em;
+        margin-bottom: 0.5em;
         text-indent: -1.5em;
         padding-left: 1.5em;
     }
-}
-/* Hide page number on references slides */
-section.references::after {
-    display: none;
 }
 
 /* ──────────────────────────────────────────────
@@ -2064,6 +1716,42 @@ section.figure-center {
 }
 
 /* ──────────────────────────────────────────────
+   레이아웃: 그림 한 장 + 캡션 (figure-caption)
+   사용법: <!-- _class: figure-caption -->
+   figure-center 와 달리 그림 아래 한두 줄 캡션 자리를 둡니다.
+   캡션은 이미지 뒤에 오는 문단입니다. 불릿은 쓰지 않습니다.
+   PowerPoint 의 Picture with Caption, Google Slides 의 Caption 과 같은 자리.
+   ────────────────────────────────────────────── */
+section.figure-caption {
+    justify-content: flex-start;
+
+    h2 {
+        margin: 0 0 10px;
+    }
+
+    p:has(img) {
+        text-align: center;
+        margin: 0;
+    }
+
+    img {
+        display: block;
+        margin: 0 auto;
+        max-width: 88%;
+        max-height: calc(var(--content-h) - 88px);
+    }
+
+    p:not(:has(img)) {
+        max-width: 78%;
+        margin: 16px auto 0;
+        text-align: center;
+        font-size: 0.78em;
+        line-height: 1.5;
+        color: #5a6c86;
+    }
+}
+
+/* ──────────────────────────────────────────────
    레이아웃: 그림 위 + 불릿 아래 (diagram-top)
    사용법: <!-- _class: diagram-top -->
    가로로 넓은 그림을 위에 두고 아래에 불릿을 답니다.
@@ -2118,9 +1806,8 @@ section.four-box {
     li {
         margin: 0;
         padding: 18px 22px;
-        background: var(--color-bg-muted);
-        border: 1px solid var(--color-border);
-        border-top: 4px solid var(--color-brand);
+        background: #ffffff;
+        border: 1px solid var(--color-border-strong);
         border-radius: 6px;
         font-size: 0.92em;
         line-height: 1.5;

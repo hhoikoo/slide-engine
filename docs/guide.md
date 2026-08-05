@@ -109,43 +109,16 @@
   ol을 사용합니다. 각 항목 왼쪽에 컬러 번호 배지가 표시됩니다.
   최대 5개 항목 지원 (각기 다른 색상).
 
-12. 인물/기관 프로필 (profile):
-  <!-- _class: profile -->
-  첫 번째 img가 왼쪽 사진(210px)으로 배치됩니다.
-  h3 + ul 쌍이 오른쪽 열에 나열됩니다.
-
-13. 2×2 박스 그리드 (four-box):
+12. 2×2 박스 그리드 (four-box):
   <!-- _class: four-box -->
   ul/ol의 4개 항목이 2×2 그리드 박스로 배치됩니다.
   각 항목의 **굵은 글자** 첫 줄이 박스 제목이 됩니다.
 
-14. 참고자료/부록 (appendix):
+13. 참고자료/부록 (appendix):
   <!-- _class: appendix -->
   상단에 진한 헤더 바가 표시됩니다. 참고자료 섹션 구분에 사용합니다.
 
-15. 간트 차트 / 개발 추진일정 (gantt):
-  <!-- _class: gantt -->
-  Markdown 표를 사용합니다. ■ 또는 ● 문자로 일정 바를 표시합니다.
-  첫 두 열은 내용 열(좌정렬), 나머지는 월 열(중앙정렬)로 처리됩니다.
-
-16. 연구개발팀 소개 (team-intro):
-  <!-- _class: team-intro -->
-  h3 + ul 쌍이 하나의 카드 상자로 표시됩니다.
-  컬럼 수는 h3+ul 쌍 개수에 따라 자동 조정됩니다.
-  h3에 data-org 속성으로 기관 유형별 색상을 지정합니다.
-  h3 내부의 <code>(백틱)은 기관명을 강조 표시합니다.
-  색상: 주관(주황), 공동(검정), 위탁(보라), 수요(녹색), 수혜(파랑), 미지정(회색)
-  예시:
-    <h3 data-org="주관">주관기관 <code>기관명</code></h3>
-
-    * 팀 편성
-      - 연구책임자 OOO 외 OO명
-    * 전문성
-      - 핵심 기술 역량
-    * 담당 내용
-      - 주요 담당 영역
-
-17. 좌측 내용 + 우측 이미지 (side-by-side right-image):
+14. 좌측 내용 + 우측 이미지 (side-by-side right-image):
   <!-- _class: side-by-side right-image -->
   텍스트를 <div>로, 이미지를 <div class="image">로 감싸서
   두 개의 그리드 열을 구성합니다. 각 열은 독립적으로 흐릅니다.
@@ -167,7 +140,7 @@
 
     </div>
 
-18. 좌측 이미지 + 우측 내용 (side-by-side left-image):
+15. 좌측 이미지 + 우측 내용 (side-by-side left-image):
   <!-- _class: side-by-side left-image -->
   side-by-side right-image의 좌우 반전 버전입니다.
   <div class="image">가 먼저, 텍스트 <div>가 뒤에 옵니다.
@@ -176,13 +149,14 @@
     section { --cols: 1fr 1.5fr; }
     </style>
 
-19. 참고문헌 (references):
+16. 참고문헌 (references):
   <!-- _class: references -->
-  소형 폰트, 페이지 번호 없음. generate-citation-map.js가 자동 생성합니다.
+  본문보다 작은 폰트. 페이지 번호는 다른 슬라이드와 동일하게 표시됩니다.
+  generate-citation-map.js가 자동 생성합니다.
   - [1] Author (2024). "Title". Source. URL
   - [2] ...
 
-20. 큰 숫자 지표 (big-numbers):
+17. 큰 숫자 지표 (big-numbers):
   <!-- _class: big-numbers -->
   2~5개의 큰 숫자 지표를 균등 분할하여 배치합니다.
   div.metrics 안에 div.metric 요소를 나열합니다.
@@ -199,13 +173,19 @@
     </div>
     </div>
 
-21. 그림 한 장 (figure-center):
+18. 그림 한 장 (figure-center):
   <!-- _class: figure-center -->
   h2 제목 아래에 그림 하나를 가운데 배치합니다.
   그림 높이는 콘텐츠 영역 전체(--content-h)까지 늘어납니다.
   본문 불릿 없이 그림만 두는 슬라이드에 씁니다.
 
-22. 그림 위 + 불릿 아래 (diagram-top):
+19. 그림 한 장 + 캡션 (figure-caption):
+  <!-- _class: figure-caption -->
+  그림 아래에 한두 줄 캡션을 답니다. 캡션은 이미지 다음 문단입니다.
+  그림 높이는 콘텐츠 영역에서 캡션 자리(88px)를 뺀 만큼입니다.
+  캡션 없이 그림만 둘 때는 figure-center 를 씁니다.
+
+20. 그림 위 + 불릿 아래 (diagram-top):
   <!-- _class: diagram-top -->
   가로로 넓은 그림을 위에, 불릿을 아래에 둡니다.
   그림 높이는 콘텐츠 영역의 60%로 제한됩니다.
@@ -216,6 +196,18 @@
   이 선택이 그림 작성 시점의 크기 예산을 정합니다.
   vh 단위는 브라우저 창 기준이라 슬라이드 높이와 어긋납니다.
   그림 크기를 직접 제한할 때는 --content-h 를 쓰십시오.
+
+21. 인용 한 줄 (quote):
+  <!-- _class: quote -->
+  blockquote 하나만 씁니다. 상자도 따옴표 글리프도 없이 흰 여백에 띄웁니다.
+  마지막 문단이 두 개 이상이면 출처 줄로 보고 작고 옅게 깝니다.
+  h2 없이 쓰면 상단 주황 바 없이 문장만 남습니다.
+
+22. 두 열 + 결론 한 줄 (split-statement):
+  <!-- _class: split-statement -->
+  <div> 두 개가 위쪽 두 열, 그 뒤 blockquote 가 아래 전체 너비 결론 줄입니다.
+  결론은 상자가 아니라 윗선 하나로 가르고 굵은 활자로 무게를 줍니다.
+  좌우 비율은 <style scoped>section { --cols: 1fr 1.4fr; }</style>.
 
 23. 자동 축소 (auto-shrink):
   콘텐츠가 슬라이드 영역을 초과하면 자동으로 축소합니다 (최소 65%).
