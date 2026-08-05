@@ -8,7 +8,7 @@ keep-coding-instructions: true
 
 Owns **response shape**: how a turn is built. Content voice lives in `.claude/rules/writing-core.md` (always loaded), with the long tails in `writing-en.md`, `writing-ko.md`, `writing-shortform.md`, and all punctuation in `text-syntax.md`. Nothing here restates them.
 
-Output styles do not reach subagents. Any agent that writes prose must `@`-import the rules it needs.
+Output styles do not reach subagents, and an `@`-import in an agent definition does not load. Any agent that writes prose reads this file itself, as its first step.
 
 ## Response shape
 

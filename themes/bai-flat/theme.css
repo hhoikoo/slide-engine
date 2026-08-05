@@ -172,9 +172,17 @@
 
     --pad-x: 60px;
     --pad-top: 20px;
+    --pad-bottom: 58px;
     --page-num-w: 63px;
     /* h2 바 높이: padding 14px×2 + font 26px × line-height 1.35 ≈ 63px */
     --header-h: 63px;
+
+    /* 슬라이드 내부 콘텐츠 영역 높이.
+       vh 는 브라우저 창 기준이라 슬라이드 높이와 어긋납니다. 그림 크기 제한은
+       반드시 이 변수를 기준으로 계산하십시오. */
+    --content-h: calc(
+        720px - var(--header-h) - var(--pad-top) - var(--pad-bottom)
+    );
 
     /* 공통 에셋 경로 (assets/ 디렉토리 기준)
        테마 CSS 파일 위치(bai-flat/)에서 상대 경로로 참조 */
@@ -197,7 +205,8 @@
 section {
     background: var(--color-bg);
     color: var(--color-fg);
-    padding: calc(var(--header-h) + var(--pad-top)) var(--pad-x) 58px;
+    padding: calc(var(--header-h) + var(--pad-top)) var(--pad-x)
+        var(--pad-bottom);
     font-size: 24px;
     line-height: 1.65;
     position: relative;
@@ -2025,6 +2034,62 @@ section.big-numbers {
         color: #555;
         margin-top: 0.4em;
         line-height: 1.35;
+    }
+}
+
+/* ──────────────────────────────────────────────
+   레이아웃: 그림 한 장 (figure-center)
+   사용법: <!-- _class: figure-center -->
+   h2 제목 아래에 그림 하나를 가운데 배치합니다.
+   그림이 콘텐츠 영역 전체를 쓰는 슬라이드용.
+   ────────────────────────────────────────────── */
+section.figure-center {
+    justify-content: flex-start;
+
+    h2 {
+        margin: 0 0 8px;
+    }
+
+    p:has(img) {
+        text-align: center;
+        margin: 0;
+    }
+
+    img {
+        display: block;
+        margin: 6px auto 0;
+        max-width: 88%;
+        max-height: var(--content-h);
+    }
+}
+
+/* ──────────────────────────────────────────────
+   레이아웃: 그림 위 + 불릿 아래 (diagram-top)
+   사용법: <!-- _class: diagram-top -->
+   가로로 넓은 그림을 위에 두고 아래에 불릿을 답니다.
+   그림 높이는 콘텐츠 영역의 60%로 제한됩니다.
+   ────────────────────────────────────────────── */
+section.diagram-top {
+    justify-content: flex-start;
+
+    h2 {
+        margin: 0 0 10px;
+    }
+
+    p:has(img) {
+        text-align: center;
+        margin: 0 0 14px;
+    }
+
+    img {
+        display: block;
+        margin: 0 auto;
+        max-width: 92%;
+        max-height: calc(var(--content-h) * 0.6);
+    }
+
+    ul {
+        font-size: 0.95em;
     }
 }
 

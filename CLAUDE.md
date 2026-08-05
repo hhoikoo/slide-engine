@@ -14,20 +14,19 @@ slide-engine/
 ├── package.json              # marp-cli + markdown-it-cjk-friendly
 ├── presentations/            # git-crypt encrypted (private source content)
 │   ├── index.md              # ID-to-name mapping (encrypted)
-│   └── p{NNN}/               # Opaque presentation ID
-│       ├── sections/         # Slide files (00.md, 01.md, ...)
-│       ├── research/         # Research docs (r00.md, r01.md, ...)
-│       ├── images/figures/   # Figures (f00.svg, f01.png, ...) + INDEX.md
-│       └── synopsis.md       # Topic and structure outline
+│   └── p{NNN}/               # Opaque presentation ID; see docs/deck-lifecycle.md
 ├── public/                   # Deployed HTML + PDF (served by GitHub Pages)
 ├── docs/
+│   ├── deck-lifecycle.md     # Deck folder shape, slide/figure identity, artifact schemas
 │   └── guide.md              # Layout class reference
 ├── engine/
 │   ├── marp.config.js        # Marp engine config
-│   └── scripts/              # assemble, cite, mermaid, variant, theme merge, postprocess, lint-text
+│   └── scripts/              # assemble, cite, mermaid, variant, theme merge, postprocess, lint-text, mocks, deck-status
 ├── themes/bai-flat/          # CSS theme + assets
 └── .claude/                  # Skills, agents, rules, output style
 ```
+
+`docs/deck-lifecycle.md` is the single authority on what a deck folder contains and what each artifact means. Nothing else restates it.
 
 ## Encryption
 
@@ -35,7 +34,7 @@ Presentation source content (`presentations/`) is encrypted via git-crypt. On Gi
 
 - git-crypt encrypts file **contents only, never paths**. Directory and file *names* under `presentations/` are visible in cleartext on GitHub. So every filename must itself be opaque (see Privacy below).
 - `public/` is NOT encrypted (intentionally public artifacts; folder names there may reveal topic and that is acceptable)
-- To set up on a new machine: `make setup` (installs git-crypt, gnupg, npm deps), then import the GPG key and `git-crypt unlock`
+- To set up on a new machine: `make setup` (installs git-crypt, gnupg, fswatch, npm deps), then import the GPG key and `git-crypt unlock`
 - Backup symmetric key is at `~/.gnupg/slide-engine-git-crypt.key`
 
 ## Privacy (CRITICAL)
@@ -53,9 +52,7 @@ Unencrypted surfaces that MUST stay opaque:
 
 The `/commit` skill and any commit message you author MUST follow this. If unsure whether a word leaks the topic, omit it.
 
-### Figure naming + INDEX.md
-
-Every `images/figures/` folder holds opaquely-named figures (`f00.<ext>`, `f01.<ext>`, ...) plus an `INDEX.md` mapping each opaque name to a real description. `INDEX.md` is git-crypt encrypted, so descriptions there are safe. The opaque name is what authors reference from slides (`![alt](images/figures/f03.svg)`); `INDEX.md` is how you (or a human) recall what `f03.svg` actually is. When adding a figure: pick the next free `fNN`, drop the file in, and add a row to that folder's `INDEX.md`. The same opaque-name rule applies to any other content folder (`generated/`, etc.).
+Opaque names are allocated and recorded through the deck's own registry, not by picking a filename. See `docs/deck-lifecycle.md`, Figure identity.
 
 ## Build
 
@@ -65,26 +62,41 @@ make pdf     DIR=presentations/{name} THEME=bai-flat
 make html-wl DIR=presentations/{name} THEME=bai-flat  # whitelabel
 make pdf-wl  DIR=presentations/{name} THEME=bai-flat  # whitelabel
 make lint    DIR=presentations/{name}                 # check text against .claude/rules/
+make mocks   DIR=presentations/{name}                 # render draft/mocks/ to images/mocks/
+make watch   DIR=presentations/{name}                 # rebuild HTML on every source change
 ```
 
-`make html` runs the text linter in warn-only mode first. `make lint` exits non-zero on hits. The script is `engine/scripts/lint-text.sh`; run it directly for a single file or with `-a` to include research and draft notes.
+`make html` runs the text linter in warn-only mode first. `make lint` exits non-zero on hits. The script is `engine/scripts/lint-text.sh`; run it directly for a single file, with `-a` to include research and draft notes, or with `--gate` to fail only on the machine-decidable classes (provenance, punctuation, SVG labels).
+
+`engine/scripts/deck-status.sh [--porcelain] [pNNN]` reports which pipeline phase each deck is at, derived from what is on disk.
 
 ## Skills
 
+A deck is built in five phases, one skill each, each in its own fresh session. Every phase writes its output to disk and ends at a user gate, so the process is recoverable from a cold start. `docs/deck-lifecycle.md` is the authority on what each phase produces; `engine/scripts/deck-status.sh` says where a deck currently is.
+
+| Phase | Skill | Produces |
+|---|---|---|
+| 1 | `/deck-plan <topic \| pNNN>` | `synopsis.md`, `draft/outline.md`, `draft/decisions.md`, `draft/figures.md` |
+| 2 | `/deck-draft [pNNN]` | `sections/NN.md` with all structural layout |
+| 3 | `/deck-mock [pNNN]` | `draft/mocks/fNN.excalidraw`, `images/mocks/fNN.svg` |
+| 4 | `/deck-figures [pNNN]` | `images/figures/fNN.*`, `images/figures/INDEX.md` |
+| 5 | `/deck-polish [pNNN]` | fine-tuning against the render |
+
+Standalone:
+
 | Skill | Usage |
 |-------|-------|
-| `/new-presentation <topic>` | Scaffold `presentations/{name}/` |
-| `/list-presentations` | List presentations with deploy/PDF status |
-| `/generate-slides [name]` | Generate slides from synopsis |
+| `/list-presentations` | Every deck with its phase, next command and deploy status |
 | `/build [format] [name]` | Compile slides |
 | `/research <source>` | Add research docs |
-| `/fetch-image <url>` | Download image to images/figures/ |
-| `/deploy [name]` | Build + push HTML (+ optional PDF) to Pages |
-| `/inspect [slide] [name]` | Visual screenshot + analysis |
-| `/export-notes [name]` | Extract speaker notes |
+| `/diagram <what to show>` | Author, lint and grade one hand-built SVG figure |
+| `/fetch-image <url>` | Download an image into the `fNN` reserved for it |
 | `/revise [name]` | Voice pass: run the linter, then the manual checks |
-| `/diagram <what to show>` | Author, lint and grade a hand-built SVG figure |
+| `/inspect [slide] [name]` | Visual screenshot + analysis |
+| `/deploy [name]` | Build + push HTML (+ optional PDF) to Pages |
 | `/commit` | Git commit |
+
+Decks written before the pipeline report `phase=legacy`. They are frozen: not retrofitted, not migrated, and no `/deck-*` skill will touch one.
 
 ## Writing rules
 
@@ -104,7 +116,7 @@ Enforcement is `engine/scripts/lint-text.sh` (mechanical, ~80% of the corpus) pl
 
 ## Output style
 
-This project uses the `concise` output style (`.claude/output-styles/concise.md`). It owns chat response shape only; content voice lives in `.claude/rules/`. Output styles never reach subagents, so every agent `@`-imports what it needs: `concise.md` for all of them, plus the relevant writing rule for any agent that reads or writes prose.
+This project uses the `concise` output style (`.claude/output-styles/concise.md`). It owns chat response shape only; content voice lives in `.claude/rules/`. Output styles never reach subagents and an `@`-import in an agent definition does not load, so every agent opens with a `Read first` list: `concise.md` for all of them, plus the relevant writing rule for any agent that reads or writes prose. See `.claude/rules/prompt-engineering.md`.
 
 ## Delegation policy
 

@@ -3,7 +3,7 @@
 # Usage:
 #   make html DIR=/path/to/presentation THEME=bai-flat
 #   make pdf  DIR=/path/to/presentation THEME=bai-flat
-#   make setup   # brew deps (git-crypt, gnupg) + npm ci
+#   make setup   # brew deps (git-crypt, gnupg, fswatch) + npm ci
 
 TEMPLATE_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 THEME        ?= bai-flat
@@ -17,7 +17,7 @@ MERGED_THEME := $(OUTPUT_DIR)/.merged-theme.css
 
 .DEFAULT_GOAL := help
 
-.PHONY: help setup unlock unlock-help html pdf html-wl pdf-wl lint mocks clean check-dir
+.PHONY: help setup unlock unlock-help html pdf html-wl pdf-wl lint mocks watch clean check-dir
 
 help:
 	@echo ""
@@ -33,6 +33,7 @@ help:
 	@echo "  pdf-wl           Build whitelabel PDF slides"
 	@echo "  lint             Check slide text against .claude/rules/ (exits non-zero on hits)"
 	@echo "  mocks            Render draft/mocks/*.excalidraw to images/mocks/*.svg"
+	@echo "  watch            Rebuild HTML on every change to sections/, images/ or draft/mocks/"
 	@echo "  clean            Remove output/ and assembled slides.md"
 	@echo ""
 	@echo "Required:"
@@ -44,7 +45,7 @@ help:
 
 setup:
 	@command -v brew >/dev/null 2>&1 || (echo "Error: Homebrew required. Install from https://brew.sh" && exit 1)
-	brew install git-crypt gnupg
+	brew install git-crypt gnupg fswatch
 	npm ci
 	@$(MAKE) --no-print-directory unlock
 
@@ -87,6 +88,9 @@ lint:
 mocks:
 	@test -n "$(DIR)" || (echo "Error: DIR is required" && exit 1)
 	@bash "$(SCRIPTS)/mock-export.sh" "$(DIR)" $(if $(FORCE),--force,)
+
+watch: check-dir
+	@bash "$(SCRIPTS)/watch.sh" "$(DIR)" "$(THEME)"
 
 html: check-dir
 	@bash "$(SCRIPTS)/lint-text.sh" -w -q "$(DIR)"

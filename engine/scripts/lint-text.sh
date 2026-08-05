@@ -5,26 +5,48 @@ set -euo pipefail
 # and text-syntax.md against slide sources.
 #
 # Usage:
-#   engine/scripts/lint-text.sh [-w] [-q] [-a] [PATH ...]
+#   engine/scripts/lint-text.sh [-w] [-q] [-a] [--gate] [PATH ...]
 #
-#   -w  warn only: always exit 0 (for `make html`)
-#   -q  quiet: counts per rule only, no per-line output
-#   -a  all: also scan research/, draft/ and other planning artifacts
+#   -w      warn only: always exit 0 (for `make html`)
+#   -q      quiet: counts per rule only, no per-line output
+#   -a      all: also scan research/, draft/ and other planning artifacts
+#   --gate  exit non-zero on the gated classes only (provenance, punctuation, svg
+#           labels). Every other class still reports as a count. Implies -q.
+#
+# Exit: 0 clean (or --gate with no gated hit), 1 hits, 2 usage error.
 #
 # PATH defaults to presentations/. For a presentation directory the default scope is
-# shipped text only: sections/*.md, synopsis.md, and images/figures/*.svg. Research
-# notes and drafts quote outside sources verbatim, so they are excluded unless -a.
-# Dependencies beyond the project baseline: none. Uses grep, sed, find only.
+# shipped text only: sections/*.md, synopsis.md, draft/outline.md, and
+# images/figures/*.svg. Research notes and the rest of draft/ quote outside sources
+# verbatim, so they are excluded unless -a. Mock exports are excluded always: a
+# dashed brief in a mock is prose by design and would grade as a shipped label.
+# Dependencies beyond the project baseline: none. Uses grep, sed, awk, find only.
+
+# Advisory density soft caps. Reported, never gated. See docs/deck-lifecycle.md.
+readonly BODY_WORD_CAP=80
+readonly NOTE_WORD_CAP=40
 
 warn_only=0
 quiet=0
 scan_all=0
+gate_mode=0
+
+args=()
+for arg in "$@"; do
+  case "${arg}" in
+    --gate) gate_mode=1; quiet=1 ;;
+    --*) echo "usage: $0 [-w] [-q] [-a] [--gate] [PATH ...]" >&2; exit 2 ;;
+    *) args+=("${arg}") ;;
+  esac
+done
+set -- ${args[@]+"${args[@]}"}
+
 while getopts ":wqa" opt; do
   case "${opt}" in
     w) warn_only=1 ;;
     q) quiet=1 ;;
     a) scan_all=1 ;;
-    *) echo "usage: $0 [-w] [-q] [-a] [PATH ...]" >&2; exit 2 ;;
+    *) echo "usage: $0 [-w] [-q] [-a] [--gate] [PATH ...]" >&2; exit 2 ;;
   esac
 done
 shift $((OPTIND - 1))
@@ -43,10 +65,24 @@ collect_dir() {
       ! -path '*/transcripts/*' | sort
     return 0
   fi
-  # Shipped text only.
+  # Shipped text only. draft/outline.md carries the deck's full cue-level content,
+  # so it is in scope; the rest of draft/ is working notes.
   find "${dir}" -type f -name '*.md' \
     ! -name 'slides.md' ! -name 'citation-map.md' ! -name 'INDEX.md' \
-    ! -path '*/research/*' ! -path '*/draft/*' ! -path '*/output/*' | sort
+    ! -path '*/research/*' ! -path '*/output/*' \
+    \( ! -path '*/draft/*' -o -path '*/draft/outline.md' \) | sort
+}
+
+collect_svg() {
+  local dir="$1"
+  if [ "${scan_all}" -eq 1 ]; then
+    find "${dir}" -type f -name '*.svg' \
+      ! -path '*/transcripts/*' ! -path '*/images/mocks/*' | sort
+    return 0
+  fi
+  find "${dir}" -type f -name '*.svg' \
+    ! -path '*/research/*' ! -path '*/draft/*' ! -path '*/output/*' \
+    ! -path '*/images/mocks/*' | sort
 }
 
 md_files=""
@@ -59,7 +95,7 @@ for target in "$@"; do
     esac
   elif [ -d "${target}" ]; then
     md_files="${md_files}$(collect_dir "${target}")"$'\n'
-    svg_files="${svg_files}$(find "${target}" -type f -name '*.svg' | sort)"$'\n'
+    svg_files="${svg_files}$(collect_svg "${target}")"$'\n'
   else
     echo "lint-text: no such path: ${target}" >&2
     exit 2
@@ -71,6 +107,16 @@ svg_files="$(printf '%s' "${svg_files}" | sed '/^$/d')"
 
 errors=0
 warns=0
+gate_hits=0
+
+# Classes a machine can decide. Everything else is a judgement call, and hard-gating
+# judgement classes is what makes an author delete real content to get a green light.
+is_gated() {
+  case "$1" in
+    PROV-0[1-4]|PUNC-0[1-5]|SVG-0[1-4]) return 0 ;;
+    *) return 1 ;;
+  esac
+}
 
 # check LEVEL CODE MESSAGE PATTERN [FILE_LIST]
 check() {
@@ -89,6 +135,9 @@ check() {
     errors=$((errors + count))
   else
     warns=$((warns + count))
+  fi
+  if is_gated "${code}"; then
+    gate_hits=$((gate_hits + count))
   fi
 }
 
@@ -124,10 +173,16 @@ check WARN  FMT-03 "thematic break before heading" '^\*\*\*$'
 if [ "${md_files}" != "" ] && [ -x engine/scripts/unwrap-md.py ]; then
   wrapped=$(printf '%s\n' "${md_files}" | grep -v '^$' | grep -v '^presentations/' || true)
   if [ -n "${wrapped}" ]; then
-    hits=$(printf '%s\n' "${wrapped}" | xargs python3 engine/scripts/unwrap-md.py --check 2>/dev/null | grep -c '^wrapped' || true)
+    # unwrap-md.py exits non-zero when it finds a hit, so every pipeline reading it
+    # needs the guard: under pipefail an unguarded one aborts the whole run and the
+    # checks below this point never execute.
+    found="$(printf '%s\n' "${wrapped}" | xargs python3 engine/scripts/unwrap-md.py --check 2>/dev/null || true)"
+    hits="$(printf '%s\n' "${found}" | { grep -c '^wrapped' || true; })"
     if [ "${hits}" -gt 0 ]; then
       printf 'ERROR %-9s %-28s %s hit(s)\n' "FMT-04" "hard-wrapped paragraph" "${hits}"
-      printf '%s\n' "${wrapped}" | xargs python3 engine/scripts/unwrap-md.py --check 2>/dev/null | grep '^wrapped' | sed 's/^wrapped */    /'
+      if [ "${quiet}" -eq 0 ]; then
+        printf '%s\n' "${found}" | { grep '^wrapped' || true; } | sed 's/^wrapped */    /'
+      fi
       errors=$((errors + hits))
     fi
   fi
@@ -182,16 +237,120 @@ if [ -n "${svg_files}" ]; then
   check WARN  SVG-09 "종결어미 in label" '<text[^>]*>[^<]*(합니다|됩니다|입니다|있습니다)' "${svg_files}"
 fi
 
+# Density is a judgement call. These counts exist so the judgement has numbers under
+# it; they never change the exit code. 00.md carries frontmatter, not slides.
+section_files="$(printf '%s\n' "${md_files}" | grep '/sections/' | grep -v '/sections/00' || true)"
+if [ -n "${section_files}" ]; then
+  echo
+  echo "== density (advisory, never gates) =="
+  printf '%s\n' "${section_files}" | tr '\n' '\0' | xargs -0 awk \
+    -v body_cap="${BODY_WORD_CAP}" -v note_cap="${NOTE_WORD_CAP}" -v verbose="$((1 - quiet))" '
+function words(s,   a) {
+  gsub(/!\[[^]]*\]\([^)]*\)/, " ", s)
+  gsub(/<[^>]*>/, " ", s)
+  gsub(/[#*`>|]/, " ", s)
+  gsub(/^[ \t]+|[ \t]+$/, "", s)
+  if (s == "") return 0
+  return split(s, a, /[ \t]+/)
+}
+function is_directive(s) {
+  gsub(/^[ \t]+|[ \t]+$/, "", s)
+  return (s ~ /^_[A-Za-z]/) || (s ~ /^(vendor|whitelabel)-(start|end)$/) || (s ~ /^img-needed:/)
+}
+function deck_of(path,   i) {
+  i = index(path, "/sections/")
+  return (i > 0) ? substr(path, 1, i - 1) : path
+}
+function seen(d) {
+  if (!(d in known)) { known[d] = 1; dorder[++dcount] = d }
+}
+function emit_body(   d) {
+  if (cur_file == "") return
+  d = deck_of(cur_file); seen(d)
+  bodies[d] = bodies[d] " " bodyw
+  nslides[d]++
+  if (bodyw > body_cap && verbose)
+    flag[d] = flag[d] sprintf("    %s slide %d: body %d words (soft cap %d)\n", cur_file, slide, bodyw, body_cap)
+}
+function emit_note(   d) {
+  d = deck_of(cur_file); seen(d)
+  notes[d] = notes[d] " " notew
+  nnotes[d]++
+  if (notew > note_cap && verbose)
+    flag[d] = flag[d] sprintf("    %s slide %d: note %d words (soft cap %d)\n", cur_file, slide, notew, note_cap)
+  notew = 0
+}
+function maxof(s,   n, a, i, m) {
+  n = split(s, a, " ")
+  if (n == 0) return 0
+  m = a[1] + 0
+  for (i = 2; i <= n; i++) if (a[i] + 0 > m) m = a[i] + 0
+  return m
+}
+function medof(s,   n, a, i, j, t) {
+  n = split(s, a, " ")
+  if (n == 0) return 0
+  for (i = 2; i <= n; i++) {
+    t = a[i] + 0; j = i - 1
+    while (j >= 1 && a[j] + 0 > t) { a[j+1] = a[j]; j-- }
+    a[j+1] = t
+  }
+  if (n % 2) return a[(n+1)/2] + 0
+  return int((a[n/2] + a[n/2+1]) / 2)
+}
+FNR == 1 {
+  emit_body()
+  cur_file = FILENAME; slide = 1; bodyw = 0; notew = 0; innote = 0; instyle = 0
+}
+{
+  if (innote) {
+    txt = $0
+    if (txt ~ /-->/) { sub(/-->.*/, "", txt); innote = 0 }
+    notew += words(txt)
+    if (!innote) emit_note()
+    next
+  }
+  if (instyle) { if ($0 ~ /<\/style>/) instyle = 0; next }
+  if ($0 ~ /<style/) { if ($0 !~ /<\/style>/) instyle = 1; next }
+  if ($0 ~ /^[ \t]*<!--/) {
+    inner = $0
+    sub(/^[ \t]*<!--/, "", inner)
+    closed = 0
+    if (inner ~ /-->/) { sub(/-->.*/, "", inner); closed = 1 }
+    if (is_directive(inner)) next
+    notew = words(inner)
+    if (closed) emit_note(); else innote = 1
+    next
+  }
+  if ($0 ~ /^---[ \t]*$/) { emit_body(); slide++; bodyw = 0; next }
+  bodyw += words($0)
+}
+END {
+  emit_body()
+  for (i = 1; i <= dcount; i++) {
+    d = dorder[i]
+    printf "DEN   %-26s %3d slides, body words max/med %d/%d; %3d notes, note words max/med %d/%d\n",
+      d, nslides[d] + 0, maxof(bodies[d]), medof(bodies[d]),
+      nnotes[d] + 0, maxof(notes[d]), medof(notes[d])
+    printf "%s", flag[d]
+  }
+}'
+fi
+
 count_lines() {
   [ -n "$1" ] || { echo 0; return 0; }
   printf '%s\n' "$1" | grep -c '' || true
 }
 
 echo
-printf 'lint-text: %s error(s), %s warning(s) over %s markdown and %s svg file(s)\n' \
-  "${errors}" "${warns}" \
+printf 'lint-text: %s error(s), %s warning(s), %s gated hit(s) over %s markdown and %s svg file(s)\n' \
+  "${errors}" "${warns}" "${gate_hits}" \
   "$(count_lines "${md_files}")" "$(count_lines "${svg_files}")"
 
+if [ "${gate_mode}" -eq 1 ]; then
+  [ "${gate_hits}" -gt 0 ] && exit 1
+  exit 0
+fi
 if [ "${warn_only}" -eq 1 ]; then
   exit 0
 fi

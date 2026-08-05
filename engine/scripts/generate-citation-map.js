@@ -9,7 +9,10 @@
 //
 // Usage: node generate-citation-map.js <presentation-dir>
 //
-// Idempotent: running twice produces the same result.
+// Idempotent, including across edits. Numbers already assigned on a previous run
+// are recovered from research/citation-map.md and kept, so a citation added later
+// gets the next free number instead of restarting at [1] and colliding with the
+// markers already rewritten into the slides.
 
 const fs = require('fs')
 const path = require('path')
@@ -59,16 +62,44 @@ function parseResearchDocs() {
 
 const MARKER_RE = /<sup>\[research:(\d+)\]<\/sup>/g
 
+// A references slide holds this many entries before spilling onto the next one.
+const REFS_PER_SLIDE = 12
+
 const researchDocs = parseResearchDocs()
+const citationMapPath = path.join(researchDir, 'citation-map.md')
 const sectionFiles = fs.readdirSync(sectionsDir)
   .filter(f => f.endsWith('.md'))
   .sort()
 
 const refSectionFile = sectionFiles.find(f => /references/i.test(f))
 
-// First pass: collect research IDs in order of first appearance
-const citationOrder = []
-const seenIds = new Set()
+// A previous run rewrote its markers from [research:id] to [n], so the slides no
+// longer say which research doc a number belongs to. The map is the only record.
+function parseCitationMap() {
+  const idToCitation = {}
+  const order = []
+  if (!fs.existsSync(citationMapPath)) return { idToCitation, order }
+
+  const rows = []
+  for (const line of fs.readFileSync(citationMapPath, 'utf-8').split('\n')) {
+    const m = line.match(/^\|\s*\[(\d+)\]\s*\|\s*(\d+)\s*\|/)
+    if (m) rows.push({ n: parseInt(m[1], 10), id: m[2] })
+  }
+  rows.sort((a, b) => a.n - b.n)
+  for (const row of rows) {
+    if (idToCitation[row.id]) continue
+    idToCitation[row.id] = row.n
+    order.push(row.id)
+  }
+  return { idToCitation, order }
+}
+
+const prior = parseCitationMap()
+const idToCitation = { ...prior.idToCitation }
+const citationOrder = [...prior.order]
+let nextCitation = citationOrder.length
+  ? Math.max(...Object.values(idToCitation)) + 1
+  : 1
 
 for (const file of sectionFiles) {
   if (refSectionFile && file === refSectionFile) continue
@@ -77,10 +108,9 @@ for (const file of sectionFiles) {
   let match
   while ((match = re.exec(content)) !== null) {
     const id = match[1]
-    if (!seenIds.has(id)) {
-      seenIds.add(id)
-      citationOrder.push(id)
-    }
+    if (idToCitation[id]) continue
+    idToCitation[id] = nextCitation++
+    citationOrder.push(id)
   }
 }
 
@@ -88,12 +118,6 @@ if (citationOrder.length === 0) {
   console.log('No citation markers found in sections/. Nothing to do.')
   process.exit(0)
 }
-
-// Build id -> citation number mapping
-const idToCitation = {}
-citationOrder.forEach((id, i) => {
-  idToCitation[id] = i + 1
-})
 
 // Second pass: rewrite markers in section files
 for (const file of sectionFiles) {
@@ -136,18 +160,25 @@ for (const id of citationOrder) {
   const n = idToCitation[id]
   const doc = researchDocs[id] || {}
   const title = doc.title || '(unknown)'
-  const file = firstAppearance[String(n)] || '?'
-  mapLines.push(`| [${n}] | ${id} | ${title} | ${file} |`)
+  const file = firstAppearance[String(n)]
+  if (!file) {
+    console.warn(`Warning: [${n}] (research:${id}) is no longer cited in any slide. `
+      + 'Its number is kept so existing markers stay valid; remove the row from '
+      + 'research/citation-map.md to retire it.')
+  }
+  mapLines.push(`| [${n}] | ${id} | ${title} | ${file || '?'} |`)
 }
 
 fs.writeFileSync(path.join(researchDir, 'citation-map.md'), mapLines.join('\n') + '\n', 'utf-8')
 console.log(`Generated research/citation-map.md with ${citationOrder.length} citations`)
 
-// Generate references section file
+// Generate references section file. The references file is excluded from the
+// numbering scan: counting it would push the name one higher on every run.
 const sectionNums = sectionFiles
+  .filter(f => f !== refSectionFile)
   .map(f => parseInt(f.match(/^(\d+)/)?.[1], 10))
   .filter(n => !isNaN(n))
-const nextNum = Math.max(...sectionNums) + 1
+const nextNum = sectionNums.length ? Math.max(...sectionNums) + 1 : 0
 const refFileName = `${String(nextNum).padStart(2, '0')}-references.md`
 
 if (refSectionFile && refSectionFile !== refFileName) {
@@ -155,30 +186,36 @@ if (refSectionFile && refSectionFile !== refFileName) {
   console.log(`Removed old references file: ${refSectionFile}`)
 }
 
-const refLines = [
-  '<!-- _class: references -->',
-  '',
-  '## References',
-  '',
-]
-
-for (const id of citationOrder) {
+function entryFor(id) {
   const n = idToCitation[id]
   const doc = researchDocs[id] || {}
   const authors = doc.authors || 'Unknown'
   const title = doc.title || '(untitled)'
-  const source = doc.source || ''
-  const year = doc.year || ''
-  const url = doc.url || ''
 
   let entry = `[${n}] ${authors}`
-  if (year) entry += ` (${year})`
+  if (doc.year) entry += ` (${doc.year})`
   entry += `. "${title}"`
-  if (source) entry += `. ${source}`
-  if (url) entry += `. ${url}`
-
-  refLines.push(`- ${entry}`)
+  if (doc.source) entry += `. ${doc.source}`
+  if (doc.url) entry += `. ${doc.url}`
+  return entry
 }
 
-fs.writeFileSync(path.join(sectionsDir, refFileName), refLines.join('\n') + '\n', 'utf-8')
-console.log(`Generated sections/${refFileName}`)
+const slides = []
+for (let i = 0; i < citationOrder.length; i += REFS_PER_SLIDE) {
+  const chunk = citationOrder.slice(i, i + REFS_PER_SLIDE)
+  slides.push([
+    '<!-- _class: references -->',
+    '',
+    '## References',
+    '',
+    ...chunk.map(id => `- ${entryFor(id)}`),
+  ].join('\n'))
+}
+
+fs.writeFileSync(
+  path.join(sectionsDir, refFileName),
+  slides.join('\n\n---\n\n') + '\n',
+  'utf-8'
+)
+console.log(`Generated sections/${refFileName} (${slides.length} slide(s), `
+  + `${citationOrder.length} citations)`)

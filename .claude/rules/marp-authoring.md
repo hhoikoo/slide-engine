@@ -8,7 +8,7 @@ paths:
 
 Presentations use multi-file sectioned authoring under `sections/`.
 
-`00-frontmatter.md` contains only the YAML frontmatter block:
+`00.md` carries no slide content. It holds the YAML frontmatter block, and optionally a deck-scoped `<style>` block after it:
 ```markdown
 ---
 marp: true
@@ -39,16 +39,18 @@ Content here.
 
 Rules:
 - No leading `---` at the start of section files (the assembler handles joins between files).
-- The first file must use a `00-` prefix (assembler convention for frontmatter detection).
+- The first file must use a `00` prefix (assembler convention for frontmatter detection), enforced by `engine/scripts/assemble-sections.sh:23`.
 - `slides.md` is a build artifact assembled from `sections/` by `assemble-sections.sh`. Do not edit it directly.
+
+Deck folder shape, slide identity and figure identity live in `docs/deck-lifecycle.md`.
 
 ## Engine Gotchas
 
 - **Two-column `<div>` blank lines:** Marp requires blank lines around `<div>` tags inside slides for markdown to render inside them.
 - **Four-box `<b>` syntax:** The four-box layout uses `<b>Title</b>` tags for box headers, not `**bold**`.
 - **Image path conventions:** Local images use relative paths (`images/figures/f03.svg`). Theme assets use the `/assets/...` prefix (resolved to `THEME_DIR/assets/` by the engine).
-- **Opaque figure names:** git-crypt does not encrypt paths, so figure filenames are public on GitHub. Name every figure `fNN.<ext>` (next free index in the folder), never something topic-revealing, and record what it is in that folder's encrypted `INDEX.md`. See CLAUDE.md "Figure naming + INDEX.md".
-- **Layout class directive placement:** `<!-- _class: layout-name -->` must be the first line after the slide separator.
+- **Opaque figure names:** git-crypt does not encrypt paths, so figure filenames are public on GitHub. Every figure is `fNN.<ext>`, allocated in `draft/figures.md`. See `docs/deck-lifecycle.md`, Figure identity.
+- **Layout class directive placement:** `<!-- _class: layout-name -->` must be the first line Marp sees after the slide separator. A `<!-- _slide: S.n -->` marker may precede it in the section file; `assemble-sections.sh` strips those before Marp reads anything. Marp folds an unknown local directive into the slide's presenter notes rather than ignoring it, which is why the strip exists.
 - **Speaker notes:** Use `<!-- ... -->` HTML comments. Must appear after all slide content on the slide.
 - **Emoji rendering:** Marp uses twemoji, which converts Unicode emoji to `<img>` elements that break inline layout. Avoid Unicode emoji in slides.
 - **CJK bold:** Handled by the `markdown-it-cjk-friendly` plugin (no `<b>` workaround needed).

@@ -1,122 +1,26 @@
 # Diagram archetypes
 
-Twelve compositions found in the reference corpus. Pick one before drawing anything. Most bad diagrams are bad because no archetype was chosen and boxes were placed as they came to mind.
+Thirteen compositions found in the reference corpus. Pick one before drawing anything. Most bad diagrams are bad because no archetype was chosen and boxes were placed as they came to mind.
 
-Each entry gives what it is for, the layout recipe, and the failure mode it prevents.
+Each entry gives what it is for, the layout recipe, and the failure mode it prevents. Read the entry you pick, not the whole set.
 
-## 1. Nested-container architecture
+## The archetypes
 
-**For**: what runs inside what. Deployment topology, process boundaries, ownership.
-
-**Recipe**: outer dashed rect per boundary (zone, node, cluster) with an italic grey label top-left in a ~38px band. Components as `rx=6` boxes inside, inset 12-16px. Nest two or three levels deep. Sub-components sit literally inside their parent box. No arrow is needed to say "part of". Connectors only for genuine runtime relationships.
-
-**Prevents**: the flat row of sibling boxes with "contains" arrows between them.
-
-## 2. Request flow
-
-**For**: the path of one request through a system.
-
-**Recipe**: left-to-right. Entry point as a stadium or notched rect on the left. Orthogonal connectors, solid for the actual path. Arrow labels bold 17.78px above the line, 2-4 words. Where the path branches, a diamond. Where it fans out, three targets plus `…`. Use a second line weight only if there are genuinely two flow classes (control vs data). Then thin grey for control, thick black for data.
-
-**Prevents**: bidirectional-arrow soup where no path is traceable.
-
-## 3. Layered stack
-
-**For**: abstraction levels. Only when layers genuinely stack.
-
-**Recipe**: full-width horizontal bands, 8-16px gutter between them, italic grey label to the left of each band (outside it, not inside). Components sit within their band. Do not draw arrows between adjacent layers; adjacency already says "sits on".
-
-**Prevents**: the seven-layer stack where layers 3-5 are invented to make it look substantial.
-
-## 4. Comparison matrix
-
-**For**: N options against M attributes.
-
-**Recipe**: overlapping grouping frames. Solid grey column frames crossed with dashed row frames. **No cell borders, no header rules, no zebra striping.** Column headers italic. Where the cell value is categorical, make the cell *fill* the value and drop the text entirely.
-
-**Prevents**: a spreadsheet with rounded corners.
-
-## 5. Before / after
-
-**For**: one change, argued.
-
-**Recipe**: two panels with **pixel-identical internal geometry** so the difference is the only thing that moves. Panel labels bold small top-left (`AS-IS` / `TO-BE`). A chunky filled block arrow between them. Never a line arrow. Grey out or strike through what the change removes; apply the accent hue only to what it adds.
-
-**Prevents**: two unrelated diagrams side by side, where the reader has to find the diff.
-
-## 6. Phase progression
-
-**For**: three or more states over time. The generalisation of before/after.
-
-**Recipe**: as above with N panels, identical geometry, a small italic phase tag above each (`<Phase 1>`). Accumulate rather than replace: each panel adds to the last, so the reader tracks one moving part.
-
-**Prevents**: three diagrams that share no visual anchor.
-
-## 7. Roll-up convergence
-
-**For**: many things feeding one thing. Aggregation, collection, scheduling.
-
-**Recipe**: sources as a column of small identical boxes on the left. Three plus `⋮`, never all N. Thin connectors converging on a single larger box. Keep the sources visually identical; their sameness is the point.
-
-**Prevents**: drawing all twelve sources and running out of canvas.
-
-## 8. Quadrant map
-
-**For**: positioning across two continuous dimensions.
-
-**Recipe**: two axis lines, no box frame, no gridlines. Axis labels italic grey at the ends. Items as small marks with labels on hairline leaders. Never label the quadrants themselves.
-
-**Prevents**: the 2x2 with four tinted cells and a paragraph in each.
-
-## 9. Whiteboard mechanism
-
-**For**: how an algorithm or protocol actually works. The whiteboard register.
-
-**Recipe**: sharp corners, white fills, black lines. Sequence rows showing state at each step, identical geometry per row, `⋮` for elided steps. Inline symbols (`✓`, `↺`, `→`) as compact annotations. Small multiples doing the heavy lifting.
-
-**Prevents**: an architecture diagram pretending to explain a mechanism.
-
-## 10. Network topology
-
-**For**: physical or logical connectivity, fabrics, planes.
-
-**Recipe**: coloured vertical bus-bars (5-7px) as the fabrics; nodes connect with 2px lines in the fabric's colour. Colour here encodes *fabric identity*. That is the one case where a higher hue count is legitimate. Node groups as dashed containers.
-
-**Prevents**: a mesh of crossing lines with no organising spine.
-
-## 11. Closed-loop control
-
-**For**: feedback systems. Autoscaling, retries, reconciliation.
-
-**Recipe**: a genuine cycle, laid out as a rectangle rather than a circle so connectors stay orthogonal. Label each edge with the signal it carries. Mark the setpoint or threshold with a dashed line in the accent hue. Pair with a small inline plot if the behaviour over time is the actual point.
-
-**Prevents**: a ring of arrows where the loop's mechanism is invisible.
-
-## 12. Oblique layer stack
-
-Commonly called isometric, and that is what to search for, but the projection is a 45 degree cavalier oblique: the reference corpus measures `|dx/dy|` at exactly 1.0000 across all 52 slabs with no foreshortening on either axis. Building it as a true isometric, with 30 degree axes and foreshortened depth, produces a visibly different and wrong result.
-
-**For**: one machine or one site that sits on several fabrics or planes at once, where the reader has to see both *what runs on it* and *what it is wired into*. The case that layered stack cannot take: the layers are not abstraction levels, they are simultaneous memberships, and objects rest on them.
-
-**Recipe**: draw each plane as a 45 degree oblique slab, `M{X},{Y} l{-D},{D} h{W} l{D},{-D} z`, with W:D between 4:1 and 5:1. Stack them by pure vertical translation; paint the top slab first and the bottom slab last. Fill each with its own hue at `fill-opacity` 0.16-0.21 for a full-size slab, and outline it 2px in the same hue's dark stop, which is what keeps the stack readable where the fills blend. Three slabs maximum.
-
-Seat objects with their base line at `y_plane_top + D/2` so the slab's depth band brackets the base, and paint every object after every plane. Cubes for workloads, the flat datastore cylinder for storage; both drawn from the neutral ramp, never coloured. **Pick the pitch from the seating, not from the look**: if objects sit on different slabs, the base line must clear every slab edge by 12px or the object reads as standing on the wrong plane. `tokens.md` gives the inequality.
-
-Right of the stack, one 7px vertical bar per plane, in the plane's mid stop, its y-extent covering the plane it serves. One 2px connector per plane leaves the slab's slanted right edge at the same `y_plane_top + D/2` and runs dead horizontal to its bar, in the dark stop. No arrowheads: an attachment is not a flow. A connector may cross a bar of another hue, never one of its own.
-
-**Colour is the whole encoding**: one hue per fabric, held identical across the slab fill, the slab outline, the connector, the bar and the fabric's own label. Declare `<!-- categorical: N -->` past three. Every label stays horizontal; nothing follows the 45 degree axis. Full projection constants in `tokens.md`, "The oblique plane".
-
-**Prevents**: the decorative 3D diagram, where perspective is applied to boxes that had no depth to show. If the planes are not simultaneous and objects do not rest on them, use layered stack and stay flat.
-
-## 13. Paired-value scale
-
-Commonly called a dumbbell or lollipop chart. Harvested from real work rather than from the reference corpus, which contained no one-dimensional plot.
-
-**For**: N items that each carry **two** values on the **same** continuous scale, where the question is both where each item sits and how the gap between its pair compares across items. Settings against their limits, current against target, start against finish. The case the comparison matrix cannot take: a matrix renders six items as six equal rows and throws away the spread, and if the values span orders of magnitude the spread *is* the message.
-
-**Recipe**: one horizontal axis, no frame, no gridlines, ticks only where a reader must read a value off them. One row per item at a fixed pitch, item names right-anchored in a label column outside the plot. On each row, a filled dot for each of the two values joined by a 2px `#ced4db` rule; emit the rule first so the dots overpaint its ends. Colour encodes **which of the two values**, one hue each, held identical down every row. Name the two hues once, on the first row only, with italic grey labels on hairline leaders: never a legend, and never repeated per row. **Use a log axis when the values span more than one order of magnitude**, and say so in an italic grey note at the axis end, because on a log axis equal ratios render as equal bar lengths and the varying gap becomes directly readable as length.
-
-**Prevents**: the six-row table of numbers that hides the fact that the values span 60x and that the ratio between each pair is not constant.
+| # | Archetype | What it is for |
+|---|---|---|
+| 1 | [Nested-container architecture](archetypes/nested-container-architecture.md) | what runs inside what. |
+| 2 | [Request flow](archetypes/request-flow.md) | the path of one request through a system. |
+| 3 | [Layered stack](archetypes/layered-stack.md) | abstraction levels. |
+| 4 | [Comparison matrix](archetypes/comparison-matrix.md) | N options against M attributes. |
+| 5 | [Before / after](archetypes/before-after.md) | one change, argued. |
+| 6 | [Phase progression](archetypes/phase-progression.md) | three or more states over time. |
+| 7 | [Roll-up convergence](archetypes/roll-up-convergence.md) | many things feeding one thing. |
+| 8 | [Quadrant map](archetypes/quadrant-map.md) | positioning across two continuous dimensions. |
+| 9 | [Whiteboard mechanism](archetypes/whiteboard-mechanism.md) | how an algorithm or protocol actually works. |
+| 10 | [Network topology](archetypes/network-topology.md) | physical or logical connectivity, fabrics, planes. |
+| 11 | [Closed-loop control](archetypes/closed-loop-control.md) | feedback systems. |
+| 12 | [Oblique layer stack](archetypes/oblique-layer-stack.md) | what one node is wired into at once, drawn as stacked planes. Commonly called isometric. |
+| 13 | [Paired-value scale](archetypes/paired-value-scale.md) | where each item sits on one scale and how big each gap is. Commonly called a dumbbell or lollipop chart. |
 
 ## Choosing
 
@@ -138,7 +42,7 @@ Commonly called a dumbbell or lollipop chart. Harvested from real work rather th
 
 ## When nothing fits
 
-The twelve above are what the reference corpus happened to contain. They are not a ceiling.
+The thirteen above are what the reference corpus happened to contain. They are not a ceiling.
 
 If the slide's question isn't in the table, **say so explicitly**. Do not silently bend the content into the nearest archetype. Forcing a mechanism into a request-flow shape produces a worse diagram than admitting the shape is new.
 
@@ -157,9 +61,9 @@ Add it when **both** hold:
 - The diagram passed the grader
 - The question it answers is general, not specific to one deck. *"How does a request traverse the system?"* generalises. *"What did we ship in Q3?"* does not.
 
-Write the entry in the same shape as the twelve above: **what it is for**, **the layout recipe**, **the failure mode it prevents**. Add a row to the selection table. Keep the description free of the deck's subject matter. Describe the *shape*, never the content that occasioned it. If it is worth an exemplar, author one on invented generic content and add it to `exemplars/`.
+Write the entry in the same shape as the others: **what it is for**, **the layout recipe**, **the failure mode it prevents**. Add a row to the selection table. Keep the description free of the deck's subject matter. Describe the *shape*, never the content that occasioned it. If it is worth an exemplar, author one on invented generic content and add it to `exemplars/`.
 
-Deliberately do not add an entry for a one-off. A registry of thirty archetypes where nine recur is worse than twelve that all earn their place.
+Deliberately do not add an entry for a one-off. A registry of thirty archetypes where nine recur is worse than thirteen that all earn their place.
 
 ## Inline plots
 

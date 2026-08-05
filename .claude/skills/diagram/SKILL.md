@@ -4,6 +4,8 @@ description: Author a hand-built SVG diagram in the house style, then lint, rend
 argument-hint: "<what the diagram should show> [presentation-name]"
 ---
 
+@docs/deck-lifecycle.md
+
 # Diagram
 
 Author an SVG figure that meets the house standard. A script and a fresh-eyes grader verify it before you ship it.
@@ -14,30 +16,34 @@ The default output of an unguided model is a diagram with too many words, no typ
 
 `$ARGUMENTS` is `<what the diagram should show> [presentation-name]`. The first part is the communicative goal in the author's words. A trailing presentation ID or name is optional.
 
+Invoked from `/deck-figures`, the goal arrives with a grounding payload: the reserved `fNN`, the archetype, the slot class, and the mock's text projection. Read the payload's header rules; they are not decoration.
+
 ## Resolve presentation
 
 Use the presentation from earlier in this conversation. If none established, ask the user. Accepts opaque ID or human-readable name via `presentations/index.md`.
+
+## The name is handed to you
+
+**This skill never allocates a figure name and never scans a directory for the next free index.** `draft/figures.md` is the sole allocator (`docs/deck-lifecycle.md`, Figure identity), and it never appends to `images/figures/INDEX.md`; phase 4 generates that file from the registry.
+
+- Invoked from `/deck-figures`, the payload names the `fNN` to write. Use it. Do not allocate.
+- Invoked standalone, read `draft/figures.md`, append a row for this figure, and take the name from the row you just wrote.
+- Invoked standalone on a deck with no `draft/figures.md`, create it, seed it once from the `fNN` files already in `images/figures/`, then allocate. Ad-hoc figure work on a shipped deck keeps working and nothing gets retrofitted: the deck's slides and existing figures are not touched.
 
 ## Before drawing anything
 
 **Read these three files. Do not skip them and do not work from memory.**
 
 - `.claude/skills/diagram/references/tokens.md`: the fixed vocabulary
-- `.claude/skills/diagram/references/archetypes.md`: the compositions
 - `.claude/skills/diagram/references/rubric.md`: what it will be graded against
+- `.claude/skills/diagram/references/archetypes.md`: the index and the selection table. Then read **the one entry** you pick, from `references/archetypes/`. When `/deck-figures` hands you an archetype, phase 3 already chose it; read that entry and the selection table, not the other twelve.
 
 Two libraries save you from re-deriving shapes by hand. Both are pasted into the figure, never referenced across files: the engine scopes ids, so a cross-file `<use>` does not resolve.
 
-- `references/components.md` and `components-sheet.png`: **read this before drawing any shape.** 35 composite parts at diagram scale, covering every shape the token spec describes in prose. Boundaries, bands, swimlanes, stadium, cylinder, diamond, note, parallelogram, card stack, ghost column, rounded elbows, leaders, brackets, block arrow, port stubs, plot axes, threshold lines, scale strips, bus bars, the oblique plane set, and the disabled and elision forms. Four are `<symbol>`s; the rest are templates you size to your contents. Hand-authoring a cylinder or an elbow when the library has one is how geometry drifts between figures.
+- `references/components.md` and `components-sheet.png`: **read the index before drawing any shape**, then read only the entries you are going to use, from `references/components/`. 35 composite parts at diagram scale cover every shape the token spec describes in prose. Four are `<symbol>`s; the rest are templates you size to your contents. Hand-authoring a cylinder or an elbow when the library has one is how geometry drifts between figures. A mock brief that names a part (`c-bus-bar`, `c-boundary`) is telling you which entries to open.
 - `references/icons.md` and `icons-sheet.png`: 63 house-style 24x24 glyphs in `icons.svg`, for labelling what a box *is*. Use them sparingly. The reference corpus contains roughly fifteen distinct icons across all 53 files, because the style carries meaning through labelled boxes and the shape vocabulary rather than through iconography. An icon in every box is the Gate 5 tell. Never hand-draw a glyph the library already has, and never paste one in from another icon set. If the concept genuinely has no icon, follow the on-demand procedure in `icons.md` and author it into the library, so the next figure inherits it.
 
-Then look at two or three exemplars in `.claude/skills/diagram/references/exemplars/` that are closest to what you're about to draw. Render them and look at them:
-
-```bash
-.claude/skills/diagram/scripts/render-svg.sh <exemplar.svg> /tmp/ex.png 1400
-```
-
-Reading a spec is not the same as seeing what it produces.
+Then look at the two or three exemplars in `.claude/skills/diagram/references/exemplars/` closest to what you are about to draw. Each one is committed rendered, so read `NN-name.png` directly. Reading a spec is not the same as seeing what it produces.
 
 ## Workflow
 
@@ -49,7 +55,7 @@ Two boxes and one arrow is a sentence rendered as geometry. The existing repo is
 
 ### 2. Pick an archetype
 
-Choose one from `archetypes.md` using its selection table. Name it explicitly.
+Choose one from `archetypes.md` using its selection table, then read that entry in `references/archetypes/`. Name it explicitly. When the caller handed you an archetype, it was chosen at mock time against the same table; take it unless the content genuinely does not fit, and say so if it does not.
 
 **If nothing fits, say so rather than bending the content into the nearest shape.** Forcing a mechanism into a request-flow layout produces a worse diagram than admitting the shape is new. Follow the "When nothing fits" procedure in `archetypes.md`: name the archetypes you rejected and why, re-check Gate 0, then compose deliberately. Every token rule still binds. A new composition is never a licence for new styling.
 
@@ -108,26 +114,21 @@ Look at the PNG yourself first. Then dispatch the `diagram-grader` agent with th
 
 **Write that one sentence carefully: the grader grades against it.** It is the only constraint you hand over, so anything you get wrong in it comes back as a defect on a correct figure. Watch the counts especially. Describing a three-way colour encoding as "which of the two systems each box belongs to" has produced a `BLOCK` demanding the third hue be removed. State what the figure must communicate, at the cardinality it actually uses, and leave every styling decision out.
 
-### 7. Revise, up to three rounds
+### 7. Revise, then verify. Two rounds.
 
-Apply the grader's defects. Re-lint, re-render, dispatch a **fresh** grader. A new agent each round, never a continuation, so each round gets genuinely fresh eyes.
+The grader returns everything it found in one exhaustive pass. Apply **the whole list**, re-lint, re-render, then dispatch a **fresh** grader for a verify pass, telling it that is what it is and handing it the defect list it is checking. A new agent, never a continuation, so the eyes stay fresh.
 
-Stop when the grader returns PASS, or after three rounds. If three rounds elapse without a pass, **stop and report what still fails.** Do not keep going silently and do not claim it passed. A diagram that needed four rounds usually has a Gate 0 problem that restyling cannot fix.
+Stop when a grader returns PASS. If the verify pass still fails, **stop and report what still fails.** Do not open a third round, do not keep going silently, and do not claim it passed. A diagram that cannot be fixed from one exhaustive list usually has a Gate 0 problem that restyling will not reach.
 
 If the grader returns REJECT, do not restyle. Take the rejection to the user with its reasoning.
 
-### 8. Save and record
+### 8. Save
 
-Allocate the next opaque name: scan existing `fNN.*` in `images/figures/`, take the highest `NN`, add 1, zero-padded to two digits. First file is `f00`.
+Save to `presentations/{id}/images/figures/{fNN}.svg`, under the name you were handed or allocated in `figures.md`.
 
-Save to `presentations/{id}/images/figures/f{NN}.svg` and append a row to that folder's
-`INDEX.md` (create from the standard header if missing):
+Do not touch `images/figures/INDEX.md`. It is generated from `draft/figures.md` at the end of phase 4, so a row appended here would be overwritten and a description written here would be lost. The description belongs in the `figures.md` row.
 
-```
-| `f{NN}.svg` | {description} |
-```
-
-Print the reference: `![alt](images/figures/f{NN}.svg)`
+Print the reference: `![alt](images/figures/{fNN}.svg)`
 
 ## Text in diagrams
 
@@ -146,7 +147,7 @@ owns the full rules. The short version:
 
 ## Privacy
 
-git-crypt encrypts file contents but **not paths**. Figure filenames are visible in cleartext on GitHub, so the filename is always the next free `fNN`, never accept or invent a topic-revealing name. The real description lives in the encrypted `INDEX.md`.
+git-crypt encrypts file contents but **not paths**, so figure filenames are public on GitHub. Never accept or invent a topic-revealing filename. The name always comes from `draft/figures.md`; see `docs/deck-lifecycle.md`, Figure identity.
 
 Never write deck subject matter into anything outside `presentations/`. That includes commit messages, and it includes anything you add to this skill's own reference files.
 
@@ -157,3 +158,4 @@ Never write deck subject matter into anything outside `presentations/`. That inc
 - Monospace is `D2Coding, monospace`. It is bundled in `themes/bai-flat/fonts/` and declared `@font-face` in the theme, so it resolves the same everywhere; budget width at `font-size * 0.50` per Latin character and `* 1.00` per Hangul syllable. See `tokens.md`.
 - There is no dark mode in this deck. Diagrams only need to work on white.
 - In a `side-by-side` layout a figure renders at 0.566 scale. Author something simpler for that slot, or size type accordingly.
+- The slot class is the scale budget. `figure-center` gets the full content height; `diagram-top` gets 60% of it and wants a wide, low figure. `docs/guide.md` has both.

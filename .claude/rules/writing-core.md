@@ -9,12 +9,16 @@ Owns the always-on rules. Long tails: `writing-en.md`, `writing-ko.md`, `writing
 | Surface | Register | Ends with |
 |---|---|---|
 | Slide bullet | terse fragment, one idea. Korean 개조식, noun-final, no 해요체/합니다체 | noun or number, no period |
-| Speaker note | conversational connected prose, mixed endings, asides allowed | full sentence |
+| Speaker note | rare by default. Bullet fragments, never connected prose | noun or fragment, no period |
 | Diagram label, box header, axis label | noun phrase, sentence case, 1-4 words | nothing |
 | Divider subtitle, `header:` string, alt text | noun phrase | nothing |
-| Prose (docs, research, synopsis, README) | direct declarative sentences | period |
+| Prose (docs, research, synopsis, outline, README) | direct declarative sentences | period |
 
-Verbless fragments, dropped articles, and dropped Korean 조사 are **correct** in the first four rows and wrong in the last. Never apply prose rules to a label, or label rules to a speaker note.
+Verbless fragments, dropped articles, and dropped Korean 조사 are **correct** in the first four rows and wrong in the last. Never apply prose rules to a label, or label rules to a slide bullet.
+
+**Less is more, on both surfaces.** A speaker note exists only for something that genuinely cannot be slide content or a figure and still has to be said aloud. Genuine uncertainty is one licensed reason. No walls of text in a slide body either. `engine/scripts/lint-text.sh` reports density counts (words per slide body, words per note block, note blocks per deck) and never gates on them, because hard-gating a judgement class is what makes an author delete real content to get a green light.
+
+Decks written before this bar carry long prose notes. They are not migrated; `deck-status.sh` reports them as `phase=legacy` and the note checks skip.
 
 ## The honesty bar
 
@@ -22,7 +26,7 @@ The line between a real deck and AI filler. None of this is a style preference.
 
 - Put on a slide only what a source said or what you can verify. Summarizing a session means summarizing what was covered, not what a textbook would cover.
 - No invented numbers, benchmarks, dates, or "studies show". Every figure comes from a named source and gets `<sup>[research:{id}]</sup>`.
-- Mark uncertainty in the speaker's voice, in the notes ("이 부분은 확인 필요", "not sure about this part yet"). Do not smooth over a gap with confident generic prose.
+- Mark uncertainty in the speaker's voice, in the notes ("이 부분은 확인 필요", "not sure about this part yet") or under `## Open` in `draft/decisions.md`. Do not smooth over a gap with confident generic prose.
 - Allow honest negatives. Annoying tradeoffs get said out loud. Positivity bias is a tell.
 - Never raise confidence beyond the source. Never invent an anonymous authority ("업계에서는", "experts argue"). Name it or drop the claim.
 - Researched rather than attended: say where it came from, keep claims inside what the source supports.
@@ -57,7 +61,7 @@ The line between a real deck and AI filler. None of this is a style preference.
 - Section titles name the thing, not a category. "캐시 키에 타임스탬프가 들어간 이유", not "주요 개념".
 - End on a concrete takeaway from the material. A "Thank you" / "Q&A" divider is fine; a confessional closer is not.
 - **No blanket source footer.** Cite specific claims inline where you make them. A trailing "출처: ..." slide naming where the whole deck came from is not a citation.
-- **No trailing "open questions" / "다음에 볼 것" slide.** Genuine uncertainty goes in the speaker notes of the slide where it comes up.
+- **No trailing "open questions" / "다음에 볼 것" slide.** Genuine uncertainty goes in the speaker notes of the slide where it comes up, or under `## Open` in `draft/decisions.md`.
 - A figure earns its place by showing something the bullets cannot. Never add one to fill space.
 - Divider slides usually need only the section title. Add a subtitle only when it carries context the title does not.
 
@@ -97,11 +101,13 @@ Before:
 
 After:
 ```
-캐시를 따로 떼면서 읽기 경로가 완전히 갈렸는데 덕분에 쓰기 쪽 락 경합이
-사라졌어요. 여기서 확장성이 나옵니다. 안정성은 아직 확인 중.
+- 락 경합이 사라진 건 읽기 경로가 갈린 부수 효과
+- 안정성은 아직 확인 중
 ```
 
-Fixed: 결론적으로 pivot, 혁신적인 hype adjective, `통해` as universal connector, comma after `-하고`, `~할 수 있습니다` hedge, `핵심은 ~라는 점에 있다` meta-commentary. The rewrite names the mechanism and marks the open question honestly.
+Fixed: 결론적으로 pivot, 혁신적인 hype adjective, `통해` as universal connector, comma after `-하고`, `~할 수 있습니다` hedge, `핵심은 ~라는 점에 있다` meta-commentary. The rewrite also drops to two fragments, because the mechanism belongs on the slide and only the aside and the open question have to be spoken.
+
+Connected Korean prose still exists, in `synopsis.md`, `draft/outline.md` and `research/`. Its rules, including rule 13's long sentence, are in `writing-ko.md` under "Register: connected prose".
 
 ## Verification
 

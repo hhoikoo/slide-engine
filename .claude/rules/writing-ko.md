@@ -15,15 +15,23 @@ Korean long tail. Always-on rules: `writing-core.md`. Punctuation: `text-syntax.
 - One idea per bullet. Split rather than comma-chaining.
 - The flow rules below do **not** apply here. Never write 3-4 sentence paragraphs on a slide.
 
-## Register: speaker notes and prose
+## Register: connected prose
 
-Speaker notes, `synopsis.md`, `research/`, and any connected Korean prose. The only place the flow rules apply.
+`synopsis.md`, `draft/outline.md`, `research/`, repo docs, and any other connected Korean prose. The only place the flow rules apply. Speaker notes are not prose; see the next section.
 
 - Connect clauses inside one sentence with connective endings (`~이고`, `~인데`, `~하는데`). Parenthetical asides welcome.
 - **[measured]** The tell is the **absence of long sentences**, not the presence of short ones: 100+ char sentences run AI 8.1 vs human 91.3 per 1000 (11x). Every paragraph carries at least one long sentence. Fix by joining adjacent sentences; add no content.
 - Opposite failure mode, also a tell: all-simple-sentence prose. Target roughly 60% simple, 30%+ complex.
 - 3-4 sentences per paragraph. One-sentence paragraphs for deliberate emphasis only.
-- **Human markers to include** (notes only, never a slide bullet): 제가 써보니까 / 해보면; 그래서요. / 이게 왜 중요하냐면요. / 근데 말이죠.; 진짜, 확, 완전; fragments like 당연하죠. / 이게 핵심.; 의태어 뚝딱, 술술, 쭉쭉.
+
+## Register: speaker notes
+
+Rare by default. A note exists only for something that cannot be slide content or a figure and still has to be said aloud, and an honest open question is one licensed reason.
+
+- Bullet fragments, never connected prose. Two or three at most.
+- The flow rules above do not apply. A note that runs to 3-4 connected sentences is a slide body in the wrong place.
+- Mixed endings are still right within a fragment (`~돼요`, `~하는 중`, `확인 필요`). Do not default to ~합니다 for every line.
+- **Human markers to include** (notes only, never a slide bullet): 제가 써보니까 / 해보면; 근데 말이죠; 진짜, 확, 완전; fragments like 당연하죠 / 아직 확인 중; 의태어 뚝딱, 술술, 쭉쭉.
 
 ## AVOID: over-translation of technical terms
 

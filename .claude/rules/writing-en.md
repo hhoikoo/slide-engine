@@ -96,7 +96,8 @@ Explicitly allowed. Over-editing strips these out; Wikipedia lists them as signs
 
 - One key message per slide. 3-5 bullets, minimal nesting.
 - Bold key numbers only: `**80%**`, `**3x faster**`.
-- Speaker notes are conversational; bullets are not.
+- Speaker notes are rare and fragmentary. One exists only for something that cannot be slide content or a figure and still has to be said aloud, and it is bullet fragments, never connected prose. An honest open question is a licensed reason to write one.
+- Connected English prose lives in `synopsis.md`, `draft/outline.md`, `research/` and repo docs. Rule 13's long sentence is anchored there.
 
 ## Sources
 

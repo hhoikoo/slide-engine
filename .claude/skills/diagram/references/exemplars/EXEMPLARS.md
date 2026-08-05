@@ -2,8 +2,12 @@
 
 Reference diagrams in the house style. Read the render, not just the source: `tokens.md` tells you the values, these show what the values produce.
 
+**Every exemplar is committed rendered.** `NN-name.png` sits beside `NN-name.svg`, so read the PNG directly instead of shelling out per figure. They are 1400px wide and pre-rendered with the theme's bundled faces, which is what a build gets.
+
+Re-render after editing an SVG:
+
 ```bash
-.claude/skills/diagram/scripts/render-svg.sh <file.svg> /tmp/ex.png 1400
+.claude/skills/diagram/scripts/render-svg.sh <file.svg> <file.png> 1400
 ```
 
 All content here is **invented and generic**. That is deliberate. These files live outside `presentations/`, so git-crypt does not encrypt them and they are readable on GitHub. No real product, customer, or deck subject matter appears in any of them, and none should be added. When a real diagram is worth keeping as reference, describe its *shape* in `archetypes.md` and build a generic exemplar. The real artwork stays inside the encrypted tree.
@@ -44,4 +48,4 @@ Every file below passes `lint-svg.py` and `check-svg.js` with zero findings.
 
 ## Adding one
 
-Only when it teaches something the existing five do not. Author it on invented generic content, run it through the full skill workflow including the grader, and add a row above. An exemplar that duplicates an existing lesson makes the set slower to read without making it more useful.
+Only when it teaches something the existing nine do not. Author it on invented generic content, run it through the full skill workflow including the grader, add a row above, and commit the PNG beside the SVG. An exemplar that duplicates an existing lesson makes the set slower to read without making it more useful.

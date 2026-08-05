@@ -77,15 +77,20 @@ const freeLabels = elements.filter((e) => e.type === 'text' && !e.containerId)
 // A note the author phrased as a question has no answerer inside an autonomous
 // run, and a hedged one can quietly instruct the agent to contradict its own
 // goal. Split those out so the caller escalates instead of guessing.
-// Either phrased as a question, or asking for a confirmation the agent cannot get.
-const NEEDS_HUMAN = /\b(confirm|verify|check with|ask|decide|tbd|unsure|not sure)\b/i
+// Three shapes: a question mark, a request for a confirmation the agent cannot
+// get, or a hedge that leaves the decision open.
+const NEEDS_HUMAN =
+  /\b(confirm|verify|check with|ask|decide|tbd|unsure|not sure|maybe|perhaps|possibly|consider|either way|or should|revisit)\b/i
 const isQuestion = (t) => {
   const s = String(t || '').trim()
   return /\?\s*$/.test(s) || NEEDS_HUMAN.test(s)
 }
-const questions = boxes
-  .filter((e) => e.strokeStyle === 'dotted' && isQuestion(labelFor.get(e.id)))
-  .map((e) => labelFor.get(e.id))
+// Both note surfaces: a dotted box, and a free-floating label, which belongs to
+// no stroke class and is therefore also an author note.
+const questions = [
+  ...boxes.filter((e) => e.strokeStyle === 'dotted').map((e) => labelFor.get(e.id)),
+  ...freeLabels.map((e) => e.originalText || e.text),
+].filter(isQuestion)
 
 // An element outside the frame silently widens the export and changes the
 // figure's aspect ratio.
@@ -194,6 +199,7 @@ if (flags.has('--payload')) {
   console.log('- Dashed is a brief: read it, pick from the component library, draw the REAL')
   console.log('  object. Do not trace the sketch.')
   console.log('- Dotted is an author note: read it and act on it, never draw it.')
+  console.log('- A free-floating label belongs to no stroke class, so it is an author note too.')
   console.log('- Rescale all coordinates to the house canvas in tokens.md. The mock canvas is a')
   console.log('  proportion, not a viewBox.')
   console.log('- Label text is a brief, not binding copy. Rewrite it into house register.')
