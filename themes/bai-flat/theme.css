@@ -116,10 +116,16 @@
     --color-accent-cyan: #00d4ff; /* 시안 블루 */
     --color-accent-amber: #e8822a; /* 웜 앰버 */
 
+    /* 브랜드 주황이 이미 깔린 자리에서 구간을 가르는 강조 파랑.
+       h2 바에 얹으면 흰 글자 대비 4.3:1 로, 26px bold 기준을 넘깁니다. */
+    --color-accent-blue: #2980b9;
+
     /* 3대 End Product 강조색 */
     --color-ep1: #e67e22; /* ① GPU 자원 분할·공유 */
     --color-ep2: #27ae60; /* ② GPU 간섭 최소화 스케줄링 */
-    --color-ep3: #2980b9; /* ③ GPU 모니터링·프로파일링 */
+    --color-ep3: var(--color-accent-blue); /* ③ GPU 모니터링·프로파일링 */
+    --color-ep4: #8e44ad;
+    --color-ep5: #c0392b;
 
     /* Gradient Color Maps (9단계, matplotlib 기반) */
     --cmap-viridis-1: #440154;
@@ -152,16 +158,13 @@
     --cmap-magma-8: #fec488;
     --cmap-magma-9: #fbfcbf;
 
-    /* highlight-boxes 띠 색상. 기본은 여섯 개 모두 한 색입니다.
-       띠마다 색을 달리하면 색이 순서만 나타내므로 아무것도 뜻하지 않습니다.
-       색이 실제로 무언가를 가를 때만 슬라이드에서 개별 오버라이드하십시오. */
-    --hbox-color: var(--color-primary);
-    --hbox-color-1: var(--hbox-color);
-    --hbox-color-2: var(--hbox-color);
-    --hbox-color-3: var(--hbox-color);
-    --hbox-color-4: var(--hbox-color);
-    --hbox-color-5: var(--hbox-color);
-    --hbox-color-6: var(--hbox-color);
+    /* highlight-boxes 띠 색상. end-product-list 와 같은 팔레트를 씁니다. */
+    --hbox-color-1: var(--color-ep1);
+    --hbox-color-2: var(--color-ep2);
+    --hbox-color-3: var(--color-ep3);
+    --hbox-color-4: var(--color-ep4);
+    --hbox-color-5: var(--color-ep5);
+    --hbox-color-6: var(--color-primary);
 
     /* SWOT 분석 강조색 */
     --color-swot-strg: hsl(120, 45%, 35%); /* 강점: 녹색 계열 */
@@ -1160,8 +1163,13 @@ section.toc > ul > li > ul {
    레이아웃: 강조 박스 섹션 (highlight-boxes)
    사용법: <!-- _class: highlight-boxes -->
    ────────────────────────────────────────────── */
+/* end-product-list 와 같은 팔레트, 같은 형태입니다. 옅은 판에 색은 왼쪽 띠에만
+   둡니다. 제목 글자를 강조색으로 깔면 ep1 주황이 2.85:1 로 21px bold 기준(3:1)에
+   못 미쳐서, 색은 띠가 지고 글자는 본문색을 씁니다. */
 section.highlight-boxes h3 {
-    color: #fff;
+    color: var(--color-fg);
+    background: rgb(from var(--hbox-accent) r g b / 0.12);
+    border-left: 5px solid var(--hbox-accent);
     padding: 10px 18px;
     margin: 16px 0 6px;
     border-radius: 5px;
@@ -1170,22 +1178,22 @@ section.highlight-boxes h3 {
 }
 
 section.highlight-boxes h3:nth-of-type(1) {
-    background: var(--hbox-color-1);
+    --hbox-accent: var(--hbox-color-1);
 }
 section.highlight-boxes h3:nth-of-type(2) {
-    background: var(--hbox-color-2);
+    --hbox-accent: var(--hbox-color-2);
 }
 section.highlight-boxes h3:nth-of-type(3) {
-    background: var(--hbox-color-3);
+    --hbox-accent: var(--hbox-color-3);
 }
 section.highlight-boxes h3:nth-of-type(4) {
-    background: var(--hbox-color-4);
+    --hbox-accent: var(--hbox-color-4);
 }
 section.highlight-boxes h3:nth-of-type(5) {
-    background: var(--hbox-color-5);
+    --hbox-accent: var(--hbox-color-5);
 }
 section.highlight-boxes h3:nth-of-type(6) {
-    background: var(--hbox-color-6);
+    --hbox-accent: var(--hbox-color-6);
 }
 
 section.highlight-boxes ul,
@@ -1451,10 +1459,10 @@ section.end-product-list > ol > li:nth-child(5)::before {
    레이아웃: 참고자료/부록 (appendix)
    사용법: <!-- _class: appendix -->
    ────────────────────────────────────────────── */
-/* 부록 슬라이드는 상단 바를 브랜드 주황 대신 다크 네이비로 깝니다.
+/* 부록 슬라이드는 상단 바를 강조 파랑으로 깝니다.
    본문과 부록을 가르는 유일한 신호이므로 색이 의미를 담습니다. */
 section.appendix h2 {
-    background: var(--color-primary);
+    background: var(--color-accent-blue);
 }
 
 section.appendix {
