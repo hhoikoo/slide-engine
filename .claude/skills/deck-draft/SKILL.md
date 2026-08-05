@@ -112,6 +112,14 @@ They stay fully active for a standalone `/revise` and for phases 3 through 5.
 
 `outline.md` is frozen at this gate. Markers are advisory from here on: a slide phase 5 splits needs no new ID.
 
+## Author gate
+
+The checks above say the sections are well formed. Whether the deck says the right thing is a judgement only the author makes, so the phase does not close on a green linter.
+
+Summarize what you wrote, slide count and the layout class chosen for each non-default slide, then call `AskUserQuestion` and stop. Ask whether the section text and the structural calls hold, with options for accepting them, naming slides to rewrite, and changing a layout choice. Print the next command after the answer.
+
+Each phase is its own session so the author reads the output cold. A session that runs on into phase 3 has skipped that reading however clean the artifacts are, which is why the stop is a tool call and not a line of prose.
+
 Print the next command:
 
 ```

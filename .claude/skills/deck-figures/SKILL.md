@@ -113,6 +113,14 @@ It is generated, never appended to. `/diagram` and `/fetch-image` no longer touc
 
 Rebuild and look at it: `make html DIR=presentations/pNNN`.
 
+## Author gate
+
+A figure that passed its grader passed against the rubric, which knows nothing about this deck. Whether it shows what the slide needed is the author's call.
+
+Rebuild, show every figure at slide scale, then call `AskUserQuestion` and stop. Ask per figure whether it holds, with options for accepting, sending it back for another round, and falling back to the mock. Report any Gate 0 veto here as a finding about the plan. Print the next command after the answer.
+
+Each phase is its own session so the author reads the output cold. A session that runs on into phase 5 has skipped that reading, which is why the stop is a tool call and not a line of prose.
+
 Print the next command:
 
 ```

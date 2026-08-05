@@ -133,6 +133,14 @@ Every `kind: diagram` row in `draft/figures.md` has both `draft/mocks/fNN.excali
 
 `kind: fetched` rows are not mocked. They go straight to `/fetch-image` in phase 4.
 
+## Author gate
+
+A mock that compiles is not a mock that shows the right thing, and phase 4 spends a figure agent on whatever this phase hands it. The author sees every mock before that happens.
+
+Render the deck, show each mock in place, then call `AskUserQuestion` and stop. Ask per figure whether the placement and the intent hold, with options for accepting, redrawing, and dropping the figure. A dropped figure loses its row in `figures.md` here rather than becoming a drawn figure nobody wanted. Print the next command after the answer.
+
+Each phase is its own session so the author reads the output cold. A session that runs on into phase 4 has skipped that reading, which is why the stop is a tool call and not a line of prose.
+
 Print the next command:
 
 ```

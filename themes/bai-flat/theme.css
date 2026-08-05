@@ -152,13 +152,16 @@
     --cmap-magma-8: #fec488;
     --cmap-magma-9: #fbfcbf;
 
-    /* highlight-boxes 기본 띠 색상 (슬라이드별 오버라이드 가능) */
-    --hbox-color-1: var(--cmap-plasma-1);
-    --hbox-color-2: var(--cmap-plasma-3);
-    --hbox-color-3: var(--cmap-plasma-4);
-    --hbox-color-4: var(--cmap-plasma-5);
-    --hbox-color-5: var(--cmap-plasma-6);
-    --hbox-color-6: var(--cmap-plasma-7);
+    /* highlight-boxes 띠 색상. 기본은 여섯 개 모두 한 색입니다.
+       띠마다 색을 달리하면 색이 순서만 나타내므로 아무것도 뜻하지 않습니다.
+       색이 실제로 무언가를 가를 때만 슬라이드에서 개별 오버라이드하십시오. */
+    --hbox-color: var(--color-primary);
+    --hbox-color-1: var(--hbox-color);
+    --hbox-color-2: var(--hbox-color);
+    --hbox-color-3: var(--hbox-color);
+    --hbox-color-4: var(--hbox-color);
+    --hbox-color-5: var(--hbox-color);
+    --hbox-color-6: var(--hbox-color);
 
     /* SWOT 분석 강조색 */
     --color-swot-strg: hsl(120, 45%, 35%); /* 강점: 녹색 계열 */

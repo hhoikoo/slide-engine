@@ -53,25 +53,24 @@
 
 8. 강조 박스 섹션 (highlight-boxes):
  <!-- _class: highlight-boxes -->
- h3 요소가 컬러 배경 전체너비 박스로 표시됩니다. 최대 5개 섹션.
+ h3 요소가 컬러 배경 전체너비 박스로 표시됩니다. 최대 6개 섹션.
  h3 뒤에 오는 ul/p가 해당 박스의 내용입니다.
- 기본 색상: 1번(보라), 2번(청록), 3번(녹색), 4번(남색), 5번(적색)
+ 기본 색상은 여섯 개 모두 다크 네이비 한 색입니다.
 
- 띠 색상 커스터마이징: <style scoped>로 --hbox-color-N 변수를 오버라이드합니다.
+ 띠마다 색을 달리하면 색이 위에서 몇 번째인지만 나타냅니다.
+ 그건 이미 순서로 보이므로 색은 아무것도 더하지 않습니다.
+ 색이 실제로 무언가를 가를 때만(심각도, 진행 상태 등) 개별 지정하십시오.
+
+ 한 색을 통째로 바꿀 때는 --hbox-color 하나만 덮습니다:
+   <style scoped>
+   section { --hbox-color: var(--color-swot-thrt); }
+   </style>
+
+ 띠마다 다른 색이 정말 필요하면 --hbox-color-N 을 따로 지정합니다.
  사전 정의된 gradient color map (각 9단계):
    - viridis: --cmap-viridis-1 ~ --cmap-viridis-9
    - plasma:  --cmap-plasma-1  ~ --cmap-plasma-9
    - magma:   --cmap-magma-1   ~ --cmap-magma-9
- 예시 (plasma 적용):
-   <style scoped>
-   section {
-     --hbox-color-1: var(--cmap-plasma-1);
-     --hbox-color-2: var(--cmap-plasma-3);
-     --hbox-color-3: var(--cmap-plasma-5);
-     --hbox-color-4: var(--cmap-plasma-7);
-     --hbox-color-5: var(--cmap-plasma-9);
-   }
-   </style>
 
 9. 3단 분할 (three-col):
  <!-- _class: three-col -->
