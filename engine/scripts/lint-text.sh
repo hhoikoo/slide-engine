@@ -212,7 +212,7 @@ check WARN  EN-02 "hype verbs" '\b(leverage|leverages|leveraging|utilize|utilize
 check WARN  EN-03 "abstract nouns" '\b(tapestry|realm|landscape|ethos|zeitgeist|cornerstone|nexus|synergy|paradigm|plethora|myriad|testament)\b'
 check WARN  EN-04 "significance puffery" 'is a testament to|serves as a reminder|underscores the importance|marking a turning point|setting the stage for|shaping the future of|stands as a'
 check WARN  EN-05 "-ing significance tail" ', (highlighting|underscoring|emphasizing|ensuring|reflecting|symbolizing|contributing to|fostering|showcasing|aligning with) '
-check ERROR EN-06 "negative parallelism" "[Ii]t'?s not just|[Nn]ot just .* but also|[Ii]t'?s not .*, it'?s "
+check ERROR EN-06 "negative parallelism" "[Ii]t( i|')s not just|[Nn]ot just .* but also|[Ii]t( i|')s not .*, it( i|')s "
 # " rather than " is the fourth antithesis form, but the rhetorical use is
 # indistinguishable by regex from an ordinary comparative ("copy it into both
 # rather than sharing"). Warn on the rhetorical shape only: a short predicate on

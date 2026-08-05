@@ -7,11 +7,13 @@ set -euo pipefail
 #
 # Watches sections/, images/ and draft/mocks/. Not the deck directory itself:
 # the build writes slides.md and output/ inside it, so a naive whole-folder
-# watch retriggers itself forever. images/generated/ is excluded for the same
-# reason, since render-mermaid.js writes there on every build.
+# watch retriggers itself forever. images/generated/ and images/mocks/ are
+# excluded for the same reason: render-mermaid.js writes the first on every
+# build and make mocks writes the second at the top of every rebuild.
 #
 # draft/mocks/ is watched deliberately. Without it a hand-edit in the Excalidraw
-# editor leaves the deck rendering a stale export.
+# editor leaves the deck rendering a stale export. It is also the source of
+# images/mocks/, so watching the export as well would only self-trigger.
 #
 # theme.css is not watched. Makefile:15 wires a per-deck theme.css that no deck
 # has ever had; real per-deck CSS lives in sections/00.md, already covered.
@@ -59,7 +61,7 @@ rebuild
 
 if command -v fswatch >/dev/null 2>&1; then
   fswatch -o -r -l 0.5 \
-    -e '/output/' -e '/images/generated/' -e '\.DS_Store$' \
+    -e '/output/' -e '/images/generated/' -e '/images/mocks/' -e '\.DS_Store$' \
     "${paths[@]}" | while read -r _; do rebuild; done
 elif command -v entr >/dev/null 2>&1; then
   # entr takes a file list, so a newly created file needs the list rebuilt.
@@ -67,7 +69,7 @@ elif command -v entr >/dev/null 2>&1; then
   # rescan.
   while true; do
     find "${paths[@]}" -type f \
-      ! -path '*/output/*' ! -path '*/images/generated/*' ! -name '.DS_Store' \
+      ! -path '*/output/*' ! -path '*/images/generated/*' ! -path '*/images/mocks/*' ! -name '.DS_Store' \
       | entr -d "${BASH_SOURCE[0]}" --rebuild-once "${PRES_DIR}" "${THEME}" || true
   done
 else
