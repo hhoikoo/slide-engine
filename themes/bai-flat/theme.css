@@ -1163,13 +1163,10 @@ section.toc > ul > li > ul {
    레이아웃: 강조 박스 섹션 (highlight-boxes)
    사용법: <!-- _class: highlight-boxes -->
    ────────────────────────────────────────────── */
-/* end-product-list 와 같은 팔레트, 같은 형태입니다. 옅은 판에 색은 왼쪽 띠에만
-   둡니다. 제목 글자를 강조색으로 깔면 ep1 주황이 2.85:1 로 21px bold 기준(3:1)에
-   못 미쳐서, 색은 띠가 지고 글자는 본문색을 씁니다. */
+/* end-product-list 와 같은 팔레트를 꽉 찬 띠로 씁니다. */
 section.highlight-boxes h3 {
-    color: var(--color-fg);
-    background: rgb(from var(--hbox-accent) r g b / 0.12);
-    border-left: 5px solid var(--hbox-accent);
+    color: #fff;
+    background: var(--hbox-accent);
     padding: 10px 18px;
     margin: 16px 0 6px;
     border-radius: 5px;
