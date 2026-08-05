@@ -46,7 +46,7 @@ function parseResearchDocs() {
     if (!fmMatch) continue
 
     const fm = fmMatch[1]
-    const id = fm.match(/^id:\s*(\d+)/m)?.[1]
+    const id = fm.match(/^id:\s*([A-Za-z0-9_-]+)/m)?.[1]
     const title = fm.match(/^title:\s*"?(.+?)"?\s*$/m)?.[1]
     const authors = fm.match(/^authors:\s*\[(.+?)\]/m)?.[1]?.replace(/"/g, '')
     const year = fm.match(/^year:\s*(\d+)/m)?.[1]
@@ -60,7 +60,7 @@ function parseResearchDocs() {
   return docs
 }
 
-const MARKER_RE = /<sup>\[research:(\d+)\]<\/sup>/g
+const MARKER_RE = /<sup>\[research:([A-Za-z0-9_-]+)\]<\/sup>/g
 
 // A references slide holds this many entries before spilling onto the next one.
 const REFS_PER_SLIDE = 12
@@ -82,7 +82,7 @@ function parseCitationMap() {
 
   const rows = []
   for (const line of fs.readFileSync(citationMapPath, 'utf-8').split('\n')) {
-    const m = line.match(/^\|\s*\[(\d+)\]\s*\|\s*(\d+)\s*\|/)
+    const m = line.match(/^\|\s*\[(\d+)\]\s*\|\s*([A-Za-z0-9_-]+)\s*\|/)
     if (m) rows.push({ n: parseInt(m[1], 10), id: m[2] })
   }
   rows.sort((a, b) => a.n - b.n)

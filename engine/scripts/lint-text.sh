@@ -192,7 +192,10 @@ echo
 echo "== korean, measured =="
 check ERROR KO-01 "연결어미 + comma (4.84x)" '(하고|되고|있고|없고|지고|리고|추고|이고|기고|우고|주고|보고|가고|오고|서고|두고|놓고|나고|타고|사고|자고|피고|열고|걸고|받고|맡고|남고|묶고|쓰고|끄고|넣고|찍고|섞고|짓고|굽고|굴고|들고), '
 check ERROR KO-02 "연결어미 + comma, broad" '(며|지만|면서|는데|아서|어서|해서|워서|라서|고서|다가|거나|든지|더니|으나|지요), '
-check ERROR KO-03 "A가 아니라 B (9.2x)" '아니라|아닌가, |인가, '
+# The reversed form, "A이지 B가 아니다". The gap is bounded and 않 is excluded on
+# purpose: "~지 않다" is ordinary negation, so an unbounded gap flags every
+# "보이지 않음" in the corpus.
+check ERROR KO-03 "A가 아니라 B (9.2x)" '아니라|아닌가, |인가, |이지 [^.]{0,25}(아니|아님)'
 check ERROR KO-04 "meta-commentary" '핵심은|중요한 것은|주목할 점은'
 check ERROR KO-05 "wrap-up pivot" '결론적으로|요약하면|종합하면|정리하자면|정리하면'
 check WARN  KO-06 "~할 수 있습니다 hammer" '할 수 있습니다|할 수 있다'
