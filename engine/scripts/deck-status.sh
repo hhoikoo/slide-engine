@@ -147,6 +147,17 @@ scan_deck() {
   figures="${built}/${fig_total}"
   [ "${dia_done}" -eq "${dia_total}" ] || p3=0
 
+  # Markers are advisory once a deck is past phase 2 (docs/deck-lifecycle.md,
+  # "Slide identity"). outline.md is frozen at the phase-2 gate, so a slide cut or
+  # split in a later phase leaves it listing an id no marker carries. Re-deriving
+  # phase 2 from that would report a fully mocked deck as needing /deck-draft, and
+  # every later skill would refuse on the gap. Completing phase 3 is itself proof
+  # that phase 2 held when it ran. The slides count stays in the report as
+  # information; it just stops being a gate.
+  if [ "${p3}" -eq 1 ]; then
+    p2=1
+  fi
+
   # Phase 4: slides point at real figures, and INDEX.md has been generated.
   # Three independent conditions, so the gap is named per condition. A count alone
   # reports "figures-2/2" on a deck blocked by a missing INDEX.md.
