@@ -236,7 +236,9 @@ if [ -n "${svg_files}" ]; then
   echo
   echo "== svg labels (writing-shortform.md) =="
   check ERROR SVG-01 "em / en dash in label" '<text[^>]*>[^<]*[—–]' "${svg_files}"
-  check ERROR SVG-02 "ampersand in label" '<text[^>]*>[^<]*&amp;' "${svg_files}"
+  # An ampersand closed up between capitals is an initialism (S&P, R&D), not the
+  # "&-between-words" shape the rule is after.
+  check ERROR SVG-02 "ampersand in label" '<text[^>]*>[^<]*[^A-Z]&amp;' "${svg_files}"
   check ERROR SVG-03 "emoji / decorative glyph" '<text[^>]*>[^<]*[→←⇒✓✔✅❌🚀💡⚠📊]' "${svg_files}"
   check ERROR SVG-04 "가운뎃점 in label" '<text[^>]*>[^<]*·' "${svg_files}"
   check WARN  SVG-05 "trailing period on fragment" '<text[^>]*>[^<]*[a-z가-힣]\.</text>' "${svg_files}"
