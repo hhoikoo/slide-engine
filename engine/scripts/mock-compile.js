@@ -75,22 +75,35 @@ const die = (msg) => {
 let seq = 0
 const nextSeed = () => ++seq * 7919
 
+// Per-character advances in em, from tokens.md. Hangul is 0.864, not the 0.55
+// a Latin-only estimate assumes, so a Korean label wrapped on character count
+// runs about 60% wider than its box.
+const advance = (text) => {
+  let em = 0
+  for (const ch of String(text)) {
+    em += /[ᄀ-ᇿ㄰-㆏가-힯]/.test(ch) ? 0.88 : 0.55
+  }
+  return em
+}
+
+const textWidth = (text, fontSize) => advance(text) * fontSize
+
 /**
  * Approximate Excalidraw's bound-text wrapping so the label lands where the
  * real editor would put it. Exact metrics are the editor's job; this only has
  * to be close enough that the mock reads correctly before a human opens it.
  */
 function wrapLabel(text, width, fontSize) {
-  const perChar = fontSize * 0.55
-  const max = Math.max(1, Math.floor((width - 16) / perChar))
+  const max = Math.max(fontSize, width - 16)
   const lines = []
   let line = ''
   for (const word of String(text).split(/\s+/)) {
-    if (line && (line + ' ' + word).length > max) {
+    const candidate = line ? line + ' ' + word : word
+    if (line && textWidth(candidate, fontSize) > max) {
       lines.push(line)
       line = word
     } else {
-      line = line ? line + ' ' + word : word
+      line = candidate
     }
   }
   if (line) lines.push(line)
@@ -270,7 +283,7 @@ for (const label of spec.labels || []) {
       id: label.id || `label${labelSeq++}`,
       x,
       y,
-      width: String(label.text).length * fontSize * 0.55,
+      width: textWidth(label.text, fontSize),
       height: fontSize * 1.25,
       fontSize,
       fontFamily: 1,
